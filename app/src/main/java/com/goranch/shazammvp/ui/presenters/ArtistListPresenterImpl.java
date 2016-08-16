@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class ArtistListPresenterImpl implements IArtistPresenter {
 
-    DataRepositoryImpl dataRepository;
-    MainFragmentView view;
+    private DataRepositoryImpl dataRepository;
+    private MainFragmentView view;
 
     public ArtistListPresenterImpl(MainFragmentView mainFragmentView, DataRepositoryImpl dataRepository) {
         this.dataRepository = dataRepository;
