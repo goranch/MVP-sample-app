@@ -7,6 +7,7 @@ import com.goranch.shazammvp.api.DataRepositoryImpl;
 import com.goranch.shazammvp.api.IDataRepository;
 import com.goranch.shazammvp.api.model.Item;
 import com.goranch.shazammvp.ui.fragments.MainActivityFragment;
+import com.goranch.shazammvp.ui.views.MainFragmentView;
 
 import java.util.ArrayList;
 
@@ -18,11 +19,11 @@ import java.util.ArrayList;
 public class ArtistListPresenterImpl implements IArtistPresenter {
 
     DataRepositoryImpl dataRepository;
-    MainActivityFragment view;
+    MainFragmentView view;
 
-    public ArtistListPresenterImpl(MainActivityFragment mainActivityFragment, DataRepositoryImpl dataRepository) {
+    public ArtistListPresenterImpl(MainFragmentView mainFragmentView, DataRepositoryImpl dataRepository) {
         this.dataRepository = dataRepository;
-        view = mainActivityFragment;
+        view = mainFragmentView;
     }
 
     @Override
