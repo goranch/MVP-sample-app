@@ -16,6 +16,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.shazammvp.MainActivity;
 import com.goranch.shazammvp.R;
 import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.ui.home.MainActivityFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,6 +37,7 @@ public class DetailsFragment extends Fragment {
 
     @Bind(R.id.play)
     Button play;
+    private Item itemData;
 
     @OnClick(R.id.play)
     void click() {
@@ -49,8 +51,6 @@ public class DetailsFragment extends Fragment {
         t.addToBackStack(null);
         t.commit();
     }
-
-    private Item itemData;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

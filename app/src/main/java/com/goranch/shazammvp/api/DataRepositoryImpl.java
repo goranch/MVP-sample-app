@@ -5,6 +5,8 @@ import com.goranch.shazammvp.api.model.Item;
 
 import java.util.ArrayList;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -16,9 +18,14 @@ import rx.schedulers.Schedulers;
  */
 public class DataRepositoryImpl implements IDataRepository {
 
+    @Inject
+    ApiService apiService;
+
+    public DataRepositoryImpl() {
+    }
+
     @Override
     public void loadCharts(Callback<ArrayList<Item>> callback) {
-        final ApiService apiService = RestServiceProvider.getApiServiceInstance();
 
         final Observable<ArrayList<Item>> artistsObservable = apiService.getCharts()
                 .subscribeOn(Schedulers.io()) // make the request in a background thread

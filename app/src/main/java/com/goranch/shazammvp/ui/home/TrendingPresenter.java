@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.presenters;
+package com.goranch.shazammvp.ui.home;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Goran Ch on 16/04/16.
  */
-public interface IArtistPresenter {
+public interface TrendingPresenter {
     /**
      * Make an http request to load the artists data
      * @param items

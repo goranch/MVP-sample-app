@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.goranch.shazammvp.ui.fragments.MainActivityFragment;
+import com.goranch.shazammvp.ui.home.MainActivityFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -15,13 +15,11 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = getClass().getSimpleName();
-    private MainActivityFragment mainFragment;
-
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
-
     @Bind(R.id.toolbar_title)
     public TextView toolbarTitle;
+    @Bind(R.id.toolbar)
+    Toolbar toolbar;
+    private MainActivityFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

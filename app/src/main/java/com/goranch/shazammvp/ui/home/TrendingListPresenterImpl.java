@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.presenters;
+package com.goranch.shazammvp.ui.home;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,8 +6,6 @@ import android.view.View;
 import com.goranch.shazammvp.api.DataRepositoryImpl;
 import com.goranch.shazammvp.api.IDataRepository;
 import com.goranch.shazammvp.api.model.Item;
-import com.goranch.shazammvp.ui.fragments.MainActivityFragment;
-import com.goranch.shazammvp.ui.views.MainFragmentView;
 
 import java.util.ArrayList;
 
@@ -16,12 +14,12 @@ import java.util.ArrayList;
  *
  * Presenter class that deals with all the business logic
  */
-public class ArtistListPresenterImpl implements IArtistPresenter {
+public class TrendingListPresenterImpl implements TrendingPresenter {
 
     private DataRepositoryImpl dataRepository;
     private MainFragmentView view;
 
-    public ArtistListPresenterImpl(MainFragmentView mainFragmentView, DataRepositoryImpl dataRepository) {
+    public TrendingListPresenterImpl(MainFragmentView mainFragmentView, DataRepositoryImpl dataRepository) {
         this.dataRepository = dataRepository;
         view = mainFragmentView;
     }
@@ -55,6 +53,7 @@ public class ArtistListPresenterImpl implements IArtistPresenter {
         }
     }
 
+
     @Override
     public void onItemClicked(Item item) {
         view.openDetailsFragment(item);
@@ -80,4 +79,6 @@ public class ArtistListPresenterImpl implements IArtistPresenter {
             view.showSnackbar(v, throwable);
         }
     }
+
+
 }

@@ -3,7 +3,9 @@ package com.goranch.shazammvp.ui.presenters;
 import com.goranch.shazammvp.api.ApiService;
 import com.goranch.shazammvp.api.DataRepositoryImpl;
 import com.goranch.shazammvp.api.model.Item;
-import com.goranch.shazammvp.ui.fragments.MainActivityFragment;
+import com.goranch.shazammvp.ui.home.MainActivityFragment;
+import com.goranch.shazammvp.ui.home.TrendingListPresenterImpl;
+import com.goranch.shazammvp.ui.home.TrendingPresenter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,14 +24,14 @@ import static org.mockito.Mockito.verify;
 /**
  * Created by Goran Ch on 17/04/16.
  */
-public class ArtistListPresenterImplTest {
+public class TrendingListPresenterImplTest {
 
     @Mock
     private MainActivityFragment mockMainFragmentView;
 
     private ApiService mockApiService;
     private DataRepositoryImpl dataRepository;
-    private IArtistPresenter presenter;
+    private TrendingPresenter presenter;
 
     @Mock
     private DataRepositoryImpl mockDateRepo;
@@ -43,7 +45,7 @@ public class ArtistListPresenterImplTest {
 
         dataRepository = new DataRepositoryImpl();
 
-        presenter = new ArtistListPresenterImpl(mockMainFragmentView, mockDateRepo);
+        presenter = new TrendingListPresenterImpl(mockMainFragmentView, mockDateRepo);
     }
 
     @After
@@ -77,7 +79,7 @@ public class ArtistListPresenterImplTest {
     }
 
     /**
-     * Try to make API request when calling {@link IArtistPresenter#loadData(ArrayList)} with na empty array
+     * Try to make API request when calling {@link TrendingPresenter#loadData(ArrayList)} with na empty array
      * @throws Exception
      */
     @Test

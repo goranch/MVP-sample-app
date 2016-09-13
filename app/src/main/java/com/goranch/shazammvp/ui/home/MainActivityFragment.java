@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.fragments;
+package com.goranch.shazammvp.ui.home;
 
 
 import android.os.Bundle;
@@ -16,13 +16,15 @@ import android.widget.ProgressBar;
 
 import com.goranch.shazammvp.MainActivity;
 import com.goranch.shazammvp.R;
-import com.goranch.shazammvp.api.DataRepositoryImpl;
+import com.goranch.shazammvp.api.ApiComponent;
 import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.di.ComponentProvider;
 import com.goranch.shazammvp.ui.adapters.ArtistRecyclerAdapter;
-import com.goranch.shazammvp.ui.presenters.ArtistListPresenterImpl;
-import com.goranch.shazammvp.ui.views.MainFragmentView;
+import com.goranch.shazammvp.ui.fragments.DetailsFragment;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,19 +33,19 @@ import butterknife.ButterKnife;
  * Created by Goran Ch on 16/04/16.
  */
 public class MainActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainFragmentView {
+
     public static final String TRACK_ITEM = "track_item";
     private static final String LIST_ITEMS = "list_items";
-
     @Bind(R.id.swipeContainer)
-    SwipeRefreshLayout refresh;
-
+    public SwipeRefreshLayout refresh;
     @Bind(R.id.recyclerview)
-    RecyclerView recyclerView;
-
+    public RecyclerView recyclerView;
     @Bind(R.id.progressBar)
-    ProgressBar progressBar;
-
-    public ArtistListPresenterImpl presenter;
+    public ProgressBar progressBar;
+    @Inject
+    MainFragmentView mMainFragmentView;
+    @Inject
+    TrendingPresenter presenter;
     private ArtistRecyclerAdapter adapter;
     private ArrayList<Item> items = new ArrayList<>();
 
@@ -57,6 +59,11 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ApiComponent apiComponent = ((ComponentProvider<ApiComponent>) getActivity().getApplicationContext()).getComponent();
+        DaggerHomeComponent.builder()
+                .apiComponent(apiComponent)
+                .homeModule(new HomeModule(this))
+                .build().inject(this);
     }
 
     @Override
@@ -73,7 +80,7 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
 
     private void initUi() {
         ((MainActivity) getActivity()).toolbarTitle.setText(R.string.app_name);
-        presenter = new ArtistListPresenterImpl(this, new DataRepositoryImpl());
+//        presenter = new TrendingListPresenterImpl(this, new DataRepositoryImpl());
 
         adapter = new ArtistRecyclerAdapter(presenter, items);
 

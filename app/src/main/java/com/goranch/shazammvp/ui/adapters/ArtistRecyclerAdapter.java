@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.shazammvp.R;
 import com.goranch.shazammvp.api.model.Item;
-import com.goranch.shazammvp.ui.presenters.ArtistListPresenterImpl;
+import com.goranch.shazammvp.ui.home.TrendingPresenter;
 
 import java.util.ArrayList;
 
@@ -21,10 +21,10 @@ import butterknife.ButterKnife;
  * Created by Goran Ch on 16/04/16.
  */
 public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAdapter.ViewHolder>{
-    private final ArtistListPresenterImpl presenter;
+    private final TrendingPresenter presenter;
     private ArrayList<Item> items = new ArrayList<>();
 
-    public ArtistRecyclerAdapter(ArtistListPresenterImpl presenter, ArrayList<Item> items) {
+    public ArtistRecyclerAdapter(TrendingPresenter presenter, ArrayList<Item> items) {
         this.items = items;
         this.presenter = presenter;
     }
@@ -61,7 +61,7 @@ public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAd
         this.items = items;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @Bind(R.id.tv_title)
         public TextView title;
 
@@ -71,9 +71,9 @@ public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAd
         @Bind(R.id.iv_art_image)
         public SimpleDraweeView image;
 
-        public Item mItem;
+        Item mItem;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super(v);
             ButterKnife.bind(this, v);
             v.setOnClickListener(this);

@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.views;
+package com.goranch.shazammvp.ui.home;
 
 import android.os.Bundle;
 import android.view.View;
