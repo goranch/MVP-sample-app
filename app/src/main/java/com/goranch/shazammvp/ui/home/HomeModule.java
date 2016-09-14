@@ -1,5 +1,6 @@
 package com.goranch.shazammvp.ui.home;
 
+import com.goranch.shazammvp.api.ApiService;
 import com.goranch.shazammvp.api.DataRepositoryImpl;
 
 import dagger.Module;
@@ -23,8 +24,8 @@ public class HomeModule {
     }
 
     @Provides
-    DataRepositoryImpl provideDataRepository() {
-        return new DataRepositoryImpl();
+    DataRepositoryImpl provideDataRepository(ApiService apiService) {
+        return new DataRepositoryImpl(apiService);
     }
 
     @Provides

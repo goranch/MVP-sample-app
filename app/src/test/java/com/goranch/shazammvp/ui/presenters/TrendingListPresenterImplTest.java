@@ -43,7 +43,7 @@ public class TrendingListPresenterImplTest {
 
         mockApiService = mock(ApiService.class);
 
-        dataRepository = new DataRepositoryImpl();
+        dataRepository = new DataRepositoryImpl(mockApiService);
 
         presenter = new TrendingListPresenterImpl(mockMainFragmentView, mockDateRepo);
     }

@@ -11,5 +11,5 @@ import rx.Observable;
 public interface ApiService {
 
     @GET("/shazam/v2/en/GB/android/-/chart/recent-music/1month/-/-")
-    Observable<ApiTopLevelObject> getCharts();
+    Observable<ApiTopLevelObject> getTrending();
 }

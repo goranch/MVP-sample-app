@@ -8,6 +8,8 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 
+import javax.inject.Named;
+
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.Cache;
@@ -76,6 +78,7 @@ public final class ApiModule {
     }
 
     @Provides
+    @Named("shazam")
     OkHttpClient provideApiClient(OkHttpClient client) {
         return createApiClient(client).build();
     }
@@ -84,31 +87,5 @@ public final class ApiModule {
     ApiService provideApiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
-
-//    public static ApiService getApiServiceInstance() {
-//        if (instance != null) {
-//            return instance;
-//        }
-//
-////        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-////        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
-//
-//        final Gson gson = new GsonBuilder()
-//                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-//                .create();
-//
-//
-////        final OkHttpClient client = new OkHttpClient.Builder()
-////                .addInterceptor(logging).build();
-//
-//        instance = new Retrofit.Builder()
-//
-//                .baseUrl("http://cdn.shazam.com")
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-//                .client(client)
-//                .build().create(ApiService.class);
-//
-//        return instance;
-//    }
+    
 }

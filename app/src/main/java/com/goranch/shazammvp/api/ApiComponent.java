@@ -14,4 +14,6 @@ import dagger.Component;
 public interface ApiComponent {
     // Expose to subgraphs
     Application application();
+
+    ApiService apiService();
 }
