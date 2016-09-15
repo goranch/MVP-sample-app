@@ -5,10 +5,9 @@ import android.app.Application;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.goranch.shazammvp.di.scopes.ApiScope;
 
 import java.io.File;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
@@ -31,31 +30,28 @@ import static com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES;
 public final class ApiModule {
     private static final long DISK_CACHE_SIZE = (int) MEGABYTES.toBytes(50);
     private static final HttpUrl PRODUCTION_API_URL = HttpUrl.parse("http://cdn.shazam.com");
-//    private static ApiService instance;
-
-    private OkHttpClient.Builder createApiClient(OkHttpClient client) {
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        return client.newBuilder()
-                .addInterceptor(interceptor);
-    }
 
     private OkHttpClient.Builder createOkHttpClient(Application app) {
         // Install an HTTP cache in the application cache directory.
         File cacheDir = new File(app.getCacheDir(), "http");
         Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+
         return new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
                 .cache(cache);
     }
 
     @Provides
+    @ApiScope
     OkHttpClient provideOkHttpClient(Application app) {
         return createOkHttpClient(app).build();
     }
 
     @Provides
+    @ApiScope
     Gson provideGson() {
         return new GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -63,11 +59,13 @@ public final class ApiModule {
     }
 
     @Provides
+    @ApiScope
     HttpUrl provideBaseUrl() {
         return PRODUCTION_API_URL;
     }
 
     @Provides
+    @ApiScope
     Retrofit provideRetrofit(HttpUrl baseUrl, OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .client(client)
@@ -78,14 +76,9 @@ public final class ApiModule {
     }
 
     @Provides
-    @Named("shazam")
-    OkHttpClient provideApiClient(OkHttpClient client) {
-        return createApiClient(client).build();
-    }
-
-    @Provides
+    @ApiScope
     ApiService provideApiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
-    
+
 }

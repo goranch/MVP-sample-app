@@ -1,13 +1,12 @@
 package com.goranch.shazammvp.ui.home;
 
 import com.goranch.shazammvp.api.ApiComponent;
-
-import javax.inject.Singleton;
+import com.goranch.shazammvp.di.scopes.HomeScope;
 
 import dagger.Component;
 
-@Singleton
+@HomeScope
 @Component(dependencies = ApiComponent.class, modules = HomeModule.class)
-public interface HomeComponent {
+interface HomeComponent {
     void inject(MainActivityFragment mainActivityFragment);
 }

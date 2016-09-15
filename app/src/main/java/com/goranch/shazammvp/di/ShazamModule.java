@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.goranch.shazammvp.ShazamMVPApp;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -20,6 +22,7 @@ public class ShazamModule {
     }
 
     @Provides
+    @Singleton
     Application provideApplication() {
         return app;
     }
