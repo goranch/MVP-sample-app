@@ -1,9 +1,9 @@
-package com.goranch.shazammvp.ui.home;
+package com.goranch.shazammvp.ui.shazam;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public interface TrendingPresenter {
     /**
      * Make an http request to load the artists data
-     * @param items
+     * @param items bla
      */
     void loadData(ArrayList<Item> items);
     void onItemClicked(Item item);

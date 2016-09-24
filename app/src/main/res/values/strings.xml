@@ -2,4 +2,6 @@
     <string name="app_name">ShazamMVP</string>
     <string name="refresh">Refresh</string>
     <string name="play">Play</string>
+    <string name="select">Select</string>
+    <string name="image">Image</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.fragments;
+package com.goranch.shazammvp.ui.details;
 
 
 import android.net.Uri;
@@ -15,8 +15,9 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.shazammvp.MainActivity;
 import com.goranch.shazammvp.R;
-import com.goranch.shazammvp.api.model.Item;
-import com.goranch.shazammvp.ui.home.MainActivityFragment;
+import com.goranch.shazammvp.api.model.shazam.Item;
+import com.goranch.shazammvp.ui.shazam.ShazamFragment;
+import com.goranch.shazammvp.ui.webview.WebShazamFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +26,7 @@ import butterknife.OnClick;
 /**
  * Created by Goran Ch on 16/04/16.
  */
-public class DetailsFragment extends Fragment {
+public class DetailsShazamFragment extends Fragment {
     public static final String URL = "more_details_url";
     @Bind(R.id.iv_art_img)
     SimpleDraweeView trackImage;
@@ -42,7 +43,7 @@ public class DetailsFragment extends Fragment {
     @OnClick(R.id.play)
     void click() {
 
-        WebFragment f = new WebFragment();
+        WebShazamFragment f = new WebShazamFragment();
         Bundle b = new Bundle();
         b.putString(URL, itemData.getUrl());
         f.setArguments(b);
@@ -58,7 +59,7 @@ public class DetailsFragment extends Fragment {
 
         if (getArguments() != null) {
             Bundle b = getArguments();
-            itemData = (Item) b.getSerializable(MainActivityFragment.TRACK_ITEM);
+            itemData = (Item) b.getSerializable(ShazamFragment.TRACK_ITEM);
         }
 
     }

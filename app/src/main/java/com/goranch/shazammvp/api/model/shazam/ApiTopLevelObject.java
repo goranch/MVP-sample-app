@@ -1,5 +1,5 @@
 
-package com.goranch.shazammvp.api.model;
+package com.goranch.shazammvp.api.model.shazam;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

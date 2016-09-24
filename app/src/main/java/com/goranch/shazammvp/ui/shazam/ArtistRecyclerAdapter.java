@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.adapters;
+package com.goranch.shazammvp.ui.shazam;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -9,8 +9,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.shazammvp.R;
-import com.goranch.shazammvp.api.model.Item;
-import com.goranch.shazammvp.ui.home.TrendingPresenter;
+import com.goranch.shazammvp.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAd
     private final TrendingPresenter presenter;
     private ArrayList<Item> items = new ArrayList<>();
 
-    public ArtistRecyclerAdapter(TrendingPresenter presenter, ArrayList<Item> items) {
+    ArtistRecyclerAdapter(TrendingPresenter presenter, ArrayList<Item> items) {
         this.items = items;
         this.presenter = presenter;
     }
@@ -57,7 +56,7 @@ public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAd
         return items.size();
     }
 
-    public void setItems(ArrayList<Item> items){
+    void setItems(ArrayList<Item> items) {
         this.items = items;
     }
 

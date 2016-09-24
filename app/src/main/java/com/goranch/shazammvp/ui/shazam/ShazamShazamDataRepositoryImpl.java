@@ -1,7 +1,8 @@
-package com.goranch.shazammvp.api;
+package com.goranch.shazammvp.ui.shazam;
 
-import com.goranch.shazammvp.api.model.ApiTopLevelObject;
-import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.api.ApiService;
+import com.goranch.shazammvp.api.model.shazam.ApiTopLevelObject;
+import com.goranch.shazammvp.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
@@ -14,10 +15,10 @@ import rx.schedulers.Schedulers;
  *
  * Class to handle all the HTTP communication
  */
-public class DataRepositoryImpl implements IDataRepository {
+public class ShazamShazamDataRepositoryImpl implements IShazamDataRepository {
     private final ApiService mApiService;
 
-    public DataRepositoryImpl(ApiService apiService) {
+    public ShazamShazamDataRepositoryImpl(ApiService apiService) {
         mApiService = apiService;
     }
 

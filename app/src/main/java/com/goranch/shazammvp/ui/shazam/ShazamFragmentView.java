@@ -1,16 +1,16 @@
-package com.goranch.shazammvp.ui.home;
+package com.goranch.shazammvp.ui.shazam;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
 /**
  * Created by Goran Ch on 16/04/16.
  */
-public interface MainFragmentView {
+interface ShazamFragmentView {
 
     void onDataUpdated(ArrayList<Item> data);
 

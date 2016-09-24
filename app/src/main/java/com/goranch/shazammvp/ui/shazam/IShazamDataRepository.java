@@ -1,23 +1,23 @@
-package com.goranch.shazammvp.api;
+package com.goranch.shazammvp.ui.shazam;
 
-import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
 /**
  * Created by Goran Ch on 16/04/16.
  */
-public interface IDataRepository {
-    interface Callback<T> {
-        void onDataUpdated(T data);
-
-        void onError(Throwable throwable);
-    }
-
+interface IShazamDataRepository {
     /**
      * Makes a request to the API to load the list of charts
      *
      * @param callback the {@link Callback} that will return a list of {@link Item} in onDataUpdated method or a {@link Throwable} in the onError method
      */
     void loadCharts(Callback<ArrayList<Item>> callback);
+
+    interface Callback<T> {
+        void onDataUpdated(T data);
+
+        void onError(Throwable throwable);
+    }
 }

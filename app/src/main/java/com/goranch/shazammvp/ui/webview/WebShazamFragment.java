@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.fragments;
+package com.goranch.shazammvp.ui.webview;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -12,11 +12,12 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
 import com.goranch.shazammvp.R;
+import com.goranch.shazammvp.ui.details.DetailsShazamFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class WebFragment extends Fragment {
+public class WebShazamFragment extends Fragment {
 
     @Bind(R.id.web_view)
     WebView vw;
@@ -29,8 +30,8 @@ public class WebFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null && getArguments().containsKey(DetailsFragment.URL)) {
-            contentUrl = getArguments().getString(DetailsFragment.URL);
+        if (getArguments() != null && getArguments().containsKey(DetailsShazamFragment.URL)) {
+            contentUrl = getArguments().getString(DetailsShazamFragment.URL);
         }
     }
 

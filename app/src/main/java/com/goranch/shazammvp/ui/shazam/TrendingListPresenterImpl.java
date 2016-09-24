@@ -1,11 +1,9 @@
-package com.goranch.shazammvp.ui.home;
+package com.goranch.shazammvp.ui.shazam;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.goranch.shazammvp.api.DataRepositoryImpl;
-import com.goranch.shazammvp.api.IDataRepository;
-import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
@@ -16,12 +14,12 @@ import java.util.ArrayList;
  */
 public class TrendingListPresenterImpl implements TrendingPresenter {
 
-    private DataRepositoryImpl dataRepository;
-    private MainFragmentView view;
+    private ShazamShazamDataRepositoryImpl dataRepository;
+    private ShazamFragmentView view;
 
-    public TrendingListPresenterImpl(MainFragmentView mainFragmentView, DataRepositoryImpl dataRepository) {
+    public TrendingListPresenterImpl(ShazamFragmentView shazamFragmentView, ShazamShazamDataRepositoryImpl dataRepository) {
         this.dataRepository = dataRepository;
-        view = mainFragmentView;
+        view = shazamFragmentView;
     }
 
     @Override
@@ -32,7 +30,7 @@ public class TrendingListPresenterImpl implements TrendingPresenter {
 
             view.showLoadingProgress();
 
-            dataRepository.loadCharts(new IDataRepository.Callback<ArrayList<Item>>() {
+            dataRepository.loadCharts(new IShazamDataRepository.Callback<ArrayList<Item>>() {
                 @Override
                 public void onDataUpdated(ArrayList<Item> data) {
 

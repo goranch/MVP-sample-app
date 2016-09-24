@@ -18,4 +18,6 @@ public interface ApiComponent {
     Application application();
 
     ApiService apiService();
+
+    FoodService foodService();
 }

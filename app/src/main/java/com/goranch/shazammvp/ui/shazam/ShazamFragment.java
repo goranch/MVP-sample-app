@@ -1,4 +1,4 @@
-package com.goranch.shazammvp.ui.home;
+package com.goranch.shazammvp.ui.shazam;
 
 
 import android.os.Bundle;
@@ -17,10 +17,9 @@ import android.widget.ProgressBar;
 import com.goranch.shazammvp.MainActivity;
 import com.goranch.shazammvp.R;
 import com.goranch.shazammvp.api.ApiComponent;
-import com.goranch.shazammvp.api.model.Item;
+import com.goranch.shazammvp.api.model.shazam.Item;
 import com.goranch.shazammvp.di.ComponentProvider;
-import com.goranch.shazammvp.ui.adapters.ArtistRecyclerAdapter;
-import com.goranch.shazammvp.ui.fragments.DetailsFragment;
+import com.goranch.shazammvp.ui.details.DetailsShazamFragment;
 
 import java.util.ArrayList;
 
@@ -32,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Goran Ch on 16/04/16.
  */
-public class MainActivityFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MainFragmentView {
+public class ShazamFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ShazamFragmentView {
 
     public static final String TRACK_ITEM = "track_item";
     private static final String LIST_ITEMS = "list_items";
@@ -43,26 +42,26 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
     @Bind(R.id.progressBar)
     public ProgressBar progressBar;
     @Inject
-    MainFragmentView mMainFragmentView;
+    ShazamFragmentView mShazamFragmentView;
     @Inject
     TrendingPresenter presenter;
     private ArtistRecyclerAdapter adapter;
     private ArrayList<Item> items = new ArrayList<>();
 
-    public MainActivityFragment() {
+    public ShazamFragment() {
     }
 
-    public static MainActivityFragment newInstance() {
-        return new MainActivityFragment();
+    public static ShazamFragment newInstance() {
+        return new ShazamFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ApiComponent apiComponent = ((ComponentProvider<ApiComponent>) getActivity().getApplicationContext()).getComponent();
-        DaggerHomeComponent.builder()
+        DaggerShazamComponent.builder()
                 .apiComponent(apiComponent)
-                .homeModule(new HomeModule(this))
+                .shazamModule(new ShazamModule(this))
                 .build().inject(this);
     }
 
@@ -80,7 +79,6 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
 
     private void initUi() {
         ((MainActivity) getActivity()).toolbarTitle.setText(R.string.app_name);
-//        presenter = new TrendingListPresenterImpl(this, new DataRepositoryImpl());
 
         adapter = new ArtistRecyclerAdapter(presenter, items);
 
@@ -145,13 +143,13 @@ public class MainActivityFragment extends Fragment implements SwipeRefreshLayout
 
     @Override
     public void openDetailsFragment(Item item) {
-        DetailsFragment detailsFragment = new DetailsFragment();
+        DetailsShazamFragment detailsShazamFragment = new DetailsShazamFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable(TRACK_ITEM, item);
-        detailsFragment.setArguments(bundle);
+        detailsShazamFragment.setArguments(bundle);
 
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, detailsFragment);
+        t.replace(R.id.fragment_holder, detailsShazamFragment);
         t.addToBackStack(null);
         t.commit();
     }

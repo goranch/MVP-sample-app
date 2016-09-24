@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.goranch.shazammvp.ui.home.MainActivityFragment;
+import com.goranch.shazammvp.ui.shazam.ShazamFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    private MainActivityFragment mainFragment;
+    private ShazamFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +33,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
-            mainFragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
+            mainFragment = (ShazamFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
         } else {
-            mainFragment = MainActivityFragment.newInstance();
+            mainFragment = ShazamFragment.newInstance();
             FragmentTransaction t = getSupportFragmentManager().beginTransaction();
             t.replace(R.id.fragment_holder, mainFragment);
-            t.addToBackStack(null);
             t.commit();
         }
 

@@ -1,11 +1,11 @@
 package com.goranch.shazammvp.ui.presenters;
 
 import com.goranch.shazammvp.api.ApiService;
-import com.goranch.shazammvp.api.DataRepositoryImpl;
-import com.goranch.shazammvp.api.model.Item;
-import com.goranch.shazammvp.ui.home.MainActivityFragment;
-import com.goranch.shazammvp.ui.home.TrendingListPresenterImpl;
-import com.goranch.shazammvp.ui.home.TrendingPresenter;
+import com.goranch.shazammvp.api.model.shazam.Item;
+import com.goranch.shazammvp.ui.shazam.ShazamFragment;
+import com.goranch.shazammvp.ui.shazam.ShazamShazamDataRepositoryImpl;
+import com.goranch.shazammvp.ui.shazam.TrendingListPresenterImpl;
+import com.goranch.shazammvp.ui.shazam.TrendingPresenter;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,14 +27,14 @@ import static org.mockito.Mockito.verify;
 public class TrendingListPresenterImplTest {
 
     @Mock
-    private MainActivityFragment mockMainFragmentView;
+    private ShazamFragment mockMainFragmentView;
 
     private ApiService mockApiService;
-    private DataRepositoryImpl dataRepository;
+    private ShazamShazamDataRepositoryImpl dataRepository;
     private TrendingPresenter presenter;
 
     @Mock
-    private DataRepositoryImpl mockDateRepo;
+    private ShazamShazamDataRepositoryImpl mockDateRepo;
 
     @Before
     public void setUp() throws Exception {
@@ -43,7 +43,7 @@ public class TrendingListPresenterImplTest {
 
         mockApiService = mock(ApiService.class);
 
-        dataRepository = new DataRepositoryImpl(mockApiService);
+        dataRepository = new ShazamShazamDataRepositoryImpl(mockApiService);
 
         presenter = new TrendingListPresenterImpl(mockMainFragmentView, mockDateRepo);
     }
@@ -54,7 +54,7 @@ public class TrendingListPresenterImplTest {
     }
 
     /**
-     * When we have a non empty array of {@link com.goranch.shazammvp.api.model.Item} do not fetch data
+     * When we have a non empty array of {@link Item} do not fetch data
      *
      * @throws Exception
      */
