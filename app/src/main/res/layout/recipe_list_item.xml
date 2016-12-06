@@ -25,7 +25,6 @@
         android:layout_centerVertical="true"
         android:layout_margin="@dimen/img_margin"
         android:contentDescription="@string/select"
-        android:elevation="@dimen/img_margin"
         android:src="@drawable/coming_soon_img"/>
 
     <ImageView
