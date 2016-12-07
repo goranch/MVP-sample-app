@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.home.DaggerHomeComponent;
+import com.goranch.publicapis.ui.home.HomeFragment;
 import com.goranch.publicapis.ui.home.HomeModule;
 import com.goranch.publicapis.ui.home.HomeView;
-import com.goranch.publicapis.ui.shazam.ShazamFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements HomeView {
     public TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
-    private ShazamFragment mainFragment;
+    private HomeFragment homeFragment;
 
     @SuppressWarnings("unchecked")
     @Override
@@ -44,14 +44,10 @@ public class MainActivity extends AppCompatActivity implements HomeView {
 
         ButterKnife.bind(this);
 
-        if (savedInstanceState != null) {
-            mainFragment = (ShazamFragment) getSupportFragmentManager().findFragmentById(R.id.main_fragment);
-        } else {
-            mainFragment = ShazamFragment.newInstance();
-            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-            t.replace(R.id.fragment_holder, mainFragment);
-            t.commit();
-        }
-
+        homeFragment = HomeFragment.newInstance();
+        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.fragment_holder, homeFragment);
+        t.commit();
     }
+
 }

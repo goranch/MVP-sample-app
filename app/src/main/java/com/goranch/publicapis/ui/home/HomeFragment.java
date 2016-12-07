@@ -1,8 +1,8 @@
 package com.goranch.publicapis.ui.home;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +26,9 @@ public class HomeFragment extends Fragment implements HomeView {
     @Bind(R.id.btn_food)
     public TextView foodButton;
 
+    public static HomeFragment newInstance() {
+        return new HomeFragment();
+    }
 
     @OnClick(R.id.btn_shazam)
     void clickShazam() {
@@ -46,7 +49,7 @@ public class HomeFragment extends Fragment implements HomeView {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         ButterKnife.bind(this, v);
 
