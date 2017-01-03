@@ -12,10 +12,10 @@ import rx.schedulers.Schedulers;
 /**
  * Created by goranch on 30/03/16.
  */
-public class DataRepositoryImpl implements IDataRepository {
+public class FoodDataRepositoryImpl implements IDataRepository {
     private final FoodService mFoodService;
 
-    public DataRepositoryImpl(FoodService foodService) {
+    public FoodDataRepositoryImpl(FoodService foodService) {
         mFoodService = foodService;
     }
 

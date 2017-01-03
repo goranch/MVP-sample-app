@@ -6,7 +6,7 @@ import com.goranch.publicapis.di.scopes.HomeScope;
 import dagger.Component;
 
 @HomeScope
-@Component(dependencies = ApiComponent.class, modules = ShazamModule.class)
-interface ShazamComponent {
-    void inject(ShazamFragment shazamFragment);
+@Component(dependencies = ApiComponent.class, modules = MusicModule.class)
+interface MusicComponent {
+    void inject(MusicFragment shazamFragment);
 }

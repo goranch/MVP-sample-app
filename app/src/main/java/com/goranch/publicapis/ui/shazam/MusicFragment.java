@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 /**
  * Created by Goran Ch on 16/04/16.
  */
-public class ShazamFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, ShazamFragmentView {
+public class MusicFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MusicFragmentView {
 
     public static final String TRACK_ITEM = "track_item";
     private static final String LIST_ITEMS = "list_items";
@@ -42,17 +42,14 @@ public class ShazamFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Bind(R.id.progressBar)
     public ProgressBar progressBar;
     @Inject
-    ShazamFragmentView mShazamFragmentView;
+    MusicFragmentView mMusicFragmentView;
     @Inject
     TrendingPresenter presenter;
     private ArtistRecyclerAdapter adapter;
     private ArrayList<Item> items = new ArrayList<>();
 
-    public ShazamFragment() {
-    }
-
-    public static ShazamFragment newInstance() {
-        return new ShazamFragment();
+    public static MusicFragment newInstance() {
+        return new MusicFragment();
     }
 
     @SuppressWarnings("unchecked")
@@ -60,9 +57,9 @@ public class ShazamFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ApiComponent apiComponent = ((ComponentProvider<ApiComponent>) getActivity().getApplicationContext()).getComponent();
-        DaggerShazamComponent.builder()
+        DaggerMusicComponent.builder()
                 .apiComponent(apiComponent)
-                .shazamModule(new ShazamModule(this))
+            .musicModule(new MusicModule(this))
                 .build().inject(this);
     }
 

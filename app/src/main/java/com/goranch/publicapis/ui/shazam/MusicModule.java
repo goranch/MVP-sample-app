@@ -10,16 +10,16 @@ import dagger.Provides;
  */
 
 @Module
-public class ShazamModule {
-    private final ShazamFragmentView mShazamFragmentView;
+public class MusicModule {
+    private final MusicFragmentView mMusicFragmentView;
 
-    public ShazamModule(ShazamFragmentView shazamFragmentView) {
-        mShazamFragmentView = shazamFragmentView;
+    public MusicModule(MusicFragmentView musicFragmentView) {
+        mMusicFragmentView = musicFragmentView;
     }
 
     @Provides
-    ShazamFragmentView provideMainFragnemtView() {
-        return mShazamFragmentView;
+    MusicFragmentView provideMainFragnemtView() {
+        return mMusicFragmentView;
     }
 
     @Provides
@@ -28,7 +28,7 @@ public class ShazamModule {
     }
 
     @Provides
-    TrendingPresenter provideTrendingPresenter(ShazamFragmentView view, ShazamShazamDataRepositoryImpl repository) {
+    TrendingPresenter provideTrendingPresenter(MusicFragmentView view, ShazamShazamDataRepositoryImpl repository) {
         return new TrendingListPresenterImpl(view, repository);
     }
 }

@@ -3,12 +3,15 @@ package com.goranch.publicapis.ui.home;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.goranch.publicapis.R;
+import com.goranch.publicapis.ui.food.fragment.FoodFragment;
+import com.goranch.publicapis.ui.shazam.MusicFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,13 +34,22 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     @OnClick(R.id.btn_shazam)
-    void clickShazam() {
+    void clickMusic() {
+        MusicFragment musicFragment = MusicFragment.newInstance();
+        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.fragment_holder, musicFragment);
+        t.addToBackStack(null);
+        t.commit();
 
     }
 
     @OnClick(R.id.btn_food)
     void clickFood() {
-
+        FoodFragment foodFragment = FoodFragment.newInstance();
+        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
+        t.replace(R.id.fragment_holder, foodFragment);
+        t.addToBackStack(null);
+        t.commit();
     }
 
     @Override

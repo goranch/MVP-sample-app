@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by goranch on 30/03/16.
  */
-interface IRecipeListPresenter {
+public interface RecipeListPresenter {
     void onAdapterCreated(RecipeRecyclerAdapter adapter);
 
     void onItemClicked(Recipe mItem);

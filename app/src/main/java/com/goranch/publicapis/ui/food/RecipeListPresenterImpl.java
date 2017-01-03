@@ -10,13 +10,13 @@ import java.util.ArrayList;
 /**
  * Created by goranch on 30/03/16.
  */
-class RecipeListPresenterImpl implements IRecipeListPresenter {
+public class RecipeListPresenterImpl implements RecipeListPresenter {
     private static final String API_KEY = "b549c4c96152e677eb90de4604ca61a2";
     private final String TAG = getClass().getSimpleName();
     private SearchRecipeView view;
-    private DataRepositoryImpl repository;
+    private FoodDataRepositoryImpl repository;
 
-    public RecipeListPresenterImpl(SearchRecipeView view, DataRepositoryImpl repository) {
+    public RecipeListPresenterImpl(SearchRecipeView view, FoodDataRepositoryImpl repository) {
         this.repository = repository;
         this.view = view;
     }

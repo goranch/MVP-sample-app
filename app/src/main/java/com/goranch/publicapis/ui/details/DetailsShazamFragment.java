@@ -16,7 +16,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.MainActivity;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.model.shazam.Item;
-import com.goranch.publicapis.ui.shazam.ShazamFragment;
+import com.goranch.publicapis.ui.shazam.MusicFragment;
 import com.goranch.publicapis.ui.webview.WebShazamFragment;
 
 import butterknife.Bind;
@@ -59,7 +59,7 @@ public class DetailsShazamFragment extends Fragment {
 
         if (getArguments() != null) {
             Bundle b = getArguments();
-            itemData = (Item) b.getSerializable(ShazamFragment.TRACK_ITEM);
+            itemData = (Item) b.getSerializable(MusicFragment.TRACK_ITEM);
         }
 
     }

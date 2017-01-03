@@ -12,6 +12,6 @@ import dagger.Component;
 
 @HomeScope
 @Component(dependencies = ApiComponent.class, modules = HomeModule.class)
-public interface HomeComponent {
+interface HomeComponent {
     void inject(MainActivity mainActivity);
 }

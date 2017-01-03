@@ -15,11 +15,11 @@ import java.util.ArrayList;
 public class TrendingListPresenterImpl implements TrendingPresenter {
 
     private ShazamShazamDataRepositoryImpl dataRepository;
-    private ShazamFragmentView view;
+    private MusicFragmentView view;
 
-    public TrendingListPresenterImpl(ShazamFragmentView shazamFragmentView, ShazamShazamDataRepositoryImpl dataRepository) {
+    public TrendingListPresenterImpl(MusicFragmentView musicFragmentView, ShazamShazamDataRepositoryImpl dataRepository) {
         this.dataRepository = dataRepository;
-        view = shazamFragmentView;
+        view = musicFragmentView;
     }
 
     @Override

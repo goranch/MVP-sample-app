@@ -21,12 +21,12 @@ public class PublicAPIsApp extends Application implements ComponentProvider<ApiC
     public void onCreate() {
         super.onCreate();
 
-        final PublicApisComponent shazamComponent = DaggerPublicApisComponent.builder()
+        final PublicApisComponent mainComponent = DaggerPublicApisComponent.builder()
             .publicApisModule(new PublicApisModule(this))
             .build();
 
         apiComponent = DaggerApiComponent.builder()
-            .publicApisComponent(shazamComponent)
+            .publicApisComponent(mainComponent)
             .apiModule(new ApiModule())
             .build();
 

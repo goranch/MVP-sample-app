@@ -7,11 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.goranch.publicapis.api.ApiComponent;
-import com.goranch.publicapis.di.ComponentProvider;
-import com.goranch.publicapis.ui.home.DaggerHomeComponent;
 import com.goranch.publicapis.ui.home.HomeFragment;
-import com.goranch.publicapis.ui.home.HomeModule;
 import com.goranch.publicapis.ui.home.HomeView;
 
 import butterknife.Bind;
@@ -24,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements HomeView {
     public TextView toolbarTitle;
     @Bind(R.id.toolbar)
     Toolbar toolbar;
+
     private HomeFragment homeFragment;
 
     @SuppressWarnings("unchecked")
@@ -31,12 +28,6 @@ public class MainActivity extends AppCompatActivity implements HomeView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate");
-
-        ApiComponent apiComponent = ((ComponentProvider<ApiComponent>) getApplicationContext()).getComponent();
-        DaggerHomeComponent.builder()
-            .apiComponent(apiComponent)
-            .homeModule(new HomeModule(this))
-            .build().inject(this);
 
         setContentView(R.layout.activity_main);
 

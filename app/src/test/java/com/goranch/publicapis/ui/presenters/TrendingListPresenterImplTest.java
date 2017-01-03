@@ -2,7 +2,7 @@ package com.goranch.publicapis.ui.presenters;
 
 import com.goranch.publicapis.api.ShazamService;
 import com.goranch.publicapis.api.model.shazam.Item;
-import com.goranch.publicapis.ui.shazam.ShazamFragment;
+import com.goranch.publicapis.ui.shazam.MusicFragment;
 import com.goranch.publicapis.ui.shazam.ShazamShazamDataRepositoryImpl;
 import com.goranch.publicapis.ui.shazam.TrendingListPresenterImpl;
 import com.goranch.publicapis.ui.shazam.TrendingPresenter;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 public class TrendingListPresenterImplTest {
 
     @Mock
-    private ShazamFragment mockMainFragmentView;
+    private MusicFragment mockMainFragmentView;
 
     private ShazamService mockShazamService;
     private ShazamShazamDataRepositoryImpl dataRepository;

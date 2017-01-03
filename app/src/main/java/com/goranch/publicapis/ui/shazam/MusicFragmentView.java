@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * Created by Goran Ch on 16/04/16.
  */
-interface ShazamFragmentView {
+interface MusicFragmentView {
 
     void initUi();
 

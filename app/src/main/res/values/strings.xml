@@ -6,4 +6,9 @@
     <string name="image">Image</string>
     <string name="shazam">Shazam trending</string>
     <string name="food_recipes">Food recipes</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="view_instructions">View Instructions</string>
+    <string name="view_original">View Original</string>
+    <string name="search_recipe">Search recipe</string>
+    <string name="info">info</string>
 </resources>

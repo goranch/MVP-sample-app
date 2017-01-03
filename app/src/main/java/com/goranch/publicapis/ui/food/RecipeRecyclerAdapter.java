@@ -18,11 +18,11 @@ import butterknife.ButterKnife;
 /**
  * Created by goranch on 30/03/16.
  */
-class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
-    RecipeListPresenterImpl presenter;
+public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
+    RecipeListPresenter presenter;
     private ArrayList<Recipe> recipes = new ArrayList<>();
 
-    public RecipeRecyclerAdapter(RecipeListPresenterImpl presenter, ArrayList<Recipe> recipes) {
+    public RecipeRecyclerAdapter(RecipeListPresenter presenter, ArrayList<Recipe> recipes) {
         this.presenter = presenter;
         this.recipes = recipes;
     }

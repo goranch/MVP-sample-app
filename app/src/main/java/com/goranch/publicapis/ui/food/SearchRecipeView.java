@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Created by goranch on 30/03/16.
  */
-interface SearchRecipeView {
+public interface SearchRecipeView {
 
     void onDataUpdated(ArrayList<Recipe> data);
 
