@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.Generated;
 
@@ -35,6 +36,9 @@ public class Recipe implements Serializable {
     @SerializedName("publisher_url")
     @Expose
     private String publisherUrl;
+    @SerializedName("ingredients")
+    @Expose
+    private List<String> ingredients = null;
 
     /**
      * @return The publisher
@@ -146,6 +150,14 @@ public class Recipe implements Serializable {
      */
     public void setPublisherUrl(String publisherUrl) {
         this.publisherUrl = publisherUrl;
+    }
+
+    public List<String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<String> ingredients) {
+        this.ingredients = ingredients;
     }
 
 }

@@ -3,6 +3,7 @@ package com.goranch.publicapis.ui.food.fragment;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -13,16 +14,26 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
+import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.di.ComponentProvider;
+import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
+import com.goranch.publicapis.ui.food.details.DetailRecipeView;
+import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
+import com.goranch.publicapis.ui.food.details.RecipeDetailPresenter;
 import com.goranch.publicapis.ui.webview.WebShazamFragment;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
-public class DetailsFragment extends Fragment implements View.OnClickListener {
 
-    public static final String URL = "url";
+public class DetailsFragment extends Fragment implements DetailRecipeView, View.OnClickListener {
+
+    public static final String URL = "details_food_url";
     @Bind(R.id.iv_recipe_img)
     SimpleDraweeView recipeImage;
     @Bind(R.id.lv_igredients)
@@ -36,6 +47,11 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     @Bind(R.id.tv_social_rank)
     TextView socialRank;
 
+    @Inject
+    RecipeDetailPresenter presenter;
+
+    @Inject
+    DetailRecipeView mDetailRecipeView;
 
     private Recipe recipeData;
 
@@ -43,9 +59,19 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ApiComponent apiComponent = ((ComponentProvider<ApiComponent>) getActivity().getApplicationContext()).getComponent();
+        DaggerDetailsFoodComponent.builder()
+                .apiComponent(apiComponent)
+                .detailsFoodModule(new DetailsFoodModule(this))
+                .build().inject(this);
+
+        //TODO make another request here to get the ingredients with getRecipe()
+
         if (getArguments() != null) {
             Bundle b = getArguments();
             recipeData = (Recipe) b.getSerializable(FoodFragment.RECIPE_ITEM);
+        } else {
+            Snackbar.make(getView(), "No Recipe Id", LENGTH_LONG).show();
         }
 
     }
@@ -93,7 +119,8 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void openWebView(String url) {
+    @Override
+    public void openWebView(String url) {
         WebShazamFragment f = new WebShazamFragment();
         Bundle b = new Bundle();
         b.putString(URL, url);
@@ -102,5 +129,20 @@ public class DetailsFragment extends Fragment implements View.OnClickListener {
         t.replace(R.id.fragment_holder, f);
         t.addToBackStack(null);
         t.commit();
+    }
+
+    @Override
+    public void onDataUpdated(Recipe data) {
+
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
     }
 }

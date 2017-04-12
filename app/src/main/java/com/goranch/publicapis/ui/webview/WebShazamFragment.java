@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.ui.details.DetailsShazamFragment;
+import com.goranch.publicapis.ui.food.fragment.DetailsFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +31,9 @@ public class WebShazamFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null && getArguments().containsKey(DetailsShazamFragment.URL)) {
+        if (getArguments() != null &&
+                getArguments().containsKey(DetailsShazamFragment.URL) ||
+                getArguments().containsKey(DetailsFragment.URL)) {
             contentUrl = getArguments().getString(DetailsShazamFragment.URL);
         }
     }

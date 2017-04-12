@@ -8,5 +8,5 @@ import dagger.Component;
 @HomeScope
 @Component(dependencies = ApiComponent.class, modules = MusicModule.class)
 interface MusicComponent {
-    void inject(MusicFragment shazamFragment);
+    void inject(MusicFragment musicFragment);
 }

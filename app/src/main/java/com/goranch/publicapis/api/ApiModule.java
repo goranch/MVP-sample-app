@@ -30,9 +30,9 @@ import static com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES;
  */
 @Module
 public final class ApiModule {
+    public static final String API_KEY = "b549c4c96152e677eb90de4604ca61a2";
     private static final HttpUrl SHAZAM_API_URL = HttpUrl.parse("http://cdn.shazam.com");
     private static final HttpUrl FOOD_API_URL = HttpUrl.parse("http://food2fork.com");
-
     private static final long DISK_CACHE_SIZE = (int) MEGABYTES.toBytes(25);
     private static final long FOOD_CACHE_SIZE = (int) MEGABYTES.toBytes(25);
 

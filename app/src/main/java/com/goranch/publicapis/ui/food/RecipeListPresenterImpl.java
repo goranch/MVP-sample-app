@@ -3,6 +3,7 @@ package com.goranch.publicapis.ui.food;
 import android.net.Uri;
 import android.util.Log;
 
+import com.goranch.publicapis.api.ApiModule;
 import com.goranch.publicapis.api.model.food.Recipe;
 
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
  * Created by goranch on 30/03/16.
  */
 public class RecipeListPresenterImpl implements RecipeListPresenter {
-    private static final String API_KEY = "b549c4c96152e677eb90de4604ca61a2";
     private final String TAG = getClass().getSimpleName();
     private SearchRecipeView view;
     private FoodDataRepositoryImpl repository;
@@ -39,7 +39,7 @@ public class RecipeListPresenterImpl implements RecipeListPresenter {
 
         view.showProgress();
 
-        repository.searchRecipes(API_KEY, query, new IDataRepository.Callback<ArrayList<Recipe>>() {
+        repository.searchRecipes(ApiModule.API_KEY, query, new IDataRepository.Callback<ArrayList<Recipe>>() {
             @Override
             public void onDataUpdated(ArrayList<Recipe> data) {
 

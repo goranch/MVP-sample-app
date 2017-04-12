@@ -20,9 +20,9 @@ public class FoodDataRepositoryImpl implements IDataRepository {
     }
 
     @Override
-    public void searchRecipes(final String searchQuery, String apiKey, Callback<ArrayList<Recipe>> callback) {
+    public void searchRecipes(final String apiKey, String searchQuery, Callback<ArrayList<Recipe>> callback) {
 
-        final Observable<ArrayList<Recipe>> recipeObservable = mFoodService.searchRecipes(searchQuery, apiKey)
+        final Observable<ArrayList<Recipe>> recipeListObservable = mFoodService.searchRecipes(apiKey, searchQuery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(recipes -> {
@@ -32,7 +32,19 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                 });
 
         // handle http error
-        recipeObservable.subscribe(recipes -> {
+        recipeListObservable.subscribe(recipes -> {
         }, callback::onError);
+    }
+
+    @Override
+    public void getRecipe(String apiKey, String recipeId, Callback<Recipe> recipeCallback) {
+
+        final Observable<Recipe> recipeObservable = mFoodService.getRecipe(apiKey, recipeId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(recipe -> recipe);
+
+        recipeObservable.subscribe(recipe -> {
+        }, recipeCallback::onError);
     }
 }
