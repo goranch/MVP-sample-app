@@ -38,7 +38,7 @@ public final class ApiModule {
 
     private OkHttpClient.Builder createApiClient(OkHttpClient client) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
 
         return client.newBuilder()
                 .addInterceptor(interceptor);
@@ -113,6 +113,7 @@ public final class ApiModule {
     @Named("food")
     OkHttpClient provideFoodClient(OkHttpClient client) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
         return client.newBuilder()
                 .addInterceptor(interceptor).build();
     }

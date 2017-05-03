@@ -1,7 +1,7 @@
 package com.goranch.publicapis.api;
 
 import com.goranch.publicapis.api.model.food.ApiResult;
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.RecipeContainer;
 
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -19,7 +19,7 @@ public interface FoodService {
     );
 
     @GET("/api/get")
-    Observable<Recipe> getRecipe(
+    Observable<RecipeContainer> getRecipe(
             @Query("key") String apiKey,
             @Query("rId") String recipeId
     );

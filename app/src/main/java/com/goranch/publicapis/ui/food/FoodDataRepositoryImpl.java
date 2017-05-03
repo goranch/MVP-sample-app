@@ -42,7 +42,11 @@ public class FoodDataRepositoryImpl implements IDataRepository {
         final Observable<Recipe> recipeObservable = mFoodService.getRecipe(apiKey, recipeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(recipe -> recipe);
+                .map(recipe -> {
+                    final Recipe rec = recipe.getRecipe();
+                    recipeCallback.onDataUpdated(rec);
+                    return rec;
+                });
 
         recipeObservable.subscribe(recipe -> {
         }, recipeCallback::onError);

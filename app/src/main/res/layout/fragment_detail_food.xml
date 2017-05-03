@@ -16,6 +16,13 @@
             android:layout_height="wrap_content"
             app:viewAspectRatio="1.76"/>
 
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,7 +35,7 @@
         <ListView
             android:id="@+id/lv_igredients"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="fill_parent">
 
         </ListView>
 

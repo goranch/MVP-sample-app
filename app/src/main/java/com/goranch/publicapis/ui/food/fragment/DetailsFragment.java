@@ -9,7 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -37,7 +39,7 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     @Bind(R.id.iv_recipe_img)
     SimpleDraweeView recipeImage;
     @Bind(R.id.lv_igredients)
-    ListView ingredients;
+    ListView ingredientsListView;
     @Bind(R.id.tv_view_instrouctions)
     TextView instructions;
     @Bind(R.id.tv_view_original)
@@ -46,6 +48,8 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     TextView publishersName;
     @Bind(R.id.tv_social_rank)
     TextView socialRank;
+    @Bind(R.id.progressBar3)
+    ProgressBar progressBar;
 
     @Inject
     RecipeDetailPresenter presenter;
@@ -54,6 +58,7 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     DetailRecipeView mDetailRecipeView;
 
     private Recipe recipeData;
+    private String recipeId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,16 +69,6 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
                 .apiComponent(apiComponent)
                 .detailsFoodModule(new DetailsFoodModule(this))
                 .build().inject(this);
-
-        //TODO make another request here to get the ingredients with getRecipe()
-
-        if (getArguments() != null) {
-            Bundle b = getArguments();
-            recipeData = (Recipe) b.getSerializable(FoodFragment.RECIPE_ITEM);
-        } else {
-            Snackbar.make(getView(), "No Recipe Id", LENGTH_LONG).show();
-        }
-
     }
 
     @Nullable
@@ -83,21 +78,31 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
 
         ButterKnife.bind(this, v);
 
+        if (getArguments() != null) {
+            Bundle b = getArguments();
+            recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
+            presenter.onLoad(recipeId);
+        } else {
+            if (getView() != null) {
+                Snackbar.make(getView(), "No Recipe Id", LENGTH_LONG).show();
+            }
+        }
+
         return v;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        init();
-    }
-
-    private void init() {
+    private void init(Recipe recipe) {
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(recipeData.getTitle());
 
-        recipeImage.setImageURI(Uri.parse(recipeData.getImageUrl()));
-        publishersName.setText(recipeData.getPublisher());
-        socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipeData.getSocialRank().toString()))));
+        recipeData = recipe;
+
+        ArrayAdapter ingredientsAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, recipe.getIngredients());
+
+        ingredientsListView.setAdapter(ingredientsAdapter);
+
+        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
+        publishersName.setText(recipe.getPublisher());
+        socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
 
         instructions.setOnClickListener(this);
         viewOriginal.setOnClickListener(this);
@@ -132,17 +137,24 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     }
 
     @Override
-    public void onDataUpdated(Recipe data) {
+    public void onError(Throwable throwable) {
+        if (getView() != null) {
+            Snackbar.make(getView(), "No recipe details bro", LENGTH_LONG).show();
+        }
+    }
 
+    @Override
+    public void onDataUpdated(Recipe data) {
+        init(data);
     }
 
     @Override
     public void showProgress() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

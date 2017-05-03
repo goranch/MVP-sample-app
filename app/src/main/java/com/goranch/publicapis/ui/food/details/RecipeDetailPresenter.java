@@ -5,5 +5,5 @@ package com.goranch.publicapis.ui.food.details;
  */
 
 public interface RecipeDetailPresenter {
-    void onLoad();
+    void onLoad(String recipeId);
 }

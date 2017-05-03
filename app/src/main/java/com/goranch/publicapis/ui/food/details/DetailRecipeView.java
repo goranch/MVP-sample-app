@@ -15,4 +15,6 @@ public interface DetailRecipeView {
     void hideProgress();
 
     void openWebView(String url);
+
+    void onError(Throwable throwable);
 }
