@@ -17,7 +17,7 @@ import com.goranch.publicapis.MainActivity;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.model.shazam.Item;
 import com.goranch.publicapis.ui.shazam.MusicFragment;
-import com.goranch.publicapis.ui.webview.WebShazamFragment;
+import com.goranch.publicapis.ui.webview.WebFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -43,7 +43,7 @@ public class DetailsShazamFragment extends Fragment {
     @OnClick(R.id.play)
     void click() {
 
-        WebShazamFragment f = new WebShazamFragment();
+        WebFragment f = new WebFragment();
         Bundle b = new Bundle();
         b.putString(URL, itemData.getUrl());
         f.setArguments(b);

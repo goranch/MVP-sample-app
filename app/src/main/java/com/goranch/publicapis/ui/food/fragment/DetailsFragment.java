@@ -23,7 +23,7 @@ import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
 import com.goranch.publicapis.ui.food.details.DetailRecipeView;
 import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
 import com.goranch.publicapis.ui.food.details.RecipeDetailPresenter;
-import com.goranch.publicapis.ui.webview.WebShazamFragment;
+import com.goranch.publicapis.ui.webview.WebFragment;
 
 import javax.inject.Inject;
 
@@ -126,7 +126,7 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
 
     @Override
     public void openWebView(String url) {
-        WebShazamFragment f = new WebShazamFragment();
+        WebFragment f = WebFragment.newInstance();
         Bundle b = new Bundle();
         b.putString(URL, url);
         f.setArguments(b);

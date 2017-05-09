@@ -2,6 +2,7 @@ package com.goranch.publicapis.ui.webview;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import com.goranch.publicapis.ui.food.fragment.DetailsFragment;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class WebShazamFragment extends Fragment {
+public class WebFragment extends Fragment {
 
     @Bind(R.id.web_view)
     WebView vw;
@@ -28,13 +29,19 @@ public class WebShazamFragment extends Fragment {
 
     String contentUrl;
 
+    public static WebFragment newInstance() {
+        return new WebFragment();
+    }
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null &&
-                getArguments().containsKey(DetailsShazamFragment.URL) ||
-                getArguments().containsKey(DetailsFragment.URL)) {
-            contentUrl = getArguments().getString(DetailsShazamFragment.URL);
+        if (getArguments() != null) {
+            if (getArguments().containsKey(DetailsShazamFragment.URL)) {
+                contentUrl = getArguments().getString(DetailsShazamFragment.URL);
+            } else if (getArguments().containsKey(DetailsFragment.URL)) {
+                contentUrl = getArguments().getString(DetailsFragment.URL);
+            }
         }
     }
 

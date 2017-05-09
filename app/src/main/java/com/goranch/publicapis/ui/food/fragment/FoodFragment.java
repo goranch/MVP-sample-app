@@ -89,6 +89,10 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
 
             search.setSingleLine();
             search.setOnEditorActionListener(this);
+            search.requestFocus();
+
+            //TODO remove this later
+            search.setText("Chicken");
 
         }
         return v;
