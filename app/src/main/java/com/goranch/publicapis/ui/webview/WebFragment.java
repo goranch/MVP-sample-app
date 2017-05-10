@@ -29,8 +29,13 @@ public class WebFragment extends Fragment {
 
     String contentUrl;
 
-    public static WebFragment newInstance() {
-        return new WebFragment();
+    public static WebFragment newInstance(String url) {
+        Bundle b = new Bundle();
+        b.putString(DetailsFragment.URL, url);
+
+        WebFragment fragment = new WebFragment();
+        fragment.setArguments(b);
+        return fragment;
     }
 
     @Override

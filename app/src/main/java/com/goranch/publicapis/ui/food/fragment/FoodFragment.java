@@ -133,10 +133,7 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
 
     @Override
     public void openDetailsFragment(Recipe mItem) {
-        DetailsFragment f = new DetailsFragment();
-        Bundle b = new Bundle();
-        b.putSerializable(RECIPE_ITEM, mItem.getRecipeId());
-        f.setArguments(b);
+        DetailsFragment f = DetailsFragment.newInstance(mItem);
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.fragment_holder, f);
         t.addToBackStack(null);

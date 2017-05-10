@@ -60,6 +60,14 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     private Recipe recipeData;
     private String recipeId;
 
+    public static DetailsFragment newInstance(Recipe mItem) {
+        Bundle b = new Bundle();
+        b.putSerializable(FoodFragment.RECIPE_ITEM, mItem.getRecipeId());
+        DetailsFragment fragment = new DetailsFragment();
+        fragment.setArguments(b);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,10 +134,7 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
 
     @Override
     public void openWebView(String url) {
-        WebFragment f = WebFragment.newInstance();
-        Bundle b = new Bundle();
-        b.putString(URL, url);
-        f.setArguments(b);
+        WebFragment f = WebFragment.newInstance(url);
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.fragment_holder, f);
         t.addToBackStack(null);
