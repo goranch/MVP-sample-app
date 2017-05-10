@@ -32,12 +32,13 @@
             android:textAllCaps="true"
             android:textSize="@dimen/separator_text_size"/>
 
-        <ListView
+        <LinearLayout
             android:id="@+id/lv_igredients"
             android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
 
-        </ListView>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"

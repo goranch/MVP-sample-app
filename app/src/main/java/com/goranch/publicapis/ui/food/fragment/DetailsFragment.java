@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -39,7 +39,7 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     @Bind(R.id.iv_recipe_img)
     SimpleDraweeView recipeImage;
     @Bind(R.id.lv_igredients)
-    ListView ingredientsListView;
+    LinearLayout ingredientsLinearLayout;
     @Bind(R.id.tv_view_instrouctions)
     TextView instructions;
     @Bind(R.id.tv_view_original)
@@ -99,14 +99,17 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
         return v;
     }
 
-    private void init(Recipe recipe) {
+    private void loadNewData(Recipe recipe) {
 //        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(recipeData.getTitle());
 
         recipeData = recipe;
 
         ArrayAdapter ingredientsAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, recipe.getIngredients());
 
-        ingredientsListView.setAdapter(ingredientsAdapter);
+        ingredientsLinearLayout.removeAllViews();
+        for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
+            ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
+        }
 
         recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
         publishersName.setText(recipe.getPublisher());
@@ -150,7 +153,7 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
 
     @Override
     public void onDataUpdated(Recipe data) {
-        init(data);
+        loadNewData(data);
     }
 
     @Override
