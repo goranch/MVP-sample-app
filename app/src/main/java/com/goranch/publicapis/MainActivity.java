@@ -35,10 +35,12 @@ public class MainActivity extends AppCompatActivity implements HomeView {
 
         ButterKnife.bind(this);
 
-        homeFragment = HomeFragment.newInstance();
-        FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, homeFragment);
-        t.commit();
+        if (savedInstanceState == null) {
+            homeFragment = HomeFragment.newInstance();
+            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
+            t.replace(R.id.fragment_holder, homeFragment);
+            t.commit();
+        }
     }
 
 }
