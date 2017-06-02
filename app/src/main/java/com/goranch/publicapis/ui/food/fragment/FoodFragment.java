@@ -1,8 +1,9 @@
 package com.goranch.publicapis.ui.food.fragment;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,12 +21,15 @@ import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.food.DaggerFoodComponent;
+import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.FoodModule;
 import com.goranch.publicapis.ui.food.RecipeListPresenter;
 import com.goranch.publicapis.ui.food.RecipeRecyclerAdapter;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
+import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -35,7 +39,7 @@ import butterknife.ButterKnife;
 /**
  * Created by goran on 03/01/2017.
  */
-public class FoodFragment extends Fragment implements SearchRecipeView, TextView.OnEditorActionListener {
+public class FoodFragment extends LifecycleFragment implements SearchRecipeView, TextView.OnEditorActionListener {
     public static final String RECIPE_ITEM = "recipe_item";
     @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -52,8 +56,12 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
     @Inject
     SearchRecipeView mSearchRecipeView;
 
+    @Inject
+    FoodDataRepositoryImpl repository;
+
     private RecipeRecyclerAdapter adapter;
-    private ArrayList<Recipe> recipes = new ArrayList<>();
+    private List<Recipe> mRecipes = new ArrayList<>();
+    private FoodViewModel viewModel;
 
     public static FoodFragment newInstance() {
         return new FoodFragment();
@@ -81,7 +89,7 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
         setRetainInstance(true);
         if (savedInstanceState == null) {
 
-            adapter = new RecipeRecyclerAdapter(presenter, recipes);
+            adapter = new RecipeRecyclerAdapter(presenter, mRecipes);
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
@@ -91,7 +99,7 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
             search.setOnEditorActionListener(this);
             search.requestFocus();
 
-            //TODO remove this later
+            //TODO save the last searched recipe and set it here
             search.setText("Chicken");
 
         }
@@ -99,24 +107,36 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        FoodViewModel.Factory factory = new FoodViewModel.Factory(repository);
+
+        viewModel = ViewModelProviders.of(this, factory).get(FoodViewModel.class);
+
+    }
+
+
+    public void getRecipes(String query) {
+        showProgress();
+        viewModel.getRecipes(query).observe(this, recipes -> {
+            hideProgress();
+            mRecipes = recipes;
+            adapter.setRecipes(recipes);
+            adapter.notifyDataSetChanged();
+        });
+    }
+    @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
             || (actionId == EditorInfo.IME_ACTION_DONE)) {
-            presenter.onSearchRequest(search.getText().toString());
+            getRecipes(search.getText().toString());
         } else if (actionId == EditorInfo.IME_ACTION_SEARCH
             || event == null
             || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-            presenter.onSearchRequest(search.getText().toString());
+            getRecipes(search.getText().toString());
         }
         return false;
-    }
-
-    @Override
-    public void onDataUpdated(ArrayList<Recipe> data) {
-        this.recipes = data;
-        adapter.setRecipes(data);
-        adapter.notifyDataSetChanged();
-
     }
 
     @Override

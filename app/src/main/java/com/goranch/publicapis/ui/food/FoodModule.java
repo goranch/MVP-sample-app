@@ -32,8 +32,8 @@ public class FoodModule {
 
     @Provides
     @FoodScope
-    RecipeListPresenter provideRecipePresenter(SearchRecipeView searchRecipeView, FoodDataRepositoryImpl foodDataRepository) {
-        return new RecipeListPresenterImpl(searchRecipeView, foodDataRepository);
+    RecipeListPresenter provideRecipePresenter(SearchRecipeView searchRecipeView) {
+        return new RecipeListPresenterImpl(searchRecipeView);
     }
 
 }

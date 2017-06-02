@@ -36,18 +36,18 @@ public class HomeFragment extends Fragment implements HomeView {
     @OnClick(R.id.btn_shazam)
     void clickMusic() {
         MusicFragment musicFragment = MusicFragment.newInstance();
-        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, musicFragment);
-        t.addToBackStack(null);
-        t.commit();
-
+        replaceFragment(musicFragment);
     }
 
     @OnClick(R.id.btn_food)
     void clickFood() {
         FoodFragment foodFragment = FoodFragment.newInstance();
+        replaceFragment(foodFragment);
+    }
+
+    private void replaceFragment(Fragment fragment) {
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, foodFragment);
+        t.replace(R.id.fragment_holder, fragment);
         t.addToBackStack(null);
         t.commit();
     }

@@ -1,9 +1,13 @@
 package com.goranch.publicapis.ui.food;
 
-import com.goranch.publicapis.api.FoodService;
-import com.goranch.publicapis.api.model.food.Recipe;
+import android.util.Log;
 
-import java.util.ArrayList;
+import com.goranch.publicapis.api.FoodService;
+import com.goranch.publicapis.api.model.food.ApiResult;
+import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.RecipeContainer;
+
+import java.util.List;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -13,6 +17,7 @@ import rx.schedulers.Schedulers;
  * Created by goranch on 30/03/16.
  */
 public class FoodDataRepositoryImpl implements IDataRepository {
+    private static final String TAGS = FoodDataRepositoryImpl.class.getSimpleName();
     private final FoodService mFoodService;
 
     public FoodDataRepositoryImpl(FoodService foodService) {
@@ -20,35 +25,27 @@ public class FoodDataRepositoryImpl implements IDataRepository {
     }
 
     @Override
-    public void searchRecipes(final String apiKey, String searchQuery, Callback<ArrayList<Recipe>> callback) {
+    public Observable<List<Recipe>> searchRecipes(final String apiKey, String searchQuery) {
 
-        final Observable<ArrayList<Recipe>> recipeListObservable = mFoodService.searchRecipes(apiKey, searchQuery)
+        Log.d(TAGS, "search recipes");
+
+        return mFoodService.searchRecipes(apiKey, searchQuery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(recipes -> {
-                    final ArrayList<Recipe> recipeArrayList = recipes.getRecipes();
-                    callback.onDataUpdated(recipeArrayList);
-                    return recipeArrayList;
-                });
+                .map(ApiResult::getRecipes);
 
         // handle http error
-        recipeListObservable.subscribe(recipes -> {
-        }, callback::onError);
+//        recipeListObservable.subscribe(recipes -> {
+//        }, throwable -> throwable.toString());
     }
 
     @Override
-    public void getRecipe(String apiKey, String recipeId, Callback<Recipe> recipeCallback) {
+    public Observable<Recipe> getRecipe(String apiKey, String recipeId) {
 
-        final Observable<Recipe> recipeObservable = mFoodService.getRecipe(apiKey, recipeId)
+        return mFoodService.getRecipe(apiKey, recipeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(recipe -> {
-                    final Recipe rec = recipe.getRecipe();
-                    recipeCallback.onDataUpdated(rec);
-                    return rec;
-                });
+                .map(RecipeContainer::getRecipe);
 
-        recipeObservable.subscribe(recipe -> {
-        }, recipeCallback::onError);
     }
 }

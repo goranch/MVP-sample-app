@@ -30,10 +30,4 @@ public class DetailsFoodModule {
     FoodDataRepositoryImpl provideFoodDataRepo(FoodService foodService) {
         return new FoodDataRepositoryImpl(foodService);
     }
-
-    @Provides
-    @FoodDetailScope
-    RecipeDetailPresenter provideDetailRecipePresenter(DetailRecipeView detailRecipeView, FoodDataRepositoryImpl foodDataRepository) {
-        return new RecipeDetailPresenterImpl(detailRecipeView, foodDataRepository);
-    }
 }
