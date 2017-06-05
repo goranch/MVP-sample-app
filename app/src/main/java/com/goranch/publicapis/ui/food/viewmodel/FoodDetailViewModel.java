@@ -14,21 +14,20 @@ import com.goranch.publicapis.ui.food.IDataRepository;
  */
 
 public class FoodDetailViewModel extends ViewModel {
-    private final MutableLiveData<Object> recipeObservable;
+    private final MutableLiveData<Recipe> recipeObservable = new MutableLiveData<>();
     private IDataRepository repository;
 
     public FoodDetailViewModel(IDataRepository foodDataRepository) {
         this.repository = foodDataRepository;
-        recipeObservable = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Object> getRecipe(String recipeId) {
-        rx.Observable<Recipe> getRecipeObservable = repository.getRecipe(ApiModule.API_KEY, recipeId);
+    public void getRecipe(String recipeId) {
+        repository.getRecipe(ApiModule.API_KEY, recipeId)
+                .subscribe(recipeObservable::setValue);
+    }
 
-        getRecipeObservable.subscribe(recipeObservable::setValue);
-
+    public MutableLiveData<Recipe> getObservableRecipe() {
         return recipeObservable;
-
     }
 
     //Inject dependencies

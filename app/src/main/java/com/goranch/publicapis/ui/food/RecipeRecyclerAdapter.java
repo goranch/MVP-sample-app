@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,12 @@ import butterknife.ButterKnife;
  * Created by goranch on 30/03/16.
  */
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
-    RecipeListPresenter presenter;
     private List<Recipe> recipes = new ArrayList<>();
+    private FoodViewModel viewModel;
 
-    public RecipeRecyclerAdapter(RecipeListPresenter presenter, List<Recipe> recipes) {
-        this.presenter = presenter;
+    public RecipeRecyclerAdapter(FoodViewModel viewModel, List<Recipe> recipes) {
         this.recipes = recipes;
+        this.viewModel = viewModel;
     }
 
     public void setRecipes(List<Recipe> recipes) {
@@ -52,7 +53,12 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
 
     @Override
     public int getItemCount() {
-        return recipes.size();
+        if (recipes != null) {
+            return recipes.size();
+        } else {
+            return 0;
+        }
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -73,7 +79,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         @Override
         public void onClick(View v) {
 
-            presenter.onItemClicked(mItem);
+            viewModel.onItemClicked(mItem);
 
         }
     }

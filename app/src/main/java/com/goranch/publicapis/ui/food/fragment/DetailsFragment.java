@@ -109,9 +109,15 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
         viewModel = ViewModelProviders.of(this, factory).get(FoodDetailViewModel.class);
 
-        showProgress();
-        viewModel.getRecipe(recipeId).observe(this, recipe -> loadNewData((Recipe) recipe));
+        subscribeToLiveDataChanges();
 
+        showProgress();
+        viewModel.getRecipe(recipeId);
+
+    }
+
+    private void subscribeToLiveDataChanges() {
+        viewModel.getObservableRecipe().observe(this, this::loadNewData);
     }
 
     private void loadNewData(Recipe recipe) {
@@ -160,13 +166,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
         t.addToBackStack(null);
         t.commit();
     }
-
-//    @Override
-//    public void onError(Throwable throwable) {
-//        if (getView() != null) {
-//            Snackbar.make(getView(), "No recipe details bro", LENGTH_LONG).show();
-//        }
-//    }
 
     @Override
     public void showProgress() {

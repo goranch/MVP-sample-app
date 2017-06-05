@@ -41,7 +41,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     // Java Reactive Extensions
-s    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'io.reactivex:rxandroid:1.2.0'
     compile "io.reactivex.rxjava2:rxjava:2.1.0"
 
     compile 'com.f2prateek.rx.preferences:rx-preferences:1.0.1'

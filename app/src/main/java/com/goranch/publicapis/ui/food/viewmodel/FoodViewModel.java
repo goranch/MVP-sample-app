@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.goranch.publicapis.api.ApiModule;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.ui.food.IDataRepository;
+import com.goranch.publicapis.ui.food.SearchRecipeView;
 
 import java.util.List;
 
@@ -17,39 +18,50 @@ import java.util.List;
 
 public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private static final String TAG = FoodViewModel.class.getSimpleName();
-    private MutableLiveData<List<Recipe>> recipes;
+    private MutableLiveData<List<Recipe>> observableRecipes = new MutableLiveData<>();
     private IDataRepository repository;
+    private SearchRecipeView view;
 
-    public FoodViewModel(IDataRepository foodDataRepository) {
+    public FoodViewModel(IDataRepository foodDataRepository, SearchRecipeView view) {
         this.repository = foodDataRepository;
-        recipes = new MutableLiveData<>();
+        this.view = view;
     }
 
     @Override
-    public MutableLiveData<List<Recipe>> getRecipes(String query) {
-
-        rx.Observable<List<Recipe>> getRecipesObservable = repository.searchRecipes(ApiModule.API_KEY, query);
-
-        //load data so it can be refreshed in the UI
-        getRecipesObservable.subscribe(recipeList -> recipes.setValue(recipeList));
-
-        return recipes;
+    public void getRecipes(String query) {
+        repository.searchRecipes(ApiModule.API_KEY, query)
+                .subscribe(observableRecipes::setValue);
     }
 
-    //Inject dependencies
+    @Override
+    public void onItemClicked(Recipe item) {
+        view.openDetailsFragment(item);
+    }
+
+    public MutableLiveData<List<Recipe>> getObservableRecipes() {
+        return observableRecipes;
+    }
+
+    //Inject dependencies. It was the preferred way in the example app by Google
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
         private final IDataRepository repository;
 
-        public Factory(@NonNull IDataRepository repository) {
+        //TODO check if its a good idea to hold a reference to the fragment here
+        @NonNull
+        private final SearchRecipeView view;
+
+        public Factory(@NonNull IDataRepository repository,
+                       @NonNull SearchRecipeView view) {
             this.repository = repository;
+            this.view = view;
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new FoodViewModel(repository);
+            return (T) new FoodViewModel(repository, view);
         }
     }
 }

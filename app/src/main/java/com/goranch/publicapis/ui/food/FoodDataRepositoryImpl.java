@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
  * Created by goranch on 30/03/16.
  */
 public class FoodDataRepositoryImpl implements IDataRepository {
-    private static final String TAGS = FoodDataRepositoryImpl.class.getSimpleName();
+    private static final String TAG = FoodDataRepositoryImpl.class.getSimpleName();
     private final FoodService mFoodService;
 
     public FoodDataRepositoryImpl(FoodService foodService) {
@@ -27,16 +27,13 @@ public class FoodDataRepositoryImpl implements IDataRepository {
     @Override
     public Observable<List<Recipe>> searchRecipes(final String apiKey, String searchQuery) {
 
-        Log.d(TAGS, "search recipes");
+        Log.d(TAG, "search recipes");
 
         return mFoodService.searchRecipes(apiKey, searchQuery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(ApiResult::getRecipes);
-
-        // handle http error
-//        recipeListObservable.subscribe(recipes -> {
-//        }, throwable -> throwable.toString());
+                .map(ApiResult::getRecipes)
+                .doOnError(Throwable::toString);
     }
 
     @Override
@@ -45,7 +42,8 @@ public class FoodDataRepositoryImpl implements IDataRepository {
         return mFoodService.getRecipe(apiKey, recipeId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(RecipeContainer::getRecipe);
+                .map(RecipeContainer::getRecipe)
+                .doOnError(Throwable::toString);
 
     }
 }
