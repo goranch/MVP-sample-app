@@ -9,10 +9,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by goran on 10/09/2016.
- */
-
 @Module
 public class PublicApisModule {
     private final PublicAPIsApp app;

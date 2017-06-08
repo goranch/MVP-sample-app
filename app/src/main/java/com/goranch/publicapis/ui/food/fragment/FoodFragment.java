@@ -37,9 +37,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by goran on 03/01/2017.
- */
 public class FoodFragment extends LifecycleFragment implements SearchRecipeView, TextView.OnEditorActionListener {
     public static final String RECIPE_ITEM = "recipe_item";
     private static final String TAG = FoodFragment.class.getSimpleName();
@@ -86,6 +83,12 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
         ButterKnife.bind(this, v);
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.food_search);
     }
 
     @Override

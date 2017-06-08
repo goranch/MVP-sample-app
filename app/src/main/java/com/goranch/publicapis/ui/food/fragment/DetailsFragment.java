@@ -113,7 +113,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
         showProgress();
         viewModel.getRecipe(recipeId);
-
     }
 
     private void subscribeToLiveDataChanges() {
@@ -121,11 +120,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     }
 
     private void loadNewData(Recipe recipe) {
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(recipeData.getTitle());
-
         hideProgress();
 
         recipeData = recipe;
+
+        getActivity().setTitle(recipe.getTitle());
+
+        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
 
         ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
 
@@ -134,7 +135,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
             ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
         }
 
-        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
         publishersName.setText(recipe.getPublisher());
         socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
 

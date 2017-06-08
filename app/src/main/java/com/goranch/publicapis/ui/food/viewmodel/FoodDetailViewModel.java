@@ -9,10 +9,6 @@ import com.goranch.publicapis.api.ApiModule;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.ui.food.IDataRepository;
 
-/**
- * Created by goran on 01/06/2017.
- */
-
 public class FoodDetailViewModel extends ViewModel {
     private final MutableLiveData<Recipe> recipeObservable = new MutableLiveData<>();
     private IDataRepository repository;

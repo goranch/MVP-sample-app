@@ -12,4 +12,6 @@
     <string name="search_recipe">Search recipe</string>
     <string name="info">info</string>
     <string name="search">Search</string>
+    <string name="details_food">Details</string>
+    <string name="food_search">Search z food</string>
 </resources>

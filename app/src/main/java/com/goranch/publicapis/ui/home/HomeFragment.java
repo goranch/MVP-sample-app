@@ -1,5 +1,6 @@
 package com.goranch.publicapis.ui.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,16 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.goranch.publicapis.R;
-import com.goranch.publicapis.ui.food.fragment.FoodFragment;
+import com.goranch.publicapis.ui.food.FoodActivity;
 import com.goranch.publicapis.ui.shazam.MusicFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-/**
- * Created by goran on 24/09/2016.
- */
 
 public class HomeFragment extends Fragment implements HomeView {
 
@@ -41,8 +38,8 @@ public class HomeFragment extends Fragment implements HomeView {
 
     @OnClick(R.id.btn_food)
     void clickFood() {
-        FoodFragment foodFragment = FoodFragment.newInstance();
-        replaceFragment(foodFragment);
+        Intent i = new Intent(getActivity(), FoodActivity.class);
+        startActivity(i);
     }
 
     private void replaceFragment(Fragment fragment) {

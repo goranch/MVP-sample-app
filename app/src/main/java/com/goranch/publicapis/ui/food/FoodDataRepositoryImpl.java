@@ -13,9 +13,6 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by goranch on 30/03/16.
- */
 public class FoodDataRepositoryImpl implements IDataRepository {
     private static final String TAG = FoodDataRepositoryImpl.class.getSimpleName();
     private final FoodService mFoodService;
