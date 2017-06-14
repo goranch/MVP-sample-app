@@ -1,3 +1,3 @@
 # README #
 
-### sample MVP architecture implementation  ###
+### Sample MVP architecture implementation  ###
