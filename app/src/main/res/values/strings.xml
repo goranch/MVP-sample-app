@@ -11,4 +11,10 @@
     <string name="view_original">View Original</string>
     <string name="search_recipe">Search recipe</string>
     <string name="info">info</string>
+    <string name="search">Search</string>
+    <string name="details_food">Details</string>
+    <string name="food_search">Search for recipes</string>
+    <string name="no_recipe_id">No Recipe Id</string>
+    <string name="source">Source:</string>
+    <string name="rating">Rating:</string>
 </resources>

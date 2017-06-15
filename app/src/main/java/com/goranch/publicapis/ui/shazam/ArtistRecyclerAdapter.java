@@ -13,12 +13,9 @@ import com.goranch.publicapis.api.model.shazam.Item;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Goran Ch on 16/04/16.
- */
 public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAdapter.ViewHolder>{
     private final TrendingPresenter presenter;
     private ArrayList<Item> items = new ArrayList<>();
@@ -61,13 +58,13 @@ public class ArtistRecyclerAdapter extends RecyclerView.Adapter<ArtistRecyclerAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.tv_title)
+        @BindView(R.id.tv_title)
         public TextView title;
 
-        @Bind(R.id.tv_subtitle)
+        @BindView(R.id.tv_subtitle)
         public TextView subtitle;
 
-        @Bind(R.id.iv_art_image)
+        @BindView(R.id.iv_art_image)
         public SimpleDraweeView image;
 
         Item mItem;

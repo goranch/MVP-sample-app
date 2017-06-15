@@ -1,5 +1,6 @@
 package com.goranch.publicapis.ui.food;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,25 +10,24 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by goranch on 30/03/16.
- */
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
-    RecipeListPresenter presenter;
-    private ArrayList<Recipe> recipes = new ArrayList<>();
+    private List<Recipe> recipes = new ArrayList<>();
+    private FoodViewModel viewModel;
 
-    public RecipeRecyclerAdapter(RecipeListPresenter presenter, ArrayList<Recipe> recipes) {
-        this.presenter = presenter;
+    public RecipeRecyclerAdapter(FoodViewModel viewModel, List<Recipe> recipes) {
         this.recipes = recipes;
+        this.viewModel = viewModel;
     }
 
-    public void setRecipes(ArrayList<Recipe> recipes) {
+    public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
     }
 
@@ -41,20 +41,28 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        presenter.onBindViewHolder(holder, position, recipes);
+        final Recipe recipe = recipes.get(position);
 
+        holder.mItem = recipe;
+        holder.title.setText(recipe.getTitle());
+        holder.image.setImageURI(Uri.parse(recipe.getImageUrl()));
     }
 
     @Override
     public int getItemCount() {
-        return recipes.size();
+        if (recipes != null) {
+            return recipes.size();
+        } else {
+            return 0;
+        }
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.tv_name)
+        @BindView(R.id.tv_name)
         public TextView title;
 
-        @Bind(R.id.recipe_image)
+        @BindView(R.id.recipe_image)
         public SimpleDraweeView image;
 
         Recipe mItem;
@@ -68,7 +76,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         @Override
         public void onClick(View v) {
 
-            presenter.onItemClicked(mItem);
+            viewModel.onItemClicked(mItem);
 
         }
     }

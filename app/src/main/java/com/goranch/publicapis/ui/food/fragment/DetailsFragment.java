@@ -1,10 +1,11 @@
 package com.goranch.publicapis.ui.food.fragment;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,46 +20,45 @@ import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
+import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
 import com.goranch.publicapis.ui.food.details.DetailRecipeView;
 import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
-import com.goranch.publicapis.ui.food.details.RecipeDetailPresenter;
+import com.goranch.publicapis.ui.food.viewmodel.FoodDetailViewModel;
 import com.goranch.publicapis.ui.webview.WebFragment;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
 
-public class DetailsFragment extends Fragment implements DetailRecipeView, View.OnClickListener {
+public class DetailsFragment extends LifecycleFragment implements DetailRecipeView {
 
     public static final String URL = "details_food_url";
-    @Bind(R.id.iv_recipe_img)
+    @BindView(R.id.iv_recipe_img)
     SimpleDraweeView recipeImage;
-    @Bind(R.id.lv_igredients)
+    @BindView(R.id.lv_ingredients)
     LinearLayout ingredientsLinearLayout;
-    @Bind(R.id.tv_view_instrouctions)
-    TextView instructions;
-    @Bind(R.id.tv_view_original)
-    TextView viewOriginal;
-    @Bind(R.id.tv_publichers_name)
+    @BindView(R.id.tv_publishers_name)
     TextView publishersName;
-    @Bind(R.id.tv_social_rank)
+    @BindView(R.id.tv_social_rank)
     TextView socialRank;
-    @Bind(R.id.progressBar3)
+    @BindView(R.id.progressBar3)
     ProgressBar progressBar;
-
-    @Inject
-    RecipeDetailPresenter presenter;
 
     @Inject
     DetailRecipeView mDetailRecipeView;
 
+    @Inject
+    FoodDataRepositoryImpl repository;
+
     private Recipe recipeData;
     private String recipeId;
+    private FoodDetailViewModel viewModel;
 
     public static DetailsFragment newInstance(Recipe mItem) {
         Bundle b = new Bundle();
@@ -89,50 +89,62 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
         if (getArguments() != null) {
             Bundle b = getArguments();
             recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
-            presenter.onLoad(recipeId);
         } else {
             if (getView() != null) {
-                Snackbar.make(getView(), "No Recipe Id", LENGTH_LONG).show();
+                Snackbar.make(getView(), R.string.no_recipe_id, LENGTH_LONG).show();
             }
         }
 
         return v;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        FoodDetailViewModel.Factory factory = new FoodDetailViewModel.Factory(repository);
+
+        viewModel = ViewModelProviders.of(this, factory).get(FoodDetailViewModel.class);
+
+        subscribeToLiveDataChanges();
+
+        showProgress();
+        viewModel.getRecipe(recipeId);
+    }
+
+    private void subscribeToLiveDataChanges() {
+        viewModel.getObservableRecipe().observe(this, this::loadNewData);
+    }
+
     private void loadNewData(Recipe recipe) {
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(recipeData.getTitle());
+        hideProgress();
 
         recipeData = recipe;
 
-        ArrayAdapter ingredientsAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, recipe.getIngredients());
+        getActivity().setTitle(recipe.getTitle());
+
+        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
+
+        ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
 
         ingredientsLinearLayout.removeAllViews();
         for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
             ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
         }
 
-        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
         publishersName.setText(recipe.getPublisher());
         socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
 
-        instructions.setOnClickListener(this);
-        viewOriginal.setOnClickListener(this);
-
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_view_instrouctions:
-                openWebView(recipeData.getF2fUrl());
-                break;
-            case R.id.tv_view_original:
-                openWebView(recipeData.getPublisherUrl());
-                break;
-            default:
-                break;
-        }
+    @OnClick(R.id.tv_view_instructions)
+    public void openInstructions() {
+        openWebView(recipeData.getF2fUrl());
+    }
 
+    @OnClick(R.id.tv_view_original)
+    public void openPublisher() {
+        openWebView(recipeData.getPublisherUrl());
     }
 
     @Override
@@ -145,24 +157,12 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     }
 
     @Override
-    public void onError(Throwable throwable) {
-        if (getView() != null) {
-            Snackbar.make(getView(), "No recipe details bro", LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onDataUpdated(Recipe data) {
-        loadNewData(data);
-    }
-
-    @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

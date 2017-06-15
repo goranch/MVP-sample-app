@@ -7,9 +7,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
-/**
- * Created by goran on 15/09/2016.
- */
 public interface FoodService {
 
     @GET("/api/search")

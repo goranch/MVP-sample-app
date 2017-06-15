@@ -6,10 +6,6 @@ import com.goranch.publicapis.di.scopes.FoodScope;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by goran on 21/09/2016.
- */
-
 @Module
 public class FoodModule {
     private final SearchRecipeView mSearchRecipeView;
@@ -30,10 +26,10 @@ public class FoodModule {
         return new FoodDataRepositoryImpl(foodService);
     }
 
-    @Provides
-    @FoodScope
-    RecipeListPresenter provideRecipePresenter(SearchRecipeView searchRecipeView, FoodDataRepositoryImpl foodDataRepository) {
-        return new RecipeListPresenterImpl(searchRecipeView, foodDataRepository);
-    }
+//    @Provides
+//    @FoodScope
+//    FoodViewModel provideFoodViewModel(IDataRepository repository, SearchRecipeView view) {
+//        return ViewModelProviders.of((LifecycleFragment) view, new FoodViewModel.Factory(repository, view)).get(FoodViewModel.class);
+//    }
 
 }

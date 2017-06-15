@@ -16,15 +16,15 @@ import com.goranch.publicapis.R;
 import com.goranch.publicapis.ui.details.DetailsShazamFragment;
 import com.goranch.publicapis.ui.food.fragment.DetailsFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WebFragment extends Fragment {
 
-    @Bind(R.id.web_view)
+    @BindView(R.id.web_view)
     WebView vw;
 
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     String contentUrl;

@@ -6,10 +6,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 
-/**
- * Created by goran on 10/09/2016.
- */
-
 @Singleton
 @Component(modules = {PublicApisModule.class})
 public interface PublicApisComponent {
