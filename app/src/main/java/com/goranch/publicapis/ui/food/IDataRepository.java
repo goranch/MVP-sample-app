@@ -2,19 +2,15 @@ package com.goranch.publicapis.ui.food;
 
 import com.goranch.publicapis.api.model.food.Recipe;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import rx.Observable;
 
 /**
  * Created by goranch on 30/03/16.
  */
 public interface IDataRepository {
-    void searchRecipes(String searchQuery, String apiKey, Callback<ArrayList<Recipe>> recipes);
+    Observable<List<Recipe>> searchRecipes(String searchQuery, String apiKey);
 
-    void getRecipe(String recipeId, String apikey, Callback<Recipe> recipeCallback);
-
-    interface Callback<T> {
-        void onDataUpdated(T data);
-
-        void onError(Throwable throwable);
-    }
+    Observable<Recipe> getRecipe(String recipeId, String apiKey);
 }

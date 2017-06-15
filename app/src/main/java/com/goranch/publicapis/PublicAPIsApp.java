@@ -11,9 +11,6 @@ import com.goranch.publicapis.di.DaggerPublicApisComponent;
 import com.goranch.publicapis.di.PublicApisComponent;
 import com.goranch.publicapis.di.PublicApisModule;
 
-/**
- * Created by Goran Ch on 16/04/16.
- */
 public class PublicAPIsApp extends Application implements ComponentProvider<ApiComponent> {
     private ApiComponent apiComponent;
 

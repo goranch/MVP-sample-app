@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="10dp">
+
+
+    <Button
+        android:id="@+id/tv_view_instructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/title_padding"
+        android:text="@string/view_instructions"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@id/tv_publishers_name" />
+
+    <Button
+        android:id="@+id/tv_view_original"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/title_padding"
+        android:text="@string/view_original"
+        android:layout_below="@id/tv_view_instructions"
+        android:layout_alignEnd="@id/tv_view_instructions" />
+
+    <TextView
+        android:id="@+id/tv_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/source"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_above="@id/tv_publishers_name"
+        android:layout_alignStart="@id/tv_publishers_name" />
+    <TextView
+        android:id="@+id/tv_publishers_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Small Text small text"
+        android:maxLength="20"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@android:color/black"
+        android:layout_above="@id/tv_view_original"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/tv_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rating"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignBaseline="@id/tv_view_original"
+        android:layout_alignBottom="@id/tv_view_original"
+        android:layout_toEndOf="@id/tv_view_original" />
+
+    <TextView
+        android:id="@+id/tv_social_rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignBaseline="@id/tv_rating"
+        android:layout_alignBottom="@id/tv_rating"
+        android:layout_toEndOf="@id/tv_rating"
+        android:textColor="@android:color/black"/>
+</RelativeLayout>

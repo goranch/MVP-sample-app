@@ -1,11 +1,13 @@
 package com.goranch.publicapis.ui.food.fragment;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,23 +22,24 @@ import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.food.DaggerFoodComponent;
+import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.FoodModule;
-import com.goranch.publicapis.ui.food.RecipeListPresenter;
 import com.goranch.publicapis.ui.food.RecipeRecyclerAdapter;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
+import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-/**
- * Created by goran on 03/01/2017.
- */
-public class FoodFragment extends Fragment implements SearchRecipeView, TextView.OnEditorActionListener {
+public class FoodFragment extends LifecycleFragment implements SearchRecipeView, TextView.OnEditorActionListener {
     public static final String RECIPE_ITEM = "recipe_item";
+    private static final String TAG = FoodFragment.class.getSimpleName();
     @Bind(R.id.recyclerview)
     RecyclerView recyclerView;
 
@@ -47,13 +50,14 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
     ProgressBar progressBar;
 
     @Inject
-    RecipeListPresenter presenter;
-
-    @Inject
     SearchRecipeView mSearchRecipeView;
 
+    @Inject
+    FoodDataRepositoryImpl repository;
+
     private RecipeRecyclerAdapter adapter;
-    private ArrayList<Recipe> recipes = new ArrayList<>();
+    private List<Recipe> mRecipes = new ArrayList<>();
+    private FoodViewModel viewModel;
 
     public static FoodFragment newInstance() {
         return new FoodFragment();
@@ -66,9 +70,9 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
         setRetainInstance(true);
         ApiComponent apiComponent = ((ComponentProvider<ApiComponent>) getActivity().getApplicationContext()).getComponent();
         DaggerFoodComponent.builder()
-            .apiComponent(apiComponent)
-            .foodModule(new FoodModule(this))
-            .build().inject(this);
+                .apiComponent(apiComponent)
+                .foodModule(new FoodModule(this))
+                .build().inject(this);
     }
 
     @Override
@@ -78,52 +82,68 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
 
         ButterKnife.bind(this, v);
 
-        setRetainInstance(true);
-        if (savedInstanceState == null) {
-
-            adapter = new RecipeRecyclerAdapter(presenter, recipes);
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-
-            recyclerView.setAdapter(adapter);
-
-            search.setSingleLine();
-            search.setOnEditorActionListener(this);
-            search.requestFocus();
-
-            //TODO remove this later
-            search.setText("Chicken");
-
-        }
         return v;
     }
 
     @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
-            || (actionId == EditorInfo.IME_ACTION_DONE)) {
-            presenter.onSearchRequest(search.getText().toString());
-        } else if (actionId == EditorInfo.IME_ACTION_SEARCH
-            || event == null
-            || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-            presenter.onSearchRequest(search.getText().toString());
-        }
-        return false;
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(R.string.food_search);
     }
 
     @Override
-    public void onDataUpdated(ArrayList<Recipe> data) {
-        this.recipes = data;
-        adapter.setRecipes(data);
-        adapter.notifyDataSetChanged();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
+        FoodViewModel.Factory factory = new FoodViewModel.Factory(repository, this);
+
+        viewModel = ViewModelProviders.of(this, factory).get(FoodViewModel.class);
+
+        adapter = new RecipeRecyclerAdapter(viewModel, mRecipes);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+
+        recyclerView.setAdapter(adapter);
+
+        search.setSingleLine();
+        search.setOnEditorActionListener(this);
+        search.requestFocus();
+
+        //TODO save the last searched recipe and set it here
+        search.setText("Chicken");
+
+        subscribeToLiveDataChanges();
+    }
+
+    private void subscribeToLiveDataChanges() {
+        viewModel.getObservableRecipes().observe(this, recipes -> {
+            if (recipes == null) {
+                showProgress();
+            } else {
+                Log.d(TAG, "size: " + recipes.size());
+                hideProgress();
+                mRecipes = recipes;
+                adapter.setRecipes(recipes);
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+
+    public void getRecipes(String query) {
+        showProgress();
+        viewModel.getRecipes(query);
+    }
+
+    @OnClick(R.id.btn_search)
+    public void searchRecipe() {
+        showProgress();
+        viewModel.getRecipes(search.getText().toString());
     }
 
     @Override
     public void showProgress() {
-
         progressBar.setVisibility(View.VISIBLE);
-
     }
 
     @Override
@@ -141,12 +161,15 @@ public class FoodFragment extends Fragment implements SearchRecipeView, TextView
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER))
+                || (actionId == EditorInfo.IME_ACTION_DONE)) {
+            getRecipes(search.getText().toString());
+        } else if (actionId == EditorInfo.IME_ACTION_SEARCH
+                || event == null
+                || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+            getRecipes(search.getText().toString());
+        }
+        return false;
     }
 }

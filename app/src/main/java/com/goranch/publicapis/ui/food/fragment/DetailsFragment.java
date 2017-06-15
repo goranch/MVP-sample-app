@@ -1,10 +1,11 @@
 package com.goranch.publicapis.ui.food.fragment;
 
+import android.arch.lifecycle.LifecycleFragment;
+import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +20,11 @@ import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
+import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
 import com.goranch.publicapis.ui.food.details.DetailRecipeView;
 import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
-import com.goranch.publicapis.ui.food.details.RecipeDetailPresenter;
+import com.goranch.publicapis.ui.food.viewmodel.FoodDetailViewModel;
 import com.goranch.publicapis.ui.webview.WebFragment;
 
 import javax.inject.Inject;
@@ -33,7 +35,7 @@ import butterknife.ButterKnife;
 import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
 
-public class DetailsFragment extends Fragment implements DetailRecipeView, View.OnClickListener {
+public class DetailsFragment extends LifecycleFragment implements DetailRecipeView, View.OnClickListener {
 
     public static final String URL = "details_food_url";
     @Bind(R.id.iv_recipe_img)
@@ -52,13 +54,14 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
     ProgressBar progressBar;
 
     @Inject
-    RecipeDetailPresenter presenter;
+    DetailRecipeView mDetailRecipeView;
 
     @Inject
-    DetailRecipeView mDetailRecipeView;
+    FoodDataRepositoryImpl repository;
 
     private Recipe recipeData;
     private String recipeId;
+    private FoodDetailViewModel viewModel;
 
     public static DetailsFragment newInstance(Recipe mItem) {
         Bundle b = new Bundle();
@@ -89,7 +92,6 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
         if (getArguments() != null) {
             Bundle b = getArguments();
             recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
-            presenter.onLoad(recipeId);
         } else {
             if (getView() != null) {
                 Snackbar.make(getView(), "No Recipe Id", LENGTH_LONG).show();
@@ -99,19 +101,40 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
         return v;
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        FoodDetailViewModel.Factory factory = new FoodDetailViewModel.Factory(repository);
+
+        viewModel = ViewModelProviders.of(this, factory).get(FoodDetailViewModel.class);
+
+        subscribeToLiveDataChanges();
+
+        showProgress();
+        viewModel.getRecipe(recipeId);
+    }
+
+    private void subscribeToLiveDataChanges() {
+        viewModel.getObservableRecipe().observe(this, this::loadNewData);
+    }
+
     private void loadNewData(Recipe recipe) {
-//        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(recipeData.getTitle());
+        hideProgress();
 
         recipeData = recipe;
 
-        ArrayAdapter ingredientsAdapter = new ArrayAdapter(getContext(), android.R.layout.simple_list_item_1, recipe.getIngredients());
+        getActivity().setTitle(recipe.getTitle());
+
+        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
+
+        ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
 
         ingredientsLinearLayout.removeAllViews();
         for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
             ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
         }
 
-        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
         publishersName.setText(recipe.getPublisher());
         socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
 
@@ -142,18 +165,6 @@ public class DetailsFragment extends Fragment implements DetailRecipeView, View.
         t.replace(R.id.fragment_holder, f);
         t.addToBackStack(null);
         t.commit();
-    }
-
-    @Override
-    public void onError(Throwable throwable) {
-        if (getView() != null) {
-            Snackbar.make(getView(), "No recipe details bro", LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onDataUpdated(Recipe data) {
-        loadNewData(data);
     }
 
     @Override
