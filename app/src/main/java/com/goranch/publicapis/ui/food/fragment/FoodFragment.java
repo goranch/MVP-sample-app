@@ -2,12 +2,12 @@ package com.goranch.publicapis.ui.food.fragment;
 
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,20 +33,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FoodFragment extends LifecycleFragment implements SearchRecipeView, TextView.OnEditorActionListener {
     public static final String RECIPE_ITEM = "recipe_item";
     private static final String TAG = FoodFragment.class.getSimpleName();
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
-    @Bind(R.id.et_search)
+    @BindView(R.id.et_search)
     EditText search;
 
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     ProgressBar progressBar;
 
     @Inject
@@ -56,8 +56,9 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
     FoodDataRepositoryImpl repository;
 
     private RecipeRecyclerAdapter adapter;
-    private List<Recipe> mRecipes = new ArrayList<>();
+    private List<Recipe> recipes = new ArrayList<>();
     private FoodViewModel viewModel;
+    private GridLayoutManager gridLayoutManager;
 
     public static FoodFragment newInstance() {
         return new FoodFragment();
@@ -99,9 +100,15 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
         viewModel = ViewModelProviders.of(this, factory).get(FoodViewModel.class);
 
-        adapter = new RecipeRecyclerAdapter(viewModel, mRecipes);
+        adapter = new RecipeRecyclerAdapter(viewModel, recipes);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayoutManager = new GridLayoutManager(getActivity(), 1, Configuration.ORIENTATION_PORTRAIT, false);
+        } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            gridLayoutManager = new GridLayoutManager(getActivity(), 4, Configuration.ORIENTATION_UNDEFINED, false);
+        }
+
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         recyclerView.setAdapter(adapter);
 
@@ -115,14 +122,14 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
         subscribeToLiveDataChanges();
     }
 
+    // this method will be invoked with the new data every time when the data changes in the ViewModel class.
     private void subscribeToLiveDataChanges() {
         viewModel.getObservableRecipes().observe(this, recipes -> {
             if (recipes == null) {
                 showProgress();
             } else {
-                Log.d(TAG, "size: " + recipes.size());
                 hideProgress();
-                mRecipes = recipes;
+                this.recipes = recipes;
                 adapter.setRecipes(recipes);
                 adapter.notifyDataSetChanged();
             }

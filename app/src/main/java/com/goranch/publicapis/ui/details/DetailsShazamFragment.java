@@ -19,24 +19,21 @@ import com.goranch.publicapis.api.model.shazam.Item;
 import com.goranch.publicapis.ui.shazam.MusicFragment;
 import com.goranch.publicapis.ui.webview.WebFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by Goran Ch on 16/04/16.
- */
 public class DetailsShazamFragment extends Fragment {
     public static final String URL = "more_details_url";
-    @Bind(R.id.iv_art_img)
+    @BindView(R.id.iv_art_img)
     SimpleDraweeView trackImage;
 
-    @Bind(R.id.detail_title)
+    @BindView(R.id.detail_title)
     TextView title;
-    @Bind(R.id.detail_subtitle)
+    @BindView(R.id.detail_subtitle)
     TextView subtitle;
 
-    @Bind(R.id.play)
+    @BindView(R.id.play)
     Button play;
     private Item itemData;
 

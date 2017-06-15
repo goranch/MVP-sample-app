@@ -5,10 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.provider.BaseColumns;
 
-/**
- * Created by goran on 19/05/2017.
- */
-
 @Entity(tableName = RecipeEntity.TABLE_NAME)
 public class RecipeEntity {
 

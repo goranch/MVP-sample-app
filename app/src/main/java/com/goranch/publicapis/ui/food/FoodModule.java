@@ -6,10 +6,6 @@ import com.goranch.publicapis.di.scopes.FoodScope;
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by goran on 21/09/2016.
- */
-
 @Module
 public class FoodModule {
     private final SearchRecipeView mSearchRecipeView;

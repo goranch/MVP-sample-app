@@ -1,68 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="10dp">
 
 
     <Button
         android:id="@+id/tv_view_instructions"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:gravity="center"
         android:padding="@dimen/title_padding"
-        android:text="@string/view_instructions"
-        android:layout_alignParentTop="true"
-        android:layout_toStartOf="@id/tv_publishers_name" />
+        android:text="@string/view_instructions" />
 
     <Button
         android:id="@+id/tv_view_original"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/tv_view_instructions"
+        android:layout_below="@id/tv_view_instructions"
         android:gravity="center"
         android:padding="@dimen/title_padding"
-        android:text="@string/view_original"
-        android:layout_below="@id/tv_view_instructions"
-        android:layout_alignEnd="@id/tv_view_instructions" />
+        android:text="@string/view_original" />
 
     <TextView
         android:id="@+id/tv_source"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_view_instructions"
+        android:layout_alignBottom="@+id/tv_view_instructions"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/tv_view_instructions"
         android:text="@string/source"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_above="@id/tv_publishers_name"
-        android:layout_alignStart="@id/tv_publishers_name" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
     <TextView
         android:id="@+id/tv_publishers_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Small Text small text"
-        android:maxLength="20"
+        android:layout_alignBaseline="@+id/tv_view_instructions"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@id/tv_source"
+        android:maxLines="1"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
-        android:layout_above="@id/tv_view_original"
-        android:layout_alignParentEnd="true" />
+        tools:text="Small Text small text small text mall" />
 
     <TextView
         android:id="@+id/tv_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/tv_view_original"
+        android:layout_alignBottom="@+id/tv_view_original"
+        android:layout_alignStart="@+id/tv_source"
         android:text="@string/rating"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignBaseline="@id/tv_view_original"
-        android:layout_alignBottom="@id/tv_view_original"
-        android:layout_toEndOf="@id/tv_view_original" />
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <TextView
         android:id="@+id/tv_social_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Small Text"
+        android:layout_alignBaseline="@+id/tv_view_original"
+        android:layout_alignBottom="@+id/tv_view_original"
+        android:layout_marginStart="7dp"
+        android:layout_toEndOf="@+id/tv_rating"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignBaseline="@id/tv_rating"
-        android:layout_alignBottom="@id/tv_rating"
-        android:layout_toEndOf="@id/tv_rating"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black"
+        tools:text="Small Text" />
 </RelativeLayout>

@@ -15,12 +15,9 @@ import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by goranch on 30/03/16.
- */
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
     private List<Recipe> recipes = new ArrayList<>();
     private FoodViewModel viewModel;
@@ -62,10 +59,10 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @Bind(R.id.tv_name)
+        @BindView(R.id.tv_name)
         public TextView title;
 
-        @Bind(R.id.recipe_image)
+        @BindView(R.id.recipe_image)
         public SimpleDraweeView image;
 
         Recipe mItem;

@@ -8,23 +8,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.ui.food.FoodActivity;
 import com.goranch.publicapis.ui.shazam.MusicFragment;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeFragment extends Fragment implements HomeView {
-
-    @Bind(R.id.btn_shazam)
-    public TextView shazamButton;
-
-    @Bind(R.id.btn_food)
-    public TextView foodButton;
 
     public static HomeFragment newInstance() {
         return new HomeFragment();

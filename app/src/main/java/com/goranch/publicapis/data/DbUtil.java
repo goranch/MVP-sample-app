@@ -1,9 +1,5 @@
 package com.goranch.publicapis.data;
 
-/**
- * Created by goran on 19/05/2017.
- */
-
 public class DbUtil {
     public static String strSeparator = "__,__";
 
@@ -20,7 +16,6 @@ public class DbUtil {
     }
 
     public static String[] convertStringToArray(String str) {
-        String[] arr = str.split(strSeparator);
-        return arr;
+        return str.split(strSeparator);
     }
 }

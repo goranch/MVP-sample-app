@@ -29,28 +29,25 @@ import com.goranch.publicapis.ui.webview.WebFragment;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
 
-public class DetailsFragment extends LifecycleFragment implements DetailRecipeView, View.OnClickListener {
+public class DetailsFragment extends LifecycleFragment implements DetailRecipeView {
 
     public static final String URL = "details_food_url";
-    @Bind(R.id.iv_recipe_img)
+    @BindView(R.id.iv_recipe_img)
     SimpleDraweeView recipeImage;
-    @Bind(R.id.lv_igredients)
+    @BindView(R.id.lv_ingredients)
     LinearLayout ingredientsLinearLayout;
-    @Bind(R.id.tv_view_instrouctions)
-    TextView instructions;
-    @Bind(R.id.tv_view_original)
-    TextView viewOriginal;
-    @Bind(R.id.tv_publichers_name)
+    @BindView(R.id.tv_publishers_name)
     TextView publishersName;
-    @Bind(R.id.tv_social_rank)
+    @BindView(R.id.tv_social_rank)
     TextView socialRank;
-    @Bind(R.id.progressBar3)
+    @BindView(R.id.progressBar3)
     ProgressBar progressBar;
 
     @Inject
@@ -94,7 +91,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
             recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
         } else {
             if (getView() != null) {
-                Snackbar.make(getView(), "No Recipe Id", LENGTH_LONG).show();
+                Snackbar.make(getView(), R.string.no_recipe_id, LENGTH_LONG).show();
             }
         }
 
@@ -138,24 +135,16 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
         publishersName.setText(recipe.getPublisher());
         socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
 
-        instructions.setOnClickListener(this);
-        viewOriginal.setOnClickListener(this);
-
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_view_instrouctions:
-                openWebView(recipeData.getF2fUrl());
-                break;
-            case R.id.tv_view_original:
-                openWebView(recipeData.getPublisherUrl());
-                break;
-            default:
-                break;
-        }
+    @OnClick(R.id.tv_view_instructions)
+    public void openInstructions() {
+        openWebView(recipeData.getF2fUrl());
+    }
 
+    @OnClick(R.id.tv_view_original)
+    public void openPublisher() {
+        openWebView(recipeData.getPublisherUrl());
     }
 
     @Override
@@ -174,6 +163,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.GONE);
     }
 }

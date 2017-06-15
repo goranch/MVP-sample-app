@@ -11,10 +11,6 @@ import android.content.Context;
 import com.goranch.publicapis.api.model.food.Recipe;
 import com.goranch.publicapis.data.model.food.RecipeDao;
 
-/**
- * Created by goran on 18/05/2017.
- */
-
 @Database(entities = {Recipe.class}, version = 1)
 public abstract class PublicApiDatabase extends RoomDatabase {
 

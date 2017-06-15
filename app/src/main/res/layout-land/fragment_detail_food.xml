@@ -1,54 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <LinearLayout
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/iv_recipe_img"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/details_margin_top"
+        fresco:roundingBorderColor="@color/colorAccent"
+        fresco:roundingBorderWidth="1dp"
+        fresco:viewAspectRatio="0.7" />
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/iv_recipe_img"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:viewAspectRatio="1.7" />
-
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
-            android:padding="@dimen/sep_padding"
-            android:text="@string/ingredients"
-            android:textAllCaps="true"
-            android:textSize="@dimen/separator_text_size"/>
+        android:layout_marginTop="@dimen/details_margin_top">
 
         <LinearLayout
-            android:id="@+id/lv_igredients"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
-
-        </LinearLayout>
-
-        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
-            android:padding="@dimen/sep_padding"
-            android:text="@string/info"
-            android:textAllCaps="true"
-            android:textSize="@dimen/separator_text_size"/>
+            android:orientation="vertical">
 
-        <include layout="@layout/web_view_details"/>
-    </LinearLayout>
-</ScrollView>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/darker_gray"
+                        android:padding="@dimen/sep_padding"
+                        android:text="@string/info"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/separator_text_size" />
+
+                    <include layout="@layout/web_view_details" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/darker_gray"
+                        android:padding="@dimen/sep_padding"
+                        android:text="@string/ingredients"
+                        android:textAllCaps="true"
+                        android:textSize="@dimen/separator_text_size" />
+
+                    <LinearLayout
+                        android:id="@+id/lv_ingredients"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/progressBar3"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

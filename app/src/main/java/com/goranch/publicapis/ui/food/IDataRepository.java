@@ -6,9 +6,6 @@ import java.util.List;
 
 import rx.Observable;
 
-/**
- * Created by goranch on 30/03/16.
- */
 public interface IDataRepository {
     Observable<List<Recipe>> searchRecipes(String searchQuery, String apiKey);
 

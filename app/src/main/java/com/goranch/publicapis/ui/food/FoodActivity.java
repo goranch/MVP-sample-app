@@ -9,14 +9,14 @@ import android.util.Log;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.ui.food.fragment.FoodFragment;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
 public class FoodActivity extends AppCompatActivity implements FoodActivityView {
     private final String TAG = getClass().getSimpleName();
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,6 @@ public class FoodActivity extends AppCompatActivity implements FoodActivityView 
 
     @Override
     public void setTitle() {
-//        toolbar.setTitle(R.string.food_search);
         this.setTitle(R.string.food_search);
         setSupportActionBar(toolbar);
     }

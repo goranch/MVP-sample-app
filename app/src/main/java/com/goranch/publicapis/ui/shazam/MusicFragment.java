@@ -25,21 +25,18 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * Created by Goran Ch on 16/04/16.
- */
 public class MusicFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, MusicFragmentView {
 
     public static final String TRACK_ITEM = "track_item";
     private static final String LIST_ITEMS = "list_items";
-    @Bind(R.id.swipeContainer)
+    @BindView(R.id.swipeContainer)
     public SwipeRefreshLayout refresh;
-    @Bind(R.id.recyclerview)
+    @BindView(R.id.recyclerview)
     public RecyclerView recyclerView;
-    @Bind(R.id.progressBar)
+    @BindView(R.id.progressBar)
     public ProgressBar progressBar;
     @Inject
     MusicFragmentView mMusicFragmentView;

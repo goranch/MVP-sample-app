@@ -16,12 +16,21 @@
             android:layout_height="wrap_content"
             app:viewAspectRatio="1.7" />
 
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyle"
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible" />
+            android:background="@android:color/darker_gray"
+            android:padding="@dimen/sep_padding"
+            android:text="@string/info"
+            android:textAllCaps="true"
+            android:textSize="@dimen/separator_text_size" />
+
+        <include
+            layout="@layout/web_view_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false" />
 
         <TextView
             android:layout_width="match_parent"
@@ -32,23 +41,19 @@
             android:textAllCaps="true"
             android:textSize="@dimen/separator_text_size"/>
 
+        <ProgressBar
+            android:id="@+id/progressBar3"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
         <LinearLayout
-            android:id="@+id/lv_igredients"
+            android:id="@+id/lv_ingredients"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical">
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
-            android:padding="@dimen/sep_padding"
-            android:text="@string/info"
-            android:textAllCaps="true"
-            android:textSize="@dimen/separator_text_size"/>
-
-        <include layout="@layout/web_view_details"/>
     </LinearLayout>
 </ScrollView>

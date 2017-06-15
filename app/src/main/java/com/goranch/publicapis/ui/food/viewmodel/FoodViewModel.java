@@ -12,10 +12,6 @@ import com.goranch.publicapis.ui.food.SearchRecipeView;
 
 import java.util.List;
 
-/**
- * Created by goran on 21/05/2017.
- */
-
 public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private static final String TAG = FoodViewModel.class.getSimpleName();
     private MutableLiveData<List<Recipe>> observableRecipes = new MutableLiveData<>();

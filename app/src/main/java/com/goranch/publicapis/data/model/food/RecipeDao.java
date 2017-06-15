@@ -9,10 +9,6 @@ import com.goranch.publicapis.api.model.food.Recipe;
 
 import java.util.List;
 
-/**
- * Created by goran on 19/05/2017.
- */
-
 @Dao
 public interface RecipeDao {
 

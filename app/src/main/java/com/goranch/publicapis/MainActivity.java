@@ -10,15 +10,15 @@ import android.widget.TextView;
 import com.goranch.publicapis.ui.home.HomeFragment;
 import com.goranch.publicapis.ui.home.HomeView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements HomeView {
 
     private final String TAG = getClass().getSimpleName();
-    @Bind(R.id.toolbar_title)
+    @BindView(R.id.toolbar_title)
     public TextView toolbarTitle;
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
     @SuppressWarnings("unchecked")

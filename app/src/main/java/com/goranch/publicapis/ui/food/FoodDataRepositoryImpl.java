@@ -24,13 +24,11 @@ public class FoodDataRepositoryImpl implements IDataRepository {
     @Override
     public Observable<List<Recipe>> searchRecipes(final String apiKey, String searchQuery) {
 
-        Log.d(TAG, "search recipes");
-
         return mFoodService.searchRecipes(apiKey, searchQuery)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(ApiResult::getRecipes)
-                .doOnError(Throwable::toString);
+                .doOnError(throwable -> Log.e("http error", throwable.toString()));
     }
 
     @Override
@@ -40,7 +38,7 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(RecipeContainer::getRecipe)
-                .doOnError(Throwable::toString);
+                .doOnError(throwable -> Log.e("http error", throwable.toString()));
 
     }
 }
