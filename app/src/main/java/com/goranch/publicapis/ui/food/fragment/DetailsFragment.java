@@ -143,8 +143,8 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     }
 
     @OnClick(R.id.tv_view_original)
-    public void openPublisher() {
-        openWebView(recipeData.getPublisherUrl());
+    public void openSource() {
+        openWebView(recipeData.getSourceUrl());
     }
 
     @Override

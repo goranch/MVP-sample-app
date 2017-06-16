@@ -21,7 +21,6 @@ public class FoodActivity extends AppCompatActivity implements FoodActivityView 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
 
         setContentView(R.layout.layout_coordinator);
         ButterKnife.bind(this);
