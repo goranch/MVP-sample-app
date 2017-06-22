@@ -4,8 +4,8 @@ import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +33,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.support.design.widget.Snackbar.LENGTH_LONG;
-
 
 public class DetailsFragment extends LifecycleFragment implements DetailRecipeView {
 
@@ -57,19 +55,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     FoodDataRepositoryImpl repository;
 
     private Recipe recipeData;
-    private String recipeId;
     private FoodViewModel viewModel;
-    private String imageUrl;
 
-    public static DetailsFragment newInstance(Recipe mItem) {
-        Bundle b = new Bundle();
-        b.putSerializable(FoodFragment.RECIPE_ITEM, mItem.getRecipeId());
-        b.putSerializable(FoodFragment.IMAGE_URL, mItem.getImageUrl());
-        DetailsFragment fragment = new DetailsFragment();
-        fragment.setArguments(b);
-        return fragment;
+    public static DetailsFragment newInstance() {
+        return new DetailsFragment();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,17 +80,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
         ButterKnife.bind(this, v);
 
-        if (getArguments() != null) {
-            Bundle b = getArguments();
-            recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
-            imageUrl = (String) b.getSerializable(FoodFragment.IMAGE_URL);
-            recipeImage.setImageURI(Uri.parse(imageUrl));
-        } else {
-            if (getView() != null) {
-                Snackbar.make(getView(), R.string.no_recipe_id, LENGTH_LONG).show();
-            }
-        }
-
         return v;
     }
 
@@ -106,39 +87,39 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FoodViewModel.Factory factory = new FoodViewModel.Factory(repository);
-
-        viewModel = ViewModelProviders.of(this, factory).get(FoodViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(FoodViewModel.class);
 
         subscribeToLiveDataChanges();
-
-        showProgress();
-        viewModel.getSingleRecipe(recipeId);
     }
 
     private void subscribeToLiveDataChanges() {
         viewModel.getObservableRecipe().observe(this, this::loadNewData);
+        viewModel.getRecipeId().observe(this, this::getSingleRecipe);
     }
 
-    private void loadNewData(Recipe recipe) {
-        hideProgress();
-
-        recipeData = recipe;
-
-        getActivity().setTitle(recipe.getTitle());
-
-        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
-
-        ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
-
-        ingredientsLinearLayout.removeAllViews();
-        for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
-            ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
+    public void getSingleRecipe(String recipeId) {
+        if (recipeData.getIngredients() == null) {
+            showProgress();
+            viewModel.getSingleRecipe(recipeId);
         }
+    }
 
-        publishersName.setText(recipe.getPublisher());
-        socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
+    private void loadNewData(@NonNull Recipe recipe) {
+        hideProgress();
+        recipeData = recipe;
+        getActivity().setTitle(recipeData.getTitle());
 
+        recipeImage.setImageURI(Uri.parse(recipeData.getImageUrl()));
+        publishersName.setText(recipeData.getPublisher());
+        socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipeData.getSocialRank().toString()))));
+
+        if (recipe.getIngredients() != null) {
+            ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
+            ingredientsLinearLayout.removeAllViews();
+            for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
+                ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
+            }
+        }
     }
 
     @OnClick(R.id.tv_view_instructions)

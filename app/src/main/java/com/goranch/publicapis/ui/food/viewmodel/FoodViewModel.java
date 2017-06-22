@@ -17,6 +17,7 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private static final String TAG = FoodViewModel.class.getSimpleName();
     private final MutableLiveData<Recipe> observableRecipe = new MutableLiveData<>();
     private MutableLiveData<List<Recipe>> observableRecipeList = new MutableLiveData<>();
+    private MutableLiveData<String> observableRecipeID = new MutableLiveData<>();
     private IDataRepository repository;
     private SearchRecipeView view;
 
@@ -29,6 +30,7 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     public void getRecipes(String query) {
         repository.searchRecipes(ApiModule.API_KEY, query)
                 .subscribe(observableRecipeList::setValue);
+        view.showProgress();
     }
 
     public void getSingleRecipe(String recipeId) {
@@ -38,7 +40,9 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
 
     @Override
     public void onItemClicked(Recipe item) {
-        view.openDetailsFragment(item);
+        observableRecipe.setValue(item);
+        observableRecipeID.setValue(item.getRecipeId());
+        view.openDetailsFragment();
     }
 
     public MutableLiveData<List<Recipe>> getObservableRecipeList() {
@@ -47,6 +51,10 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
 
     public MutableLiveData<Recipe> getObservableRecipe() {
         return observableRecipe;
+    }
+
+    public MutableLiveData<String> getRecipeId() {
+        return observableRecipeID;
     }
 
     //Inject dependencies. It was the preferred way in the example app by Google
