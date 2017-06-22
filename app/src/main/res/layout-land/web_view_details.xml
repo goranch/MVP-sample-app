@@ -44,7 +44,7 @@
         android:layout_alignBaseline="@+id/tv_view_instructions"
         android:layout_marginStart="7dp"
         android:layout_toEndOf="@id/tv_source"
-        android:maxLines="1"
+        android:maxLines="3"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@android:color/black"
         tools:text="Small Text small text small text mall" />
