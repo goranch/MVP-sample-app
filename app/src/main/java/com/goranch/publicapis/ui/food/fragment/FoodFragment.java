@@ -40,8 +40,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class FoodFragment extends LifecycleFragment implements SearchRecipeView, TextView.OnEditorActionListener {
-    public static final String RECIPE_ITEM = "recipe_item";
-    public static final String IMAGE_URL = "image_url";
 
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
@@ -59,20 +57,12 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
     FoodDataRepositoryImpl repository;
 
     private RecipeRecyclerAdapter adapter;
-    private List<Recipe> recipes = new ArrayList<>();
+    private List<Recipe> recipeList = new ArrayList<>();
     private FoodViewModel viewModel;
     private GridLayoutManager gridLayoutManager;
 
     public static FoodFragment newInstance() {
         return new FoodFragment();
-    }
-
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) activity.getSystemService(
-                        Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(
-                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     @SuppressWarnings("unchecked")
@@ -109,9 +99,9 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
         FoodViewModel.Factory factory = new FoodViewModel.Factory(repository, this);
 
-        viewModel = ViewModelProviders.of(this, factory).get(FoodViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity(), factory).get(FoodViewModel.class);
 
-        adapter = new RecipeRecyclerAdapter(viewModel, recipes);
+        adapter = new RecipeRecyclerAdapter(viewModel, recipeList);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 1, Configuration.ORIENTATION_PORTRAIT, false);
@@ -135,28 +125,25 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     // this method will be invoked with the new data every time when the data changes in the ViewModel class.
     private void subscribeToLiveDataChanges() {
-        viewModel.getObservableRecipeList().observe(this, recipes -> {
-            if (recipes == null) {
-                showProgress();
-            } else {
-                hideProgress();
-                this.recipes = recipes;
-                adapter.setRecipes(recipes);
-                adapter.notifyDataSetChanged();
-            }
-        });
+        viewModel.getObservableRecipeList().observe(this, this::loadData);
+    }
+
+    @Override
+    public void loadData(List<Recipe> recipeList) {
+        this.recipeList = recipeList;
+        adapter.setRecipes(this.recipeList);
+        adapter.notifyDataSetChanged();
+        hideProgress();
+        hideSoftKeyboard(getActivity());
     }
 
     public void getRecipes(String query) {
-        showProgress();
         viewModel.getRecipes(query);
     }
 
     @OnClick(R.id.btn_search)
     public void searchRecipe() {
-        showProgress();
-        hideSoftKeyboard(getActivity());
-        viewModel.getRecipes(search.getText().toString());
+        getRecipes(search.getText().toString());
     }
 
     @Override
@@ -170,8 +157,8 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
     }
 
     @Override
-    public void openDetailsFragment(Recipe mItem) {
-        DetailsFragment f = DetailsFragment.newInstance(mItem);
+    public void openDetailsFragment() {
+        DetailsFragment f = DetailsFragment.newInstance();
         FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
         t.replace(R.id.fragment_holder, f);
         t.addToBackStack(null);
@@ -189,5 +176,13 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
             getRecipes(search.getText().toString());
         }
         return false;
+    }
+
+    public void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

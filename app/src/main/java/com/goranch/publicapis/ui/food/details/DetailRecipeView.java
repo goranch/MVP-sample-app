@@ -7,4 +7,6 @@ public interface DetailRecipeView {
     void hideProgress();
 
     void openWebView(String url);
+
+    void getSingleRecipe(String recipeId);
 }
