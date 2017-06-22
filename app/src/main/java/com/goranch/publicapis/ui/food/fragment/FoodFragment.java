@@ -1,5 +1,6 @@
 package com.goranch.publicapis.ui.food.fragment;
 
+import android.app.Activity;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,7 +41,8 @@ import butterknife.OnClick;
 
 public class FoodFragment extends LifecycleFragment implements SearchRecipeView, TextView.OnEditorActionListener {
     public static final String RECIPE_ITEM = "recipe_item";
-    private static final String TAG = FoodFragment.class.getSimpleName();
+    public static final String IMAGE_URL = "image_url";
+
     @BindView(R.id.recyclerview)
     RecyclerView recyclerView;
 
@@ -62,6 +65,14 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     public static FoodFragment newInstance() {
         return new FoodFragment();
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     @SuppressWarnings("unchecked")
@@ -124,7 +135,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     // this method will be invoked with the new data every time when the data changes in the ViewModel class.
     private void subscribeToLiveDataChanges() {
-        viewModel.getObservableRecipes().observe(this, recipes -> {
+        viewModel.getObservableRecipeList().observe(this, recipes -> {
             if (recipes == null) {
                 showProgress();
             } else {
@@ -136,7 +147,6 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
         });
     }
 
-
     public void getRecipes(String query) {
         showProgress();
         viewModel.getRecipes(query);
@@ -145,6 +155,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
     @OnClick(R.id.btn_search)
     public void searchRecipe() {
         showProgress();
+        hideSoftKeyboard(getActivity());
         viewModel.getRecipes(search.getText().toString());
     }
 

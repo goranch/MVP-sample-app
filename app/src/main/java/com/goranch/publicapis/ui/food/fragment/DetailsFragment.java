@@ -24,7 +24,7 @@ import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
 import com.goranch.publicapis.ui.food.details.DetailRecipeView;
 import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
-import com.goranch.publicapis.ui.food.viewmodel.FoodDetailViewModel;
+import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 import com.goranch.publicapis.ui.webview.WebFragment;
 
 import javax.inject.Inject;
@@ -58,11 +58,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
     private Recipe recipeData;
     private String recipeId;
-    private FoodDetailViewModel viewModel;
+    private FoodViewModel viewModel;
+    private String imageUrl;
 
     public static DetailsFragment newInstance(Recipe mItem) {
         Bundle b = new Bundle();
         b.putSerializable(FoodFragment.RECIPE_ITEM, mItem.getRecipeId());
+        b.putSerializable(FoodFragment.IMAGE_URL, mItem.getImageUrl());
         DetailsFragment fragment = new DetailsFragment();
         fragment.setArguments(b);
         return fragment;
@@ -89,6 +91,8 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
         if (getArguments() != null) {
             Bundle b = getArguments();
             recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
+            imageUrl = (String) b.getSerializable(FoodFragment.IMAGE_URL);
+            recipeImage.setImageURI(Uri.parse(imageUrl));
         } else {
             if (getView() != null) {
                 Snackbar.make(getView(), R.string.no_recipe_id, LENGTH_LONG).show();
@@ -102,14 +106,14 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FoodDetailViewModel.Factory factory = new FoodDetailViewModel.Factory(repository);
+        FoodViewModel.Factory factory = new FoodViewModel.Factory(repository);
 
-        viewModel = ViewModelProviders.of(this, factory).get(FoodDetailViewModel.class);
+        viewModel = ViewModelProviders.of(this, factory).get(FoodViewModel.class);
 
         subscribeToLiveDataChanges();
 
         showProgress();
-        viewModel.getRecipe(recipeId);
+        viewModel.getSingleRecipe(recipeId);
     }
 
     private void subscribeToLiveDataChanges() {

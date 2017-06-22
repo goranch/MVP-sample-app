@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 
 import com.goranch.publicapis.api.ApiModule;
 import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.IDataRepository;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
 
@@ -14,11 +15,12 @@ import java.util.List;
 
 public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private static final String TAG = FoodViewModel.class.getSimpleName();
-    private MutableLiveData<List<Recipe>> observableRecipes = new MutableLiveData<>();
+    private final MutableLiveData<Recipe> observableRecipe = new MutableLiveData<>();
+    private MutableLiveData<List<Recipe>> observableRecipeList = new MutableLiveData<>();
     private IDataRepository repository;
     private SearchRecipeView view;
 
-    public FoodViewModel(IDataRepository foodDataRepository, SearchRecipeView view) {
+    private FoodViewModel(IDataRepository foodDataRepository, SearchRecipeView view) {
         this.repository = foodDataRepository;
         this.view = view;
     }
@@ -26,7 +28,12 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     @Override
     public void getRecipes(String query) {
         repository.searchRecipes(ApiModule.API_KEY, query)
-                .subscribe(observableRecipes::setValue);
+                .subscribe(observableRecipeList::setValue);
+    }
+
+    public void getSingleRecipe(String recipeId) {
+        repository.getRecipe(ApiModule.API_KEY, recipeId)
+                .subscribe(observableRecipe::setValue);
     }
 
     @Override
@@ -34,8 +41,12 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
         view.openDetailsFragment(item);
     }
 
-    public MutableLiveData<List<Recipe>> getObservableRecipes() {
-        return observableRecipes;
+    public MutableLiveData<List<Recipe>> getObservableRecipeList() {
+        return observableRecipeList;
+    }
+
+    public MutableLiveData<Recipe> getObservableRecipe() {
+        return observableRecipe;
     }
 
     //Inject dependencies. It was the preferred way in the example app by Google
@@ -45,13 +56,16 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
         private final IDataRepository repository;
 
         //TODO check if its a good idea to hold a reference to the fragment here
-        @NonNull
-        private final SearchRecipeView view;
+        private SearchRecipeView view;
 
         public Factory(@NonNull IDataRepository repository,
                        @NonNull SearchRecipeView view) {
             this.repository = repository;
             this.view = view;
+        }
+
+        public Factory(@NonNull FoodDataRepositoryImpl repository) {
+            this.repository = repository;
         }
 
         @Override
