@@ -9,9 +9,9 @@ import com.goranch.publicapis.api.model.food.RecipeContainer;
 
 import java.util.List;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class FoodDataRepositoryImpl implements IDataRepository {
     private static final String TAG = FoodDataRepositoryImpl.class.getSimpleName();

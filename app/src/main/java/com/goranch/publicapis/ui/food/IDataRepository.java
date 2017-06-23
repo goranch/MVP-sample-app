@@ -4,7 +4,8 @@ import com.goranch.publicapis.api.model.food.Recipe;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Observable;
+
 
 public interface IDataRepository {
     Observable<List<Recipe>> searchRecipes(String searchQuery, String apiKey);

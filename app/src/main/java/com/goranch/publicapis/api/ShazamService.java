@@ -2,8 +2,8 @@ package com.goranch.publicapis.api;
 
 import com.goranch.publicapis.api.model.shazam.ApiTopLevelObject;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
-import rx.Observable;
 
 public interface ShazamService {
 
