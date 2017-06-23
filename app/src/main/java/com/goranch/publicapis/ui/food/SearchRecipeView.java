@@ -14,4 +14,6 @@ public interface SearchRecipeView {
     void hideProgress();
 
     void openDetailsFragment();
+
+    void onItemClicked(Recipe mItem);
 }

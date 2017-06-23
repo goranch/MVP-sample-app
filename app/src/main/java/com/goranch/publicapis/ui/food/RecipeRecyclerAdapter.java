@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.model.food.Recipe;
-import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +19,11 @@ import butterknife.ButterKnife;
 
 public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
     private List<Recipe> recipes = new ArrayList<>();
-    private FoodViewModel viewModel;
+    private SearchRecipeView view;
 
-    public RecipeRecyclerAdapter(FoodViewModel viewModel, List<Recipe> recipes) {
+    public RecipeRecyclerAdapter(SearchRecipeView view, List<Recipe> recipes) {
         this.recipes = recipes;
-        this.viewModel = viewModel;
+        this.view = view;
     }
 
     public void setRecipes(List<Recipe> recipes) {
@@ -76,7 +75,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         @Override
         public void onClick(View v) {
 
-            viewModel.onItemClicked(mItem);
+            view.onItemClicked(mItem);
 
         }
     }

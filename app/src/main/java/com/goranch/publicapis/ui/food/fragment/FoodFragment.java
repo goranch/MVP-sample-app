@@ -101,7 +101,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
         viewModel = ViewModelProviders.of(getActivity(), factory).get(FoodViewModel.class);
 
-        adapter = new RecipeRecyclerAdapter(viewModel, recipeList);
+        adapter = new RecipeRecyclerAdapter(this, recipeList);
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             gridLayoutManager = new GridLayoutManager(getActivity(), 1, Configuration.ORIENTATION_PORTRAIT, false);
@@ -163,6 +163,11 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
         t.replace(R.id.fragment_holder, f);
         t.addToBackStack(null);
         t.commit();
+    }
+
+    @Override
+    public void onItemClicked(Recipe mItem) {
+        viewModel.onItemClicked(mItem);
     }
 
     @Override
