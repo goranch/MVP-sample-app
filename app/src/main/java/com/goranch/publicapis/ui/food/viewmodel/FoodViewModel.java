@@ -6,7 +6,8 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.goranch.publicapis.api.ApiModule;
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.nutrition.Hit;
+import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.IDataRepository;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
@@ -17,6 +18,7 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private static final String TAG = FoodViewModel.class.getSimpleName();
     private final MutableLiveData<Recipe> observableRecipe = new MutableLiveData<>();
     private MutableLiveData<List<Recipe>> observableRecipeList = new MutableLiveData<>();
+    private MutableLiveData<List<Hit>> observableNutritionList = new MutableLiveData<>();
     private MutableLiveData<String> observableRecipeID = new MutableLiveData<>();
     private IDataRepository repository;
     private SearchRecipeView view;
@@ -28,14 +30,21 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
 
     @Override
     public void getRecipes(String query) {
-        repository.searchRecipes(ApiModule.API_KEY, query)
+        repository.searchRecipes(ApiModule.RECIPE_API_KEY, query)
                 .subscribe(observableRecipeList::setValue);
         view.showProgress();
     }
 
+    @Override
     public void getSingleRecipe(String recipeId) {
-        repository.getRecipe(ApiModule.API_KEY, recipeId)
+        repository.getRecipe(ApiModule.RECIPE_API_KEY, recipeId)
                 .subscribe(observableRecipe::setValue);
+    }
+
+    @Override
+    public void getNaturalLanguageNutritionInfo(String ingredients) {
+        repository.getNaturalLanguageNutritionInfo("egg")
+                .subscribe(observableNutritionList::setValue);
     }
 
     @Override

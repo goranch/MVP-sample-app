@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.ApiComponent;
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
@@ -119,6 +119,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
             for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
                 ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
             }
+            viewModel.getNaturalLanguageNutritionInfo("query" + recipeData.getIngredients().toString());
         }
     }
 

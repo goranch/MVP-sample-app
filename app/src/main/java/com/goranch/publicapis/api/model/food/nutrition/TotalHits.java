@@ -1,8 +1,9 @@
-import com.example.Hit;
+package com.goranch.publicapis.api.model.food.nutrition;
+
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-import com.google.gson.annotations.Expose;
 
 public class TotalHits {
 
@@ -14,7 +15,7 @@ public class TotalHits {
     private Double maxScore;
     @SerializedName("hits")
     @Expose
-    private List<com.example.Hit> hits = null;
+    private List<Hit> hits;
 
     public Integer getTotalHits() {
         return totalHits;

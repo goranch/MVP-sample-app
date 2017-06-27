@@ -8,7 +8,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.data.model.food.RecipeDao;
 
 @Database(entities = {Recipe.class}, version = 1)

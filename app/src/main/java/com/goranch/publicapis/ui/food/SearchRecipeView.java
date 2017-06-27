@@ -1,7 +1,7 @@
 package com.goranch.publicapis.ui.food;
 
 
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.recipe.Recipe;
 
 import java.util.List;
 

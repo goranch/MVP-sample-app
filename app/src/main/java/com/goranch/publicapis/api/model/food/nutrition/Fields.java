@@ -1,5 +1,5 @@
 
-package com.goranch.publicapis.api.model.food.categories.Fields;
+package com.goranch.publicapis.api.model.food.nutrition;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

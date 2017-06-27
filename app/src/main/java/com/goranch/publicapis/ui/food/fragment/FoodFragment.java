@@ -21,7 +21,7 @@ import android.widget.TextView;
 
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.ApiComponent;
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.food.DaggerFoodComponent;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
