@@ -35,6 +35,8 @@ public final class ApiModule {
     private static final HttpUrl NUTRITION_API_URL = HttpUrl.parse("https://trackapi.nutritionix.com");
     private static final HttpUrl SHAZAM_API_URL = HttpUrl.parse("http://cdn.shazam.com");
     private static final long DISK_CACHE_SIZE = (int) MEGABYTES.toBytes(50);
+    private static final String NUTRITION = "nutrition";
+    private static final String FOOD = "food";
 //    private static final long FOOD_CACHE_SIZE = (int) MEGABYTES.toBytes(25);
 
     private OkHttpClient.Builder createApiClient(OkHttpClient client) {
@@ -105,14 +107,14 @@ public final class ApiModule {
 
     @Provides
     @ApiScope
-    @Named("food")
+    @Named(FOOD)
     HttpUrl provideFoodBaseUrl() {
         return RECIPE_API_URL;
     }
 
     @Provides
     @ApiScope
-    @Named("food")
+    @Named(FOOD)
     OkHttpClient provideFoodClient(OkHttpClient client) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -122,8 +124,8 @@ public final class ApiModule {
 
     @Provides
     @ApiScope
-    @Named("food")
-    Retrofit provideFoodRetrofit(@Named("food") HttpUrl baseUrl, @Named("food") OkHttpClient client, Gson gson) {
+    @Named(FOOD)
+    Retrofit provideFoodRetrofit(@Named(FOOD) HttpUrl baseUrl, @Named(FOOD) OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .client(client)
                 .baseUrl(baseUrl)
@@ -134,21 +136,21 @@ public final class ApiModule {
 
     @Provides
     @ApiScope
-    FoodService provideFoodService(@Named("food") Retrofit retrofit) {
+    FoodService provideFoodService(@Named(FOOD) Retrofit retrofit) {
         return retrofit.create(FoodService.class);
     }
 
     // Nutritionix API specific
     @Provides
     @ApiScope
-    @Named("nutrition")
+    @Named(NUTRITION)
     HttpUrl provideNutritionUrl() {
         return NUTRITION_API_URL;
     }
 
     @Provides
     @ApiScope
-    @Named("nutrition")
+    @Named(NUTRITION)
     OkHttpClient provideNutritionClient(OkHttpClient client) {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -158,8 +160,8 @@ public final class ApiModule {
 
     @Provides
     @ApiScope
-    @Named("nutrition")
-    Retrofit provideNutritionFoodRetrofit(@Named("nutrition") HttpUrl baseUrl, @Named("nutrition") OkHttpClient client, Gson gson) {
+    @Named(NUTRITION)
+    Retrofit provideNutritionFoodRetrofit(@Named(NUTRITION) HttpUrl baseUrl, @Named(NUTRITION) OkHttpClient client, Gson gson) {
         return new Retrofit.Builder()
                 .client(client)
                 .baseUrl(baseUrl)
@@ -170,7 +172,7 @@ public final class ApiModule {
 
     @Provides
     @ApiScope
-    NutritionService provideNutritionService(@Named("nutrition") Retrofit retrofit) {
+    NutritionService provideNutritionService(@Named(NUTRITION) Retrofit retrofit) {
         return retrofit.create(NutritionService.class);
     }
 

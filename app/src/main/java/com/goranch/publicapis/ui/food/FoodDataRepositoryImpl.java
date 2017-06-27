@@ -50,7 +50,9 @@ public class FoodDataRepositoryImpl implements IDataRepository {
 
     @Override
     public Observable<List<Hit>> getNaturalLanguageNutritionInfo(String query) {
-        return nutritionService.searchNutritions("{query:" + query + "}")
+        HTTPRequestBody body = new HTTPRequestBody();
+        body.setQuery(query);
+        return nutritionService.searchNutritions(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(TotalHits::getHits)
@@ -59,4 +61,13 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                     return new ArrayList<>();
                 });
     }
+
+    public class HTTPRequestBody {
+        String query;
+
+        public void setQuery(String query) {
+            this.query = query;
+        }
+    }
 }
+

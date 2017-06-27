@@ -2,6 +2,7 @@ package com.goranch.publicapis.api;
 
 
 import com.goranch.publicapis.api.model.food.nutrition.TotalHits;
+import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;
@@ -16,7 +17,7 @@ public interface NutritionService {
     })
     @POST("v2/natural/nutrients")
     Observable<TotalHits> searchNutritions(
-            @Body String body
-//            @Query("timezone") String timezone
+            @Body FoodDataRepositoryImpl.HTTPRequestBody body
     );
+    
 }

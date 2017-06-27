@@ -119,7 +119,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
             for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
                 ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
             }
-            viewModel.getNaturalLanguageNutritionInfo("query" + recipeData.getIngredients().toString());
+
+            StringBuilder builder = new StringBuilder();
+            for (String s : recipeData.getIngredients()) {
+                builder.append(s);
+            }
+
+            viewModel.getNaturalLanguageNutritionInfo(builder.toString());
         }
     }
 

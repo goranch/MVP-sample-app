@@ -43,7 +43,7 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
 
     @Override
     public void getNaturalLanguageNutritionInfo(String ingredients) {
-        repository.getNaturalLanguageNutritionInfo("egg")
+        repository.getNaturalLanguageNutritionInfo(ingredients)
                 .subscribe(observableNutritionList::setValue);
     }
 
