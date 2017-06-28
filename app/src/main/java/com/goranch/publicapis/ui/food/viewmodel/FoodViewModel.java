@@ -70,6 +70,10 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
         return observableNutritionList;
     }
 
+    public void resetNutritionList() {
+        observableNutritionList.setValue(null);
+    }
+
     //Inject dependencies. It was the preferred way in the example app by Google
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 

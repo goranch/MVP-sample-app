@@ -3,6 +3,7 @@ package com.goranch.publicapis.ui.food.fragment;
 import android.app.Dialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -118,6 +119,23 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
         //do nothing for now
     }
 
+    @Override
+    public String getNutritionText(Food food) {
+        return getResources().getString(R.string.nutrition_details,
+                String.valueOf(food.getServingQty().intValue()),
+                food.getFoodName(),
+                String.valueOf(food.getServingWeightGrams()),
+                String.valueOf(food.getNfProtein()),
+                String.valueOf(food.getNfCalories()),
+                String.valueOf(food.getNfTotalFat()),
+                String.valueOf(food.getNfSaturatedFat()),
+                String.valueOf(food.getNfCholesterol()),
+                String.valueOf(food.getNfSodium()),
+                String.valueOf(food.getNfTotalCarbohydrate()),
+                String.valueOf(food.getNfDietaryFiber()),
+                String.valueOf(food.getNfSugars()));
+    }
+
     private void loadNewData(@NonNull Recipe recipe) {
         hideProgress();
         recipeData = recipe;
@@ -148,33 +166,37 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
     @OnClick(R.id.btn_more_details)
     public void showNutritionDetails() {
+        showProgress();
         viewModel.getNaturalLanguageNutritionInfo(getIngredients());
         loadNutritionDetails(new ArrayList<>());
     }
 
     private void loadNutritionDetails(List<Food> foods) {
-        showProgress();
-        Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        dialog.setTitle("YOOOOOOOOOOOO");
-
-        dialog.setContentView(R.layout.nutrition_dialog_layout);
-        dialog.setCancelable(true);
-        dialog.show();
-        RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.nutrition_list);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        NutritionRecyclerAdapter adapter = new NutritionRecyclerAdapter(this, foods);
-        recyclerView.setAdapter(adapter);
-        if (foods.size() > 0) {
+        if (foods != null && foods.size() > 0) {
             hideProgress();
+            Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.nutrition_dialog_layout);
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.show();
+            dialog.setOnCancelListener(dialog1 -> hideProgress());
+            RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.nutrition_list);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            NutritionRecyclerAdapter adapter = new NutritionRecyclerAdapter(this, foods);
+            recyclerView.setAdapter(adapter);
+
             adapter.notifyDataSetChanged();
+            viewModel.resetNutritionList();
         }
     }
+
 
     @Override
     public void openWebView(String url) {
         Utils.openFragment(getActivity(), WebFragment.newInstance(url), true);
     }
+
 
     @Override
     public void showProgress() {

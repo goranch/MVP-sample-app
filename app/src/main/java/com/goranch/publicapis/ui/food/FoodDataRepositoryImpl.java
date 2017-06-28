@@ -34,7 +34,10 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(ApiResult::getRecipes)
-                .doOnError(throwable -> Log.e("http error", throwable.toString()));
+                .onErrorReturn(throwable -> {
+                    Log.e("http error", throwable.toString());
+                    return new ArrayList<>();
+                });
     }
 
     @Override
@@ -44,7 +47,10 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(RecipeContainer::getRecipe)
-                .doOnError(throwable -> Log.e("http error", throwable.toString()));
+                .onErrorReturn(throwable -> {
+                    Log.e("http error", throwable.toString());
+                    return new Recipe();
+                });
 
     }
 

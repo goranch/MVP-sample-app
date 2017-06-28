@@ -13,4 +13,6 @@ public interface DetailRecipeView {
     void getSingleRecipe(String recipeId);
 
     void onItemClicked(Food item);
+
+    String getNutritionText(Food food);
 }
