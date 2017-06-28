@@ -1,6 +1,6 @@
 package com.goranch.publicapis.ui.food;
 
-import com.goranch.publicapis.api.model.food.nutrition.Hit;
+import com.goranch.publicapis.api.model.food.nutrition.Food;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 
 import java.util.List;
@@ -13,5 +13,5 @@ public interface IDataRepository {
 
     Observable<Recipe> getRecipe(String recipeId, String apiKey);
 
-    Observable<List<Hit>> getNaturalLanguageNutritionInfo(String query);
+    Observable<List<Food>> getNaturalLanguageNutritionInfo(String query);
 }

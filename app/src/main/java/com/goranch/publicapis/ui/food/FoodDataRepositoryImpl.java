@@ -4,8 +4,8 @@ import android.util.Log;
 
 import com.goranch.publicapis.api.FoodService;
 import com.goranch.publicapis.api.NutritionService;
-import com.goranch.publicapis.api.model.food.nutrition.Hit;
-import com.goranch.publicapis.api.model.food.nutrition.TotalHits;
+import com.goranch.publicapis.api.model.food.nutrition.Food;
+import com.goranch.publicapis.api.model.food.nutrition.Foods;
 import com.goranch.publicapis.api.model.food.recipe.ApiResult;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.api.model.food.recipe.RecipeContainer;
@@ -49,13 +49,13 @@ public class FoodDataRepositoryImpl implements IDataRepository {
     }
 
     @Override
-    public Observable<List<Hit>> getNaturalLanguageNutritionInfo(String query) {
+    public Observable<List<Food>> getNaturalLanguageNutritionInfo(String query) {
         HTTPRequestBody body = new HTTPRequestBody();
         body.setQuery(query);
-        return nutritionService.searchNutritions(body)
+        return nutritionService.searchNutrients(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(TotalHits::getHits)
+                .map(Foods::getFoods)
                 .onErrorReturn(throwable -> {
                     Log.e("http error", throwable.toString());
                     return new ArrayList<>();
@@ -65,7 +65,7 @@ public class FoodDataRepositoryImpl implements IDataRepository {
     public class HTTPRequestBody {
         String query;
 
-        public void setQuery(String query) {
+        void setQuery(String query) {
             this.query = query;
         }
     }

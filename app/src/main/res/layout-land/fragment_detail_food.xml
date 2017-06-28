@@ -45,14 +45,31 @@
 
                     <include layout="@layout/web_view_details" />
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@android:color/darker_gray"
-                        android:padding="@dimen/sep_padding"
-                        android:text="@string/ingredients"
-                        android:textAllCaps="true"
-                        android:textSize="@dimen/separator_text_size" />
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/btn_more_details"
+                            android:background="@android:color/darker_gray"
+                            android:padding="@dimen/sep_padding"
+                            android:text="@string/ingredients"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/separator_text_size" />
+
+                        <Button
+                            android:id="@id/btn_more_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/more_details" />
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"

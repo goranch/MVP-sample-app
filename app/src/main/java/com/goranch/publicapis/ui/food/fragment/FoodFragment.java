@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -29,6 +28,7 @@ import com.goranch.publicapis.ui.food.FoodModule;
 import com.goranch.publicapis.ui.food.RecipeRecyclerAdapter;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
 import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
+import com.goranch.publicapis.ui.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -158,11 +158,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     @Override
     public void openDetailsFragment() {
-        DetailsFragment f = DetailsFragment.newInstance();
-        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, f);
-        t.addToBackStack(null);
-        t.commit();
+        Utils.openFragment(getActivity(), DetailsFragment.newInstance(), true);
     }
 
     @Override

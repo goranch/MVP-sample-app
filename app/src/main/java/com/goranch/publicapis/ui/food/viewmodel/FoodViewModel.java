@@ -6,7 +6,7 @@ import android.arch.lifecycle.ViewModelProvider;
 import android.support.annotation.NonNull;
 
 import com.goranch.publicapis.api.ApiModule;
-import com.goranch.publicapis.api.model.food.nutrition.Hit;
+import com.goranch.publicapis.api.model.food.nutrition.Food;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.IDataRepository;
@@ -18,7 +18,7 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private static final String TAG = FoodViewModel.class.getSimpleName();
     private final MutableLiveData<Recipe> observableRecipe = new MutableLiveData<>();
     private MutableLiveData<List<Recipe>> observableRecipeList = new MutableLiveData<>();
-    private MutableLiveData<List<Hit>> observableNutritionList = new MutableLiveData<>();
+    private MutableLiveData<List<Food>> observableNutritionList = new MutableLiveData<>();
     private MutableLiveData<String> observableRecipeID = new MutableLiveData<>();
     private IDataRepository repository;
     private SearchRecipeView view;
@@ -64,6 +64,10 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
 
     public MutableLiveData<String> getRecipeId() {
         return observableRecipeID;
+    }
+
+    public MutableLiveData<List<Food>> getNutritionList() {
+        return observableNutritionList;
     }
 
     //Inject dependencies. It was the preferred way in the example app by Google

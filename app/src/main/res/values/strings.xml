@@ -17,4 +17,5 @@
     <string name="no_recipe_id">No Recipe Id</string>
     <string name="source">Source:</string>
     <string name="rating">Rating:</string>
+    <string name="more_details">More details</string>
 </resources>

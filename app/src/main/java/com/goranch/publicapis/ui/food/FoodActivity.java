@@ -1,13 +1,12 @@
 package com.goranch.publicapis.ui.food;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.ui.food.fragment.FoodFragment;
+import com.goranch.publicapis.ui.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,10 +27,7 @@ public class FoodActivity extends AppCompatActivity implements FoodActivityView 
         setTitle();
 
         if (savedInstanceState == null) {
-            FoodFragment homeFragment = FoodFragment.newInstance();
-            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-            t.replace(R.id.fragment_holder, homeFragment);
-            t.commit();
+            Utils.openFragment(this, FoodFragment.newInstance(), false);
         }
     }
 

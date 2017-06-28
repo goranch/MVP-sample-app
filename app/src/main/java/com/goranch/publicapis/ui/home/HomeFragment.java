@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.ui.food.FoodActivity;
 import com.goranch.publicapis.ui.shazam.MusicFragment;
+import com.goranch.publicapis.ui.util.Utils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,10 +35,7 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     private void replaceFragment(Fragment fragment) {
-        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, fragment);
-        t.addToBackStack(null);
-        t.commit();
+        Utils.openFragment(getActivity(), fragment, true);
     }
 
     @Override

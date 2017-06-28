@@ -1,7 +1,7 @@
 package com.goranch.publicapis.api;
 
 
-import com.goranch.publicapis.api.model.food.nutrition.TotalHits;
+import com.goranch.publicapis.api.model.food.nutrition.Foods;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 
 import io.reactivex.Observable;
@@ -16,8 +16,7 @@ public interface NutritionService {
             "x-app-key:" + ApiModule.NUTRITION_API_KEY
     })
     @POST("v2/natural/nutrients")
-    Observable<TotalHits> searchNutritions(
+    Observable<Foods> searchNutrients(
             @Body FoodDataRepositoryImpl.HTTPRequestBody body
     );
-    
 }

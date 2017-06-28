@@ -10,21 +10,21 @@
         android:layout_height="wrap_content">
 
         <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/recipe_image"
+            android:id="@+id/img_nutrition"
             android:layout_width="@dimen/item_img_height"
-            android:layout_height="@dimen/item_img_height"
+            android:layout_height="@dimen/nutrition_height"
             android:layout_centerVertical="true"
             fresco:roundAsCircle="true"
             fresco:roundingBorderColor="@color/colorAccent"
             fresco:roundingBorderWidth="1dp" />
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/tv_nutrition"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
+            android:layout_height="@dimen/nutrition_height"
             android:layout_alignParentTop="true"
             android:layout_marginStart="8dp"
-            android:layout_toEndOf="@+id/recipe_image"
+            android:layout_toEndOf="@id/img_nutrition"
             android:background="?android:attr/selectableItemBackground"
             android:gravity="center|start"
             android:paddingEnd="@dimen/title_padding"
