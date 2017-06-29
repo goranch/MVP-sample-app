@@ -1,4 +1,4 @@
-package com.goranch.publicapis.ui.food;
+package com.goranch.publicapis.ui.food.details;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
-import com.goranch.publicapis.api.model.food.recipe.Recipe;
+import com.goranch.publicapis.api.model.food.nutrition.Food;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,40 +17,40 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAdapter.ViewHolder> {
-    private List<Recipe> recipes = new ArrayList<>();
-    private SearchRecipeView view;
+public class NutritionRecyclerAdapter extends RecyclerView.Adapter<NutritionRecyclerAdapter.ViewHolder> {
+    private List<Food> food = new ArrayList<>();
+    private DetailRecipeView view;
 
-    public RecipeRecyclerAdapter(SearchRecipeView view, List<Recipe> recipes) {
-        this.recipes = recipes;
+    public NutritionRecyclerAdapter(DetailRecipeView view, List<Food> food) {
+        this.food = food;
         this.view = view;
     }
 
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
+    public void setFood(List<Food> food) {
+        this.food = food;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.recipe_list_item, parent, false);
+                .inflate(R.layout.nutrition_list_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        final Recipe recipe = recipes.get(position);
+        final Food food = this.food.get(position);
 
-        holder.mItem = recipe;
-        holder.title.setText(recipe.getTitle());
-        holder.image.setImageURI(Uri.parse(recipe.getImageUrl()));
+        holder.item = food;
+        holder.title.setText(view.getNutritionText(food));
+        holder.image.setImageURI(Uri.parse(food.getPhoto().getThumb()));
     }
 
     @Override
     public int getItemCount() {
-        if (recipes != null) {
-            return recipes.size();
+        if (food != null) {
+            return food.size();
         } else {
             return 0;
         }
@@ -58,13 +58,13 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        @BindView(R.id.tv_name)
+        @BindView(R.id.tv_nutrition)
         public TextView title;
 
-        @BindView(R.id.recipe_image)
+        @BindView(R.id.img_nutrition)
         public SimpleDraweeView image;
 
-        Recipe mItem;
+        Food item;
 
         ViewHolder(View v) {
             super(v);
@@ -75,7 +75,7 @@ public class RecipeRecyclerAdapter extends RecyclerView.Adapter<RecipeRecyclerAd
         @Override
         public void onClick(View v) {
 
-            view.onItemClicked(mItem);
+            view.onItemClicked(item);
 
         }
     }

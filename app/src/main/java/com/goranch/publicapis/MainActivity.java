@@ -1,7 +1,6 @@
 package com.goranch.publicapis;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,6 +8,7 @@ import android.widget.TextView;
 
 import com.goranch.publicapis.ui.home.HomeFragment;
 import com.goranch.publicapis.ui.home.HomeView;
+import com.goranch.publicapis.ui.util.Utils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,10 +34,7 @@ public class MainActivity extends AppCompatActivity implements HomeView {
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
-            HomeFragment homeFragment = HomeFragment.newInstance();
-            FragmentTransaction t = getSupportFragmentManager().beginTransaction();
-            t.replace(R.id.fragment_holder, homeFragment);
-            t.commit();
+            Utils.openFragment(this, HomeFragment.newInstance(), false);
         }
     }
 

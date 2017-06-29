@@ -8,10 +8,6 @@ import com.goranch.publicapis.ui.home.HomeFragment;
 
 import dagger.Component;
 
-/**
- * Created by goran on 10/09/2016.
- */
-
 @ApiScope
 @Component(dependencies = PublicApisComponent.class, modules = ApiModule.class)
 public interface ApiComponent {
@@ -24,4 +20,6 @@ public interface ApiComponent {
     ShazamService apiService();
 
     FoodService foodService();
+
+    NutritionService nutritionService();
 }

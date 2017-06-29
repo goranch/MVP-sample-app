@@ -17,4 +17,17 @@
     <string name="no_recipe_id">No Recipe Id</string>
     <string name="source">Source:</string>
     <string name="rating">Rating:</string>
+    <string name="more_details">More details</string>
+    <string name="nutrition_details">%1$s %2$s,
+        \nWeight: %3$s grams
+        \nProtein: %4$s
+        \nCalories: %5$s
+        \nTotal fat: %6$s
+        \nSaturated fat: %7$s
+        \nCholesterol: %8$s
+        \nSodium: %9$s
+        \nCarbohydrate: %10$s
+        \nDietary fiber: %11$s
+        \nSugars: %12$s
+    </string>
 </resources>

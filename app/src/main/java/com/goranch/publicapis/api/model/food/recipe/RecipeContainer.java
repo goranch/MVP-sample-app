@@ -1,11 +1,7 @@
-package com.goranch.publicapis.api.model.food;
+package com.goranch.publicapis.api.model.food.recipe;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-/**
- * Created by goran on 13/04/2017.
- */
 
 public class RecipeContainer {
 

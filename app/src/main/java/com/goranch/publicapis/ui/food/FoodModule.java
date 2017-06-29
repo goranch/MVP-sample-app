@@ -1,6 +1,7 @@
 package com.goranch.publicapis.ui.food;
 
 import com.goranch.publicapis.api.FoodService;
+import com.goranch.publicapis.api.NutritionService;
 import com.goranch.publicapis.di.scopes.FoodScope;
 
 import dagger.Module;
@@ -22,8 +23,8 @@ public class FoodModule {
 
     @Provides
     @FoodScope
-    FoodDataRepositoryImpl provideFoodDataRepo(FoodService foodService) {
-        return new FoodDataRepositoryImpl(foodService);
+    FoodDataRepositoryImpl provideFoodDataRepo(FoodService foodService, NutritionService nutritionService) {
+        return new FoodDataRepositoryImpl(foodService, nutritionService);
     }
 
 //    @Provides

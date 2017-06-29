@@ -1,11 +1,11 @@
 package com.goranch.publicapis.api;
 
-import com.goranch.publicapis.api.model.food.ApiResult;
-import com.goranch.publicapis.api.model.food.RecipeContainer;
+import com.goranch.publicapis.api.model.food.recipe.ApiResult;
+import com.goranch.publicapis.api.model.food.recipe.RecipeContainer;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 public interface FoodService {
 

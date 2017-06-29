@@ -7,7 +7,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackground">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/recipe_image"
@@ -25,7 +26,6 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/recipe_image"
-            android:background="?android:attr/selectableItemBackground"
             android:gravity="center|start"
             android:paddingEnd="@dimen/title_padding"
             android:paddingStart="@dimen/title_padding"

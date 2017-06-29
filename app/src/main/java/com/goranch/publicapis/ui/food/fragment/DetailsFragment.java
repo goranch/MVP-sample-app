@@ -1,12 +1,15 @@
 package com.goranch.publicapis.ui.food.fragment;
 
+import android.app.Dialog;
 import android.arch.lifecycle.LifecycleFragment;
 import android.arch.lifecycle.ViewModelProviders;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,22 +21,26 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.goranch.publicapis.R;
 import com.goranch.publicapis.api.ApiComponent;
-import com.goranch.publicapis.api.model.food.Recipe;
+import com.goranch.publicapis.api.model.food.nutrition.Food;
+import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
 import com.goranch.publicapis.ui.food.details.DetailRecipeView;
 import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
-import com.goranch.publicapis.ui.food.viewmodel.FoodDetailViewModel;
+import com.goranch.publicapis.ui.food.details.NutritionRecyclerAdapter;
+import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
+import com.goranch.publicapis.ui.util.Utils;
 import com.goranch.publicapis.ui.webview.WebFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.support.design.widget.Snackbar.LENGTH_LONG;
 
 
 public class DetailsFragment extends LifecycleFragment implements DetailRecipeView {
@@ -57,17 +64,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     FoodDataRepositoryImpl repository;
 
     private Recipe recipeData;
-    private String recipeId;
-    private FoodDetailViewModel viewModel;
+    private FoodViewModel viewModel;
 
-    public static DetailsFragment newInstance(Recipe mItem) {
-        Bundle b = new Bundle();
-        b.putSerializable(FoodFragment.RECIPE_ITEM, mItem.getRecipeId());
-        DetailsFragment fragment = new DetailsFragment();
-        fragment.setArguments(b);
-        return fragment;
+    public static DetailsFragment newInstance() {
+        return new DetailsFragment();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,15 +89,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
         ButterKnife.bind(this, v);
 
-        if (getArguments() != null) {
-            Bundle b = getArguments();
-            recipeId = (String) b.getSerializable(FoodFragment.RECIPE_ITEM);
-        } else {
-            if (getView() != null) {
-                Snackbar.make(getView(), R.string.no_recipe_id, LENGTH_LONG).show();
-            }
-        }
-
         return v;
     }
 
@@ -102,39 +96,62 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FoodDetailViewModel.Factory factory = new FoodDetailViewModel.Factory(repository);
-
-        viewModel = ViewModelProviders.of(this, factory).get(FoodDetailViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(FoodViewModel.class);
 
         subscribeToLiveDataChanges();
-
-        showProgress();
-        viewModel.getRecipe(recipeId);
     }
 
     private void subscribeToLiveDataChanges() {
         viewModel.getObservableRecipe().observe(this, this::loadNewData);
+        viewModel.getRecipeId().observe(this, this::getSingleRecipe);
+        viewModel.getNutritionList().observe(this, this::loadNutritionDetails);
     }
 
-    private void loadNewData(Recipe recipe) {
-        hideProgress();
-
-        recipeData = recipe;
-
-        getActivity().setTitle(recipe.getTitle());
-
-        recipeImage.setImageURI(Uri.parse(recipe.getImageUrl()));
-
-        ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
-
-        ingredientsLinearLayout.removeAllViews();
-        for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
-            ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
+    public void getSingleRecipe(String recipeId) {
+        if (recipeData.getIngredients() == null) {
+            showProgress();
+            viewModel.getSingleRecipe(recipeId);
         }
+    }
 
-        publishersName.setText(recipe.getPublisher());
-        socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipe.getSocialRank().toString()))));
+    @Override
+    public void onItemClicked(Food item) {
+        //do nothing for now
+    }
 
+    @Override
+    public String getNutritionText(Food food) {
+        return getResources().getString(R.string.nutrition_details,
+                String.valueOf(food.getServingQty().intValue()),
+                food.getFoodName(),
+                String.valueOf(food.getServingWeightGrams()),
+                String.valueOf(food.getNfProtein()),
+                String.valueOf(food.getNfCalories()),
+                String.valueOf(food.getNfTotalFat()),
+                String.valueOf(food.getNfSaturatedFat()),
+                String.valueOf(food.getNfCholesterol()),
+                String.valueOf(food.getNfSodium()),
+                String.valueOf(food.getNfTotalCarbohydrate()),
+                String.valueOf(food.getNfDietaryFiber()),
+                String.valueOf(food.getNfSugars()));
+    }
+
+    private void loadNewData(@NonNull Recipe recipe) {
+        hideProgress();
+        recipeData = recipe;
+        getActivity().setTitle(recipeData.getTitle());
+
+        recipeImage.setImageURI(Uri.parse(recipeData.getImageUrl()));
+        publishersName.setText(recipeData.getPublisher());
+        socialRank.setText(String.valueOf(Math.round(Double.parseDouble(recipeData.getSocialRank().toString()))));
+
+        if (recipe.getIngredients() != null) {
+            ArrayAdapter<String> ingredientsAdapter = new ArrayAdapter<>(getContext(), R.layout.simple_list_item_mine, recipe.getIngredients());
+            ingredientsLinearLayout.removeAllViews();
+            for (int i = 0; i < ingredientsAdapter.getCount(); i++) {
+                ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
+            }
+        }
     }
 
     @OnClick(R.id.tv_view_instructions)
@@ -143,18 +160,43 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     }
 
     @OnClick(R.id.tv_view_original)
-    public void openPublisher() {
-        openWebView(recipeData.getPublisherUrl());
+    public void openSource() {
+        openWebView(recipeData.getSourceUrl());
     }
+
+    @OnClick(R.id.btn_more_details)
+    public void showNutritionDetails() {
+        showProgress();
+        viewModel.getNaturalLanguageNutritionInfo(getIngredients());
+        loadNutritionDetails(new ArrayList<>());
+    }
+
+    private void loadNutritionDetails(List<Food> foods) {
+        if (foods != null && foods.size() > 0) {
+            hideProgress();
+            Dialog dialog = new Dialog(getActivity());
+            dialog.setContentView(R.layout.nutrition_dialog_layout);
+            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            dialog.setCancelable(true);
+            dialog.show();
+            dialog.setOnCancelListener(dialog1 -> hideProgress());
+            RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.nutrition_list);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            NutritionRecyclerAdapter adapter = new NutritionRecyclerAdapter(this, foods);
+            recyclerView.setAdapter(adapter);
+
+            adapter.notifyDataSetChanged();
+            viewModel.resetNutritionList();
+        }
+    }
+
 
     @Override
     public void openWebView(String url) {
-        WebFragment f = WebFragment.newInstance(url);
-        FragmentTransaction t = getActivity().getSupportFragmentManager().beginTransaction();
-        t.replace(R.id.fragment_holder, f);
-        t.addToBackStack(null);
-        t.commit();
+        Utils.openFragment(getActivity(), WebFragment.newInstance(url), true);
     }
+
 
     @Override
     public void showProgress() {
@@ -164,5 +206,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    public String getIngredients() {
+        StringBuilder builder = new StringBuilder();
+        for (String s : recipeData.getIngredients()) {
+            builder.append(s);
+        }
+        return builder.toString();
     }
 }

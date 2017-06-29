@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-    <LinearLayout
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/iv_recipe_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:viewAspectRatio="1.7" />
+            fresco:viewAspectRatio="1.7" />
 
 
         <TextView
@@ -32,28 +33,47 @@
             android:layout_height="wrap_content"
             android:baselineAligned="false" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/darker_gray"
-            android:padding="@dimen/sep_padding"
-            android:text="@string/ingredients"
-            android:textAllCaps="true"
-            android:textSize="@dimen/separator_text_size"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/btn_more_details"
+                    android:background="@android:color/darker_gray"
+                    android:padding="@dimen/sep_padding"
+                    android:text="@string/ingredients"
+                    android:textAllCaps="true"
+                    android:textSize="@dimen/separator_text_size" />
 
-        <LinearLayout
-            android:id="@+id/lv_ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical">
+                <Button
+                    android:id="@id/btn_more_details"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/more_details" />
 
+                <ProgressBar
+                    android:id="@+id/progressBar3"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="411dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:visibility="gone"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:visibility="visible" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/lv_ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" />
         </LinearLayout>
-    </LinearLayout>
 </ScrollView>
