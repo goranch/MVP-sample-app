@@ -9,7 +9,7 @@ import com.goranch.publicapis.api.ApiModule;
 import com.goranch.publicapis.api.model.food.nutrition.Food;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
-import com.goranch.publicapis.ui.food.IDataRepository;
+import com.goranch.publicapis.ui.food.IFoodRepository;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
 
 import java.util.List;
@@ -20,10 +20,10 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private MutableLiveData<List<Recipe>> observableRecipeList = new MutableLiveData<>();
     private MutableLiveData<List<Food>> observableNutritionList = new MutableLiveData<>();
     private MutableLiveData<String> observableRecipeID = new MutableLiveData<>();
-    private IDataRepository repository;
+    private IFoodRepository repository;
     private SearchRecipeView view;
 
-    private FoodViewModel(IDataRepository foodDataRepository, SearchRecipeView view) {
+    private FoodViewModel(IFoodRepository foodDataRepository, SearchRecipeView view) {
         this.repository = foodDataRepository;
         this.view = view;
     }
@@ -78,12 +78,12 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     public static class Factory extends ViewModelProvider.NewInstanceFactory {
 
         @NonNull
-        private final IDataRepository repository;
+        private final IFoodRepository repository;
 
         //TODO check if its a good idea to hold a reference to the fragment here
         private SearchRecipeView view;
 
-        public Factory(@NonNull IDataRepository repository,
+        public Factory(@NonNull IFoodRepository repository,
                        @NonNull SearchRecipeView view) {
             this.repository = repository;
             this.view = view;

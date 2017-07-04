@@ -9,8 +9,10 @@ import java.util.List;
 
 import javax.annotation.Generated;
 
+import io.realm.RealmObject;
+
 @Generated("org.jsonschema2pojo")
-public class Recipe implements Serializable {
+public class Recipe extends RealmObject implements Serializable {
 
     @SerializedName("publisher")
     @Expose

@@ -10,21 +10,26 @@ import com.goranch.publicapis.api.model.food.recipe.ApiResult;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.api.model.food.recipe.RecipeContainer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
+import io.realm.RealmObject;
 
-public class FoodDataRepositoryImpl implements IDataRepository {
+public class FoodDataRepositoryImpl implements IFoodRepository {
     private static final String TAG = FoodDataRepositoryImpl.class.getSimpleName();
     private final FoodService foodService;
     private final NutritionService nutritionService;
+    private Realm realm;
 
     public FoodDataRepositoryImpl(FoodService foodService, NutritionService nutritionService) {
         this.foodService = foodService;
         this.nutritionService = nutritionService;
+
+// Get a Realm instance for this thread
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -36,7 +41,7 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                 .map(ApiResult::getRecipes)
                 .onErrorReturn(throwable -> {
                     Log.e("http error", throwable.toString());
-                    return new ArrayList<>();
+                    return null;
                 });
     }
 
@@ -49,7 +54,7 @@ public class FoodDataRepositoryImpl implements IDataRepository {
                 .map(RecipeContainer::getRecipe)
                 .onErrorReturn(throwable -> {
                     Log.e("http error", throwable.toString());
-                    return new Recipe();
+                    return null;
                 });
 
     }
@@ -61,11 +66,58 @@ public class FoodDataRepositoryImpl implements IDataRepository {
         return nutritionService.searchNutrients(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .map(foods -> {
+                    saveFoods(foods);
+                    return foods;
+                })
                 .map(Foods::getFoods)
                 .onErrorReturn(throwable -> {
                     Log.e("http error", throwable.toString());
-                    return new ArrayList<>();
+                    return null;
                 });
+    }
+
+    @Override
+    public void saveRecipe(Recipe recipe) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(recipe);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void saveSearchQuery(RealmObject query) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(query);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public void saveFoodForRecipe(String recipeName, List<Food> food) {
+
+    }
+
+    @Override
+    public List<Recipe> getAllSavedRecipes() {
+        return null;
+    }
+
+    @Override
+    public List<RealmObject> getAllSearchQueries() {
+        return null;
+    }
+
+    @Override
+    public List<Recipe> getAllFavouriteRecipes() {
+        return null;
+    }
+
+    @Override
+    public void saveFoods(Foods foods) {
+        realm.beginTransaction();
+        for (Food f : foods.getFoods()) {
+            realm.copyToRealmOrUpdate(f);
+        }
+        realm.commitTransaction();
     }
 
     public class HTTPRequestBody {

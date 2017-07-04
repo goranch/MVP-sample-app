@@ -11,6 +11,8 @@ import com.goranch.publicapis.di.DaggerPublicApisComponent;
 import com.goranch.publicapis.di.PublicApisComponent;
 import com.goranch.publicapis.di.PublicApisModule;
 
+import io.realm.Realm;
+
 public class PublicAPIsApp extends Application implements ComponentProvider<ApiComponent> {
     private ApiComponent apiComponent;
 
@@ -29,6 +31,9 @@ public class PublicAPIsApp extends Application implements ComponentProvider<ApiC
 
         // Fresco for image loading
         Fresco.initialize(this);
+
+        // Initialize Realm
+        Realm.init(this);
     }
 
     @Override

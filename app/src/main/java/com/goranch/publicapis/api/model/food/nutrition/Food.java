@@ -6,8 +6,12 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Food {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
+public class Food extends RealmObject {
+
+    @PrimaryKey
     @SerializedName("food_name")
     @Expose
     private String foodName;

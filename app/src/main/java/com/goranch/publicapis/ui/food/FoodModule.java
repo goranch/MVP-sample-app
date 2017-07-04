@@ -29,7 +29,7 @@ public class FoodModule {
 
 //    @Provides
 //    @FoodScope
-//    FoodViewModel provideFoodViewModel(IDataRepository repository, SearchRecipeView view) {
+//    FoodViewModel provideFoodViewModel(IFoodRepository repository, SearchRecipeView view) {
 //        return ViewModelProviders.of((LifecycleFragment) view, new FoodViewModel.Factory(repository, view)).get(FoodViewModel.class);
 //    }
 
