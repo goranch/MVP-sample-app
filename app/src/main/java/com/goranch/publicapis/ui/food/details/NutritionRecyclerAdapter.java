@@ -18,16 +18,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NutritionRecyclerAdapter extends RecyclerView.Adapter<NutritionRecyclerAdapter.ViewHolder> {
-    private List<Food> recipes = new ArrayList<>();
+    private List<Food> food = new ArrayList<>();
     private DetailRecipeView view;
 
-    public NutritionRecyclerAdapter(DetailRecipeView view, List<Food> recipes) {
-        this.recipes = recipes;
+    public NutritionRecyclerAdapter(DetailRecipeView view, List<Food> food) {
+        this.food = food;
         this.view = view;
     }
 
-    public void setRecipes(List<Food> recipes) {
-        this.recipes = recipes;
+    public void setFood(List<Food> food) {
+        this.food = food;
     }
 
     @Override
@@ -40,17 +40,17 @@ public class NutritionRecyclerAdapter extends RecyclerView.Adapter<NutritionRecy
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        final Food food = recipes.get(position);
+        final Food food = this.food.get(position);
 
         holder.item = food;
-        holder.title.setText(food.getFoodName());
+        holder.title.setText(view.getNutritionText(food));
         holder.image.setImageURI(Uri.parse(food.getPhoto().getThumb()));
     }
 
     @Override
     public int getItemCount() {
-        if (recipes != null) {
-            return recipes.size();
+        if (food != null) {
+            return food.size();
         } else {
             return 0;
         }
