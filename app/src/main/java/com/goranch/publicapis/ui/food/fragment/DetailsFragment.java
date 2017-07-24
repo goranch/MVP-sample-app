@@ -136,6 +136,11 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
                 String.valueOf(food.getNfSugars()));
     }
 
+    @Override
+    public void showHTTPError() {
+
+    }
+
     private void loadNewData(@NonNull Recipe recipe) {
         hideProgress();
         recipeData = recipe;
@@ -152,23 +157,6 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
                 ingredientsLinearLayout.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout));
             }
         }
-    }
-
-    @OnClick(R.id.tv_view_instructions)
-    public void openInstructions() {
-        openWebView(recipeData.getF2fUrl());
-    }
-
-    @OnClick(R.id.tv_view_original)
-    public void openSource() {
-        openWebView(recipeData.getSourceUrl());
-    }
-
-    @OnClick(R.id.btn_more_details)
-    public void showNutritionDetails() {
-        showProgress();
-        viewModel.getNaturalLanguageNutritionInfo(getIngredients());
-        loadNutritionDetails(new ArrayList<>());
     }
 
     private void loadNutritionDetails(List<Food> foods) {
@@ -214,5 +202,22 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
             builder.append(s);
         }
         return builder.toString();
+    }
+
+    @OnClick(R.id.tv_view_instructions)
+    public void openInstructions() {
+        openWebView(recipeData.getF2fUrl());
+    }
+
+    @OnClick(R.id.tv_view_original)
+    public void openSource() {
+        openWebView(recipeData.getSourceUrl());
+    }
+
+    @OnClick(R.id.btn_more_details)
+    public void showNutritionDetails() {
+        showProgress();
+        viewModel.getNaturalLanguageNutritionInfo(getIngredients());
+        loadNutritionDetails(new ArrayList<>());
     }
 }

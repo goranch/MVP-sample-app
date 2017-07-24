@@ -6,9 +6,6 @@ import com.goranch.publicapis.ui.food.fragment.FoodFragment;
 
 import dagger.Component;
 
-/**
- * Created by goran on 21/09/2016.
- */
 
 @FoodScope
 @Component(dependencies = ApiComponent.class, modules = FoodModule.class)

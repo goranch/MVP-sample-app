@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -97,7 +98,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        FoodViewModel.Factory factory = new FoodViewModel.Factory(repository, this);
+        FoodViewModel.Factory factory = new FoodViewModel.Factory(repository);
 
         viewModel = ViewModelProviders.of(getActivity(), factory).get(FoodViewModel.class);
 
@@ -110,7 +111,6 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
         }
 
         recyclerView.setLayoutManager(gridLayoutManager);
-
         recyclerView.setAdapter(adapter);
 
         search.setSingleLine();
@@ -130,6 +130,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     @Override
     public void loadData(List<Recipe> recipeList) {
+        hideProgress();
         this.recipeList = recipeList;
         adapter.setRecipes(this.recipeList);
         adapter.notifyDataSetChanged();
@@ -143,6 +144,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     @OnClick(R.id.btn_search)
     public void searchRecipe() {
+        showProgress();
         getRecipes(search.getText().toString());
     }
 
@@ -164,6 +166,15 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
     @Override
     public void onItemClicked(Recipe mItem) {
         viewModel.onItemClicked(mItem);
+        openDetailsFragment();
+    }
+
+    @Override
+    public void showHTTPError() {
+        if (getView() != null) {
+            Snackbar snackbar = Snackbar.make(getView(), R.string.http_error, Snackbar.LENGTH_LONG);
+            snackbar.setAction(R.string.dismiss, v -> snackbar.dismiss()).show();
+        }
     }
 
     @Override

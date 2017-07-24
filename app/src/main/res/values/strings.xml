@@ -30,4 +30,6 @@
         \nDietary fiber: %11$s
         \nSugars: %12$s
     </string>
+    <string name="http_error">No result from server. Please try again</string>
+    <string name="dismiss">Dismiss</string>
 </resources>

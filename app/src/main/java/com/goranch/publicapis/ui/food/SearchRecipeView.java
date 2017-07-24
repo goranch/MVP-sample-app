@@ -16,4 +16,6 @@ public interface SearchRecipeView {
     void openDetailsFragment();
 
     void onItemClicked(Recipe mItem);
+
+    void showHTTPError();
 }

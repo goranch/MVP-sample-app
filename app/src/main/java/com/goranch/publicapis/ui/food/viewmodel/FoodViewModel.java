@@ -10,7 +10,6 @@ import com.goranch.publicapis.api.model.food.nutrition.Food;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.IDataRepository;
-import com.goranch.publicapis.ui.food.SearchRecipeView;
 
 import java.util.List;
 
@@ -21,18 +20,15 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     private MutableLiveData<List<Food>> observableNutritionList = new MutableLiveData<>();
     private MutableLiveData<String> observableRecipeID = new MutableLiveData<>();
     private IDataRepository repository;
-    private SearchRecipeView view;
 
-    private FoodViewModel(IDataRepository foodDataRepository, SearchRecipeView view) {
+    private FoodViewModel(IDataRepository foodDataRepository) {
         this.repository = foodDataRepository;
-        this.view = view;
     }
 
     @Override
     public void getRecipes(String query) {
         repository.searchRecipes(ApiModule.RECIPE_API_KEY, query)
                 .subscribe(observableRecipeList::setValue);
-        view.showProgress();
     }
 
     @Override
@@ -51,7 +47,6 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
     public void onItemClicked(Recipe item) {
         observableRecipe.setValue(item);
         observableRecipeID.setValue(item.getRecipeId());
-        view.openDetailsFragment();
     }
 
     public MutableLiveData<List<Recipe>> getObservableRecipeList() {
@@ -80,13 +75,8 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
         @NonNull
         private final IDataRepository repository;
 
-        //TODO check if its a good idea to hold a reference to the fragment here
-        private SearchRecipeView view;
-
-        public Factory(@NonNull IDataRepository repository,
-                       @NonNull SearchRecipeView view) {
+        public Factory(@NonNull IDataRepository repository) {
             this.repository = repository;
-            this.view = view;
         }
 
         public Factory(@NonNull FoodDataRepositoryImpl repository) {
@@ -96,7 +86,7 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new FoodViewModel(repository, view);
+            return (T) new FoodViewModel(repository);
         }
     }
 }

@@ -15,4 +15,6 @@ public interface DetailRecipeView {
     void onItemClicked(Food item);
 
     String getNutritionText(Food food);
+
+    void showHTTPError();
 }

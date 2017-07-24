@@ -16,6 +16,7 @@
             android:layout_width="@dimen/nutrition_height"
             android:layout_height="@dimen/nutrition_height"
             android:layout_centerVertical="true"
+            android:padding="@dimen/nutrition_image_padding"
             fresco:roundingBorderColor="@color/colorAccent"
             fresco:roundingBorderWidth="1dp" />
 
