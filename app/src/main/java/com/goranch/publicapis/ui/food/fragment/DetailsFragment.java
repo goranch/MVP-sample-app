@@ -29,7 +29,7 @@ import com.goranch.publicapis.ui.food.details.DaggerDetailsFoodComponent;
 import com.goranch.publicapis.ui.food.details.DetailRecipeView;
 import com.goranch.publicapis.ui.food.details.DetailsFoodModule;
 import com.goranch.publicapis.ui.food.details.NutritionRecyclerAdapter;
-import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
+import com.goranch.publicapis.ui.food.viewmodel.DetailsViewModel;
 import com.goranch.publicapis.ui.util.Utils;
 import com.goranch.publicapis.ui.webview.WebFragment;
 
@@ -64,7 +64,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     FoodDataRepositoryImpl repository;
 
     private Recipe recipeData;
-    private FoodViewModel viewModel;
+    private DetailsViewModel viewModel;
 
     public static DetailsFragment newInstance() {
         return new DetailsFragment();
@@ -96,7 +96,9 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(FoodViewModel.class);
+        DetailsViewModel.Factory factory = new DetailsViewModel.Factory(repository);
+
+        viewModel = ViewModelProviders.of(getActivity(), factory).get(DetailsViewModel.class);
 
         subscribeToLiveDataChanges();
     }

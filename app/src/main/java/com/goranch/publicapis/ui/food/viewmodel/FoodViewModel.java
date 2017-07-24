@@ -31,19 +31,19 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
                 .subscribe(observableRecipeList::setValue);
     }
 
-    @Override
-    public void getSingleRecipe(String recipeId) {
-        repository.getRecipe(ApiModule.RECIPE_API_KEY, recipeId)
-                .subscribe(observableRecipe::setValue);
-    }
+//    @Override
+//    public void getSingleRecipe(String recipeId) {
+//        repository.getRecipe(ApiModule.RECIPE_API_KEY, recipeId)
+//                .subscribe(observableRecipe::setValue);
+//    }
+//
+//    @Override
+//    public void getNaturalLanguageNutritionInfo(String ingredients) {
+//        repository.getNaturalLanguageNutritionInfo(ingredients)
+//                .subscribe(observableNutritionList::setValue);
+//    }
 
-    @Override
-    public void getNaturalLanguageNutritionInfo(String ingredients) {
-        repository.getNaturalLanguageNutritionInfo(ingredients)
-                .subscribe(observableNutritionList::setValue);
-    }
-
-    @Override
+    //    @Override
     public void onItemClicked(Recipe item) {
         observableRecipe.setValue(item);
         observableRecipeID.setValue(item.getRecipeId());
@@ -53,21 +53,21 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
         return observableRecipeList;
     }
 
-    public MutableLiveData<Recipe> getObservableRecipe() {
-        return observableRecipe;
-    }
-
-    public MutableLiveData<String> getRecipeId() {
-        return observableRecipeID;
-    }
-
-    public MutableLiveData<List<Food>> getNutritionList() {
-        return observableNutritionList;
-    }
-
-    public void resetNutritionList() {
-        observableNutritionList.setValue(null);
-    }
+//    public MutableLiveData<Recipe> getObservableRecipe() {
+//        return observableRecipe;
+//    }
+//
+//    public MutableLiveData<String> getRecipeId() {
+//        return observableRecipeID;
+//    }
+//
+//    public MutableLiveData<List<Food>> getNutritionList() {
+//        return observableNutritionList;
+//    }
+//
+//    public void resetNutritionList() {
+//        observableNutritionList.setValue(null);
+//    }
 
     //Inject dependencies. It was the preferred way in the example app by Google
     public static class Factory extends ViewModelProvider.NewInstanceFactory {

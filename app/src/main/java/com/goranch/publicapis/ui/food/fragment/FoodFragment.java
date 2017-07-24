@@ -165,7 +165,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     @Override
     public void onItemClicked(Recipe mItem) {
-        viewModel.onItemClicked(mItem);
+//        viewModel.onItemClicked(mItem);
         openDetailsFragment();
     }
 
