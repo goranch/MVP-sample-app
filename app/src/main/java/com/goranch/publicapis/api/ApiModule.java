@@ -6,6 +6,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.goranch.publicapis.di.scopes.ApiScope;
+import com.jakewharton.byteunits.DecimalByteUnit;
 
 import java.io.File;
 
@@ -21,8 +22,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.jakewharton.byteunits.DecimalByteUnit.MEGABYTES;
-
 /**
  * Provides a single instance of {@link retrofit2.Retrofit}.
  */
@@ -34,7 +33,7 @@ public final class ApiModule {
     private static final HttpUrl RECIPE_API_URL = HttpUrl.parse("http://food2fork.com");
     private static final HttpUrl NUTRITION_API_URL = HttpUrl.parse("https://trackapi.nutritionix.com");
     private static final HttpUrl SHAZAM_API_URL = HttpUrl.parse("http://cdn.shazam.com");
-    private static final long DISK_CACHE_SIZE = (int) MEGABYTES.toBytes(50);
+    private static final long DISK_CACHE_SIZE = (int) DecimalByteUnit.MEGABYTES.toBytes(50);
     private static final String NUTRITION = "nutrition";
     private static final String FOOD = "food";
 //    private static final long FOOD_CACHE_SIZE = (int) MEGABYTES.toBytes(25);
@@ -177,3 +176,5 @@ public final class ApiModule {
     }
 
 }
+
+
