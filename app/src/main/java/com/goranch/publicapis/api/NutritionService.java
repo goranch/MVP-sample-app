@@ -2,7 +2,7 @@ package com.goranch.publicapis.api;
 
 
 import com.goranch.publicapis.api.model.food.nutrition.Foods;
-import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
+import com.goranch.publicapis.ui.food.repository.FoodDataRepositoryImpl;
 
 import io.reactivex.Observable;
 import retrofit2.http.Body;

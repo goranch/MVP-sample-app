@@ -8,8 +8,8 @@ import android.support.annotation.NonNull;
 import com.goranch.publicapis.api.ApiModule;
 import com.goranch.publicapis.api.model.food.nutrition.Food;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
-import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
-import com.goranch.publicapis.ui.food.IDataRepository;
+import com.goranch.publicapis.ui.food.repository.FoodDataRepositoryImpl;
+import com.goranch.publicapis.ui.food.repository.IDataRepository;
 
 import java.util.List;
 

@@ -3,6 +3,7 @@ package com.goranch.publicapis.ui.food;
 import com.goranch.publicapis.api.FoodService;
 import com.goranch.publicapis.api.NutritionService;
 import com.goranch.publicapis.di.scopes.FoodScope;
+import com.goranch.publicapis.ui.food.repository.FoodDataRepositoryImpl;
 
 import dagger.Module;
 import dagger.Provides;

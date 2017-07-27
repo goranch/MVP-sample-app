@@ -1,4 +1,4 @@
-package com.goranch.publicapis.ui.food;
+package com.goranch.publicapis.ui.food.repository;
 
 import com.goranch.publicapis.api.model.food.nutrition.Food;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;

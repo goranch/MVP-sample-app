@@ -24,10 +24,10 @@ import com.goranch.publicapis.api.ApiComponent;
 import com.goranch.publicapis.api.model.food.recipe.Recipe;
 import com.goranch.publicapis.di.ComponentProvider;
 import com.goranch.publicapis.ui.food.DaggerFoodComponent;
-import com.goranch.publicapis.ui.food.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.FoodModule;
 import com.goranch.publicapis.ui.food.RecipeRecyclerAdapter;
 import com.goranch.publicapis.ui.food.SearchRecipeView;
+import com.goranch.publicapis.ui.food.repository.FoodDataRepositoryImpl;
 import com.goranch.publicapis.ui.food.viewmodel.FoodViewModel;
 import com.goranch.publicapis.ui.util.Utils;
 

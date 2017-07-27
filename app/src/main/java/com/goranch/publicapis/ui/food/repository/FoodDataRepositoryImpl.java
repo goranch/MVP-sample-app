@@ -1,4 +1,4 @@
-package com.goranch.publicapis.ui.food;
+package com.goranch.publicapis.ui.food.repository;
 
 import android.util.Log;
 
