@@ -27,13 +27,13 @@ public class FoodViewModel extends ViewModel implements IFoodViewModel {
 
     @Override
     public void getRecipes(String query) {
-        repository.searchRecipes(ApiModule.RECIPE_API_KEY, query)
+        repository.searchRecipes(ApiModule.Companion.getRECIPE_API_KEY(), query)
                 .subscribe(observableRecipeList::setValue);
     }
 
     @Override
     public void getSingleRecipe(String recipeId) {
-        repository.getRecipe(ApiModule.RECIPE_API_KEY, recipeId)
+        repository.getRecipe(ApiModule.Companion.getRECIPE_API_KEY(), recipeId)
                 .subscribe(observableRecipe::setValue);
     }
 

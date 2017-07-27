@@ -21,9 +21,6 @@ allprojects {
     }
 }
 
-task cleanz(type: Delete) {
-    delete rootProject.buildDir
-}
 repositories {
     mavenCentral()
 }
