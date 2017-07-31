@@ -27,7 +27,7 @@ public class FoodActivity extends AppCompatActivity implements FoodActivityView 
         setTitle();
 
         if (savedInstanceState == null) {
-            Utils.openFragment(this, FoodFragment.newInstance(), false);
+            Utils.INSTANCE.openFragment(this, FoodFragment.newInstance(), false);
         }
     }
 

@@ -160,7 +160,7 @@ public class FoodFragment extends LifecycleFragment implements SearchRecipeView,
 
     @Override
     public void openDetailsFragment() {
-        Utils.openFragment(getActivity(), DetailsFragment.newInstance(), true);
+        Utils.INSTANCE.openFragment(getActivity(), DetailsFragment.newInstance(), true);
     }
 
     @Override

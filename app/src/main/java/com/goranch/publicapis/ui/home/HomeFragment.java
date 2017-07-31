@@ -35,7 +35,7 @@ public class HomeFragment extends Fragment implements HomeView {
     }
 
     private void replaceFragment(Fragment fragment) {
-        Utils.openFragment(getActivity(), fragment, true);
+        Utils.INSTANCE.openFragment(getActivity(), fragment, true);
     }
 
     @Override

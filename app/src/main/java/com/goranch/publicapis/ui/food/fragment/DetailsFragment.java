@@ -121,19 +121,20 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
     @Override
     public String getNutritionText(Food food) {
-        return getResources().getString(R.string.nutrition_details,
-                String.valueOf(food.getServingQty().intValue()),
-                food.getFoodName(),
-                String.valueOf(food.getServingWeightGrams()),
-                String.valueOf(food.getNfProtein()),
-                String.valueOf(food.getNfCalories()),
-                String.valueOf(food.getNfTotalFat()),
-                String.valueOf(food.getNfSaturatedFat()),
-                String.valueOf(food.getNfCholesterol()),
-                String.valueOf(food.getNfSodium()),
-                String.valueOf(food.getNfTotalCarbohydrate()),
-                String.valueOf(food.getNfDietaryFiber()),
-                String.valueOf(food.getNfSugars()));
+        if (food != null)
+            return getResources().getString(R.string.nutrition_details,
+                    String.valueOf(food.getServingQty().intValue()),
+                    food.getFoodName(),
+                    String.valueOf(food.getServingWeightGrams()),
+                    String.valueOf(food.getNfProtein()),
+                    String.valueOf(food.getNfCalories()),
+                    String.valueOf(food.getNfTotalFat()),
+                    String.valueOf(food.getNfSaturatedFat()),
+                    String.valueOf(food.getNfCholesterol()),
+                    String.valueOf(food.getNfSodium()),
+                    String.valueOf(food.getNfTotalCarbohydrate()),
+                    String.valueOf(food.getNfDietaryFiber()),
+                    String.valueOf(food.getNfSugars()));
     }
 
     @Override
@@ -169,7 +170,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
             dialog.setCancelable(true);
             dialog.show();
             dialog.setOnCancelListener(dialog1 -> hideProgress());
-            RecyclerView recyclerView = (RecyclerView) dialog.findViewById(R.id.nutrition_list);
+            RecyclerView recyclerView = dialog.findViewById(R.id.nutrition_list);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             NutritionRecyclerAdapter adapter = new NutritionRecyclerAdapter(this, foods);
             recyclerView.setAdapter(adapter);
@@ -182,7 +183,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
     @Override
     public void openWebView(String url) {
-        Utils.openFragment(getActivity(), WebFragment.newInstance(url), true);
+        Utils.INSTANCE.openFragment(getActivity(), WebFragment.newInstance(url), true);
     }
 
 
