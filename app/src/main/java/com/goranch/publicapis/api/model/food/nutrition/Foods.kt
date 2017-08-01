@@ -7,6 +7,6 @@ class Foods {
 
     @SerializedName("foods")
     @Expose
-    var foods: List<Food>? = null
+    var foods: List<Food> = ArrayList()
 
 }

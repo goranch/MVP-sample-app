@@ -107,7 +107,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
         viewModel.getNutritionList().observe(this, this::loadNutritionDetails);
     }
 
-    public void getSingleRecipe(String recipeId) {
+    public void getSingleRecipe(@NonNull String recipeId) {
         if (recipeData.getIngredients() == null) {
             showProgress();
             viewModel.getSingleRecipe(recipeId);
@@ -115,13 +115,13 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
     }
 
     @Override
-    public void onItemClicked(Food item) {
+    public void onItemClicked(@NonNull Food item) {
         //do nothing for now
     }
 
     @Override
-    public String getNutritionText(Food food) {
-        if (food != null)
+    public String getNutritionText(@NonNull Food food) {
+        if (food != null) {
             return getResources().getString(R.string.nutrition_details,
                     String.valueOf(food.getServingQty().intValue()),
                     food.getFoodName(),
@@ -135,6 +135,9 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
                     String.valueOf(food.getNfTotalCarbohydrate()),
                     String.valueOf(food.getNfDietaryFiber()),
                     String.valueOf(food.getNfSugars()));
+        } else {
+            return getResources().getString(R.string.no_nutrition_to_display);
+        }
     }
 
     @Override
@@ -182,7 +185,7 @@ public class DetailsFragment extends LifecycleFragment implements DetailRecipeVi
 
 
     @Override
-    public void openWebView(String url) {
+    public void openWebView(@NonNull String url) {
         Utils.INSTANCE.openFragment(getActivity(), WebFragment.newInstance(url), true);
     }
 

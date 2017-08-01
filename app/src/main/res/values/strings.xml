@@ -32,4 +32,5 @@
     </string>
     <string name="http_error">No result from server. Please try again</string>
     <string name="dismiss">Dismiss</string>
+    <string name="no_nutrition_to_display">No nutrition info</string>
 </resources>

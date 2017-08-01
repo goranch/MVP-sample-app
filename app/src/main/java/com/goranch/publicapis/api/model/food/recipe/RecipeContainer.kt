@@ -7,6 +7,6 @@ class RecipeContainer {
 
     @SerializedName("recipe")
     @Expose
-    var recipe: Recipe? = null
+    var recipe: Recipe = Recipe()
 
 }

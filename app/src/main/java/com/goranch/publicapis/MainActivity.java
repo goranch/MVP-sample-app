@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements HomeView {
         ButterKnife.bind(this);
 
         if (savedInstanceState == null) {
-            Utils.INSTANCE.openFragment(this, HomeFragment.newInstance(), false);
+            Utils.INSTANCE.openFragment(this, HomeFragment.Companion.newInstance(), false);
         }
     }
 
