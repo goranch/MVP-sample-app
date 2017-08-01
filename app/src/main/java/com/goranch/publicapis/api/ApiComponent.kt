@@ -17,8 +17,6 @@ interface ApiComponent {
     // Expose to subgraphs
     fun application(): Application
 
-    fun apiService(): ShazamService
-
     fun foodService(): FoodService
 
     fun nutritionService(): NutritionService

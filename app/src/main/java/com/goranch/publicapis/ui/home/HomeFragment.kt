@@ -10,16 +10,9 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import com.goranch.publicapis.R
 import com.goranch.publicapis.ui.food.FoodActivity
-import com.goranch.publicapis.ui.shazam.MusicFragment
 import com.goranch.publicapis.ui.util.Utils
 
 class HomeFragment : Fragment(), HomeView {
-
-    @OnClick(R.id.btn_shazam)
-    internal fun clickMusic() {
-        val musicFragment = MusicFragment.newInstance()
-        replaceFragment(musicFragment)
-    }
 
     @OnClick(R.id.btn_food)
     internal fun clickFood() {

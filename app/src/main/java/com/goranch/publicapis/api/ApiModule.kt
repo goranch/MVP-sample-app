@@ -58,41 +58,6 @@ class ApiModule {
 
     @Provides
     @ApiScope
-    @Named("shazam")
-    fun provideBaseUrl(): HttpUrl {
-        return SHAZAM_API_URL!!
-    }
-
-
-    @Provides
-    @ApiScope
-    @Named("shazam")
-    fun provideApiClient(client: OkHttpClient): OkHttpClient {
-        return createApiClient(client).build()
-    }
-
-
-    @Provides
-    @ApiScope
-    @Named("shazam")
-    fun provideRetrofit(@Named("shazam") baseUrl: HttpUrl, @Named("shazam") client: OkHttpClient, gson: Gson): Retrofit {
-        return Retrofit.Builder()
-                .client(client)
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-    }
-
-    //Food2Fork specific
-    @Provides
-    @ApiScope
-    fun provideShazamService(@Named("shazam") retrofit: Retrofit): ShazamService {
-        return retrofit.create(ShazamService::class.java)
-    }
-
-    @Provides
-    @ApiScope
     @Named(FOOD)
     fun provideFoodBaseUrl(): HttpUrl {
         return RECIPE_API_URL!!
