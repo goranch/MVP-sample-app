@@ -5,7 +5,6 @@ import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -96,15 +95,15 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     }
 
     private fun subscribeToLiveDataChanges() {
-        viewModel!!.observableRecipe.observe(this, Observer<Recipe> { this.loadNewData(it!!) })
-        viewModel!!.recipeId.observe(this, Observer<String> { this.getSingleRecipe(it!!) })
-        viewModel!!.nutritionList.observe(this, Observer<List<Food>> { this.loadNutritionDetails(it) })
+        viewModel?.observableRecipe?.observe(this, Observer<Recipe> { this.loadNewData(it!!) })
+        viewModel?.recipeId?.observe(this, Observer<String> { this.getSingleRecipe(it!!) })
+        viewModel?.nutritionList?.observe(this, Observer<List<Food>> { this.loadNutritionDetails(it) })
     }
 
     override fun getSingleRecipe(recipeId: String) {
-        if (recipeData!!.ingredients == null) {
+        if (recipeData?.ingredients == null) {
             showProgress()
-            viewModel!!.getSingleRecipe(recipeId)
+            viewModel?.getSingleRecipe(recipeId)
         }
     }
 
@@ -115,18 +114,18 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     override fun getNutritionText(food: Food): String {
         if (food != null) {
             return resources.getString(R.string.nutrition_details,
-                    food.servingQty!!.toInt().toString(),
-                    food.foodName,
-                    food.servingWeightGrams.toString(),
-                    food.nfProtein.toString(),
-                    food.nfCalories.toString(),
-                    food.nfTotalFat.toString(),
-                    food.nfSaturatedFat.toString(),
-                    food.nfCholesterol.toString(),
-                    food.nfSodium.toString(),
-                    food.nfTotalCarbohydrate.toString(),
-                    food.nfDietaryFiber.toString(),
-                    food.nfSugars.toString())
+                    food.servingQty?.toInt().toString(),
+                    food.foodName?.toString(),
+                    food.servingWeightGrams?.toString(),
+                    food.nfProtein?.toString(),
+                    food.nfCalories?.toString(),
+                    food.nfTotalFat?.toString(),
+                    food.nfSaturatedFat?.toString(),
+                    food.nfCholesterol?.toString(),
+                    food.nfSodium?.toString(),
+                    food.nfTotalCarbohydrate?.toString(),
+                    food.nfDietaryFiber?.toString(),
+                    food.nfSugars?.toString())
         } else {
             return resources.getString(R.string.no_nutrition_to_display)
         }
@@ -139,17 +138,17 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     private fun loadNewData(recipe: Recipe) {
         hideProgress()
         recipeData = recipe
-        activity.title = recipeData!!.title
+        activity.title = recipeData?.title
 
-        recipeImage!!.setImageURI(Uri.parse(recipeData!!.imageUrl))
-        publishersName!!.text = recipeData!!.publisher
-        socialRank!!.text = Math.round(java.lang.Double.parseDouble(recipeData!!.socialRank!!.toString())).toString()
+        recipeImage?.setImageURI(recipeData?.imageUrl)
+        publishersName?.text = recipeData?.publisher
+        socialRank?.text = Math.round(java.lang.Double.parseDouble(recipeData?.socialRank?.toString())).toString()
 
         if (recipe.ingredients != null) {
             val ingredientsAdapter = ArrayAdapter(context, R.layout.simple_list_item_mine, recipe.ingredients!!)
-            ingredientsLinearLayout!!.removeAllViews()
+            ingredientsLinearLayout?.removeAllViews()
             for (i in 0..ingredientsAdapter.count - 1) {
-                ingredientsLinearLayout!!.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout!!))
+                ingredientsLinearLayout?.addView(ingredientsAdapter.getView(i, null, ingredientsLinearLayout!!))
             }
         }
     }
@@ -164,13 +163,14 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
             dialog.setCancelable(true)
             dialog.show()
             dialog.setOnCancelListener { dialog1 -> hideProgress() }
+
             val recyclerView = dialog.findViewById<RecyclerView>(R.id.nutrition_list)
             recyclerView.layoutManager = LinearLayoutManager(activity)
             val adapter = NutritionRecyclerAdapter(this, foods)
             recyclerView.adapter = adapter
 
             adapter.notifyDataSetChanged()
-            viewModel!!.resetNutritionList()
+            viewModel?.resetNutritionList()
         }
     }
 
@@ -181,17 +181,16 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
 
 
     override fun showProgress() {
-        progressBar!!.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progressBar!!.visibility = View.GONE
+        progressBar?.visibility = View.GONE
     }
 
-    val ingredients: String
-        get() {
+    val ingredients: String get() {
             val builder = StringBuilder()
-            for (s in recipeData!!.ingredients!!) {
+        for (s in recipeData?.ingredients!!) {
                 builder.append(s)
             }
             return builder.toString()
@@ -199,18 +198,18 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
 
     @OnClick(R.id.tv_view_instructions)
     fun openInstructions() {
-        openWebView(recipeData!!.f2fUrl!!)
+        openWebView(recipeData?.f2fUrl!!)
     }
 
     @OnClick(R.id.tv_view_original)
     fun openSource() {
-        openWebView(recipeData!!.sourceUrl!!)
+        openWebView(recipeData?.sourceUrl!!)
     }
 
     @OnClick(R.id.btn_more_details)
     fun showNutritionDetails() {
         showProgress()
-        viewModel!!.getNaturalLanguageNutritionInfo(ingredients)
+        viewModel?.getNaturalLanguageNutritionInfo(ingredients)
         loadNutritionDetails(ArrayList<Food>())
     }
 

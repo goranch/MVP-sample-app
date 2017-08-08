@@ -1,6 +1,5 @@
 package com.goranch.publicapis.ui.food
 
-import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -35,8 +34,8 @@ class RecipeRecyclerAdapter(private val view: SearchRecipeView, recipes: List<Re
         val recipe = recipes!![position]
 
         holder.mItem = recipe
-        holder.title!!.text = recipe.title
-        holder.image!!.setImageURI(Uri.parse(recipe.imageUrl))
+        holder.title?.text = recipe.title
+        holder.image?.setImageURI(recipe.imageUrl)
     }
 
     override fun getItemCount(): Int {

@@ -64,7 +64,6 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
         val apiComponent = (activity.applicationContext as ComponentProvider<ApiComponent>).component
         DaggerFoodComponent.builder()
                 .apiComponent(apiComponent)
@@ -101,49 +100,49 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
             gridLayoutManager = GridLayoutManager(activity, 4, Configuration.ORIENTATION_UNDEFINED, false)
         }
 
-        recyclerView!!.layoutManager = gridLayoutManager
-        recyclerView!!.adapter = adapter
+        recyclerView?.layoutManager = gridLayoutManager
+        recyclerView?.adapter = adapter
 
-        search!!.setSingleLine()
-        search!!.setOnEditorActionListener(this)
-        search!!.requestFocus()
+        search?.setSingleLine()
+        search?.setOnEditorActionListener(this)
+        search?.requestFocus()
 
         //TODO save the last searched recipe and set it here
-        search!!.setText("Chicken")
+        search?.setText("Green tea")
 
         subscribeToLiveDataChanges()
     }
 
     // this method will be invoked with the new data every time when the data changes in the ViewModel class.
     private fun subscribeToLiveDataChanges() {
-        viewModel!!.observableRecipeList.observe(this, Observer<List<Recipe>> { this.loadData(it!!) })
+        viewModel?.observableRecipeList?.observe(this, Observer<List<Recipe>> { this.loadData(it!!) })
     }
 
     override fun loadData(recipeList: List<Recipe>) {
         hideProgress()
         this.recipeList = recipeList
-        adapter!!.setRecipes(this.recipeList)
-        adapter!!.notifyDataSetChanged()
+        adapter?.setRecipes(this.recipeList)
+        adapter?.notifyDataSetChanged()
         hideProgress()
         hideSoftKeyboard(activity)
     }
 
     fun getRecipes(query: String) {
-        viewModel!!.getRecipes(query)
+        viewModel?.getRecipes(query)
     }
 
     @OnClick(R.id.btn_search)
     fun searchRecipe() {
         showProgress()
-        getRecipes(search!!.text.toString())
+        getRecipes(search?.text.toString())
     }
 
     override fun showProgress() {
-        progressBar!!.visibility = View.VISIBLE
+        progressBar?.visibility = View.VISIBLE
     }
 
     override fun hideProgress() {
-        progressBar!!.visibility = View.GONE
+        progressBar?.visibility = View.GONE
     }
 
     override fun openDetailsFragment() {
@@ -151,7 +150,7 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
     }
 
     override fun onItemClicked(mItem: Recipe) {
-        viewModel!!.onItemClicked(mItem)
+        viewModel?.onItemClicked(mItem)
         openDetailsFragment()
     }
 
@@ -164,11 +163,11 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
 
     override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent?): Boolean {
         if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_DONE) {
-            getRecipes(search!!.text.toString())
+            getRecipes(search?.text.toString())
         } else if (actionId == EditorInfo.IME_ACTION_SEARCH
                 || event == null
                 || event.keyCode == KeyEvent.KEYCODE_ENTER) {
-            getRecipes(search!!.text.toString())
+            getRecipes(search?.text.toString())
         }
         return false
     }
@@ -177,7 +176,7 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
         val inputMethodManager = activity.getSystemService(
                 Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(
-                activity.currentFocus!!.windowToken, 0)
+                activity.currentFocus?.windowToken, 0)
     }
 
     companion object {

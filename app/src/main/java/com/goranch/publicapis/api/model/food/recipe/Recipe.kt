@@ -20,7 +20,7 @@ class Recipe : Serializable {
 
     @SerializedName("source_url")
     @Expose
-    var sourceUrl: String? = null
+    var sourceUrl: String = ""
 
     @SerializedName("recipe_id")
     @Expose

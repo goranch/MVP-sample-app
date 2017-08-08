@@ -1,6 +1,5 @@
 package com.goranch.publicapis.ui.food.details
 
-import android.net.Uri
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -20,10 +19,6 @@ class NutritionRecyclerAdapter(private val view: DetailRecipeView, food: List<Fo
         this.food = food
     }
 
-    fun setFood(food: List<Food>) {
-        this.food = food
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.nutrition_list_item, parent, false)
@@ -35,8 +30,8 @@ class NutritionRecyclerAdapter(private val view: DetailRecipeView, food: List<Fo
         val food = this.food!![position]
 
         holder.item = food
-        holder.title!!.text = view.getNutritionText(food)
-        holder.image!!.setImageURI(Uri.parse(food.photo!!.thumb))
+        holder.title?.text = view.getNutritionText(food)
+        holder.image?.setImageURI(food.photo?.thumb)
     }
 
     override fun getItemCount(): Int {

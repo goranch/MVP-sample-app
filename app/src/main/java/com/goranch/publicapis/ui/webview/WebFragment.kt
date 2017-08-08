@@ -44,28 +44,28 @@ class WebFragment : Fragment() {
 
         ButterKnife.bind(this, v)
 
-        vw!!.settings.javaScriptEnabled = true
+        vw?.settings?.javaScriptEnabled = true
 
-        vw!!.webViewClient = object : WebViewClient() {
+        vw?.webViewClient = object : WebViewClient() {
 
             override fun onPageFinished(view: WebView, url: String) {
                 super.onPageFinished(view, url)
-                progressBar!!.visibility = View.GONE
+                progressBar?.visibility = View.GONE
             }
         }
 
-        vw!!.webChromeClient = object : WebChromeClient() {
+        vw?.webChromeClient = object : WebChromeClient() {
             override fun onProgressChanged(view: WebView, progress: Int) {
 
-                progressBar!!.progress = progress
+                progressBar?.progress = progress
                 if (progress == 100)
                 //Make the bar disappear after URL is loaded
-                    progressBar!!.visibility = View.GONE
+                    progressBar?.visibility = View.GONE
             }
         }
 
         if (contentUrl != null) {
-            vw!!.loadUrl(contentUrl)
+            vw?.loadUrl(contentUrl)
         }
 
         return v
