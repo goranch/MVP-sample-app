@@ -14,6 +14,12 @@ import com.goranch.publicapis.ui.util.Utils
 
 class HomeFragment : Fragment(), HomeView {
 
+    companion object {
+        fun newInstance(): HomeFragment {
+            return HomeFragment()
+        }
+    }
+
     @OnClick(R.id.btn_food)
     internal fun clickFood() {
         val i = Intent(activity, FoodActivity::class.java)
@@ -35,12 +41,5 @@ class HomeFragment : Fragment(), HomeView {
         ButterKnife.bind(this, v)
 
         return v
-    }
-
-    companion object {
-
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
     }
 }

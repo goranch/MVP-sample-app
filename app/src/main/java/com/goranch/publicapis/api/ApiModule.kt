@@ -18,12 +18,25 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import javax.inject.Named
 
+const private val NUTRITION = "nutrition"
+const private val FOOD = "food"
+
 /**
  * Provides a single instance of [retrofit2.Retrofit].
  */
 @Module
 class ApiModule {
     //    private static final long FOOD_CACHE_SIZE = (int) MEGABYTES.toBytes(25);
+
+    companion object {
+        val RECIPE_API_KEY = "b549c4c96152e677eb90de4604ca61a2"
+        const val NUTRITION_API_KEY = "741d0c38b2b6657c90127024404db573"
+        const val NUTRITION_APP_ID = "e7319e27"
+        private val RECIPE_API_URL = HttpUrl.parse("http://food2fork.com")
+        private val NUTRITION_API_URL = HttpUrl.parse("https://trackapi.nutritionix.com")
+        private val SHAZAM_API_URL = HttpUrl.parse("http://cdn.shazam.com")
+        private val DISK_CACHE_SIZE = DecimalByteUnit.MEGABYTES.toBytes(50).toInt().toLong()
+    }
 
     fun createApiClient(client: OkHttpClient): OkHttpClient.Builder {
         val interceptor = HttpLoggingInterceptor()
@@ -126,19 +139,6 @@ class ApiModule {
     fun provideNutritionService(@Named(NUTRITION) retrofit: Retrofit): NutritionService {
         return retrofit.create(NutritionService::class.java)
     }
-
-    companion object {
-        val RECIPE_API_KEY = "b549c4c96152e677eb90de4604ca61a2"
-        const val NUTRITION_API_KEY = "741d0c38b2b6657c90127024404db573"
-        const val NUTRITION_APP_ID = "e7319e27"
-        private val RECIPE_API_URL = HttpUrl.parse("http://food2fork.com")
-        private val NUTRITION_API_URL = HttpUrl.parse("https://trackapi.nutritionix.com")
-        private val SHAZAM_API_URL = HttpUrl.parse("http://cdn.shazam.com")
-        private val DISK_CACHE_SIZE = DecimalByteUnit.MEGABYTES.toBytes(50).toInt().toLong()
-        const private val NUTRITION = "nutrition"
-        const private val FOOD = "food"
-    }
-
 }
 
 

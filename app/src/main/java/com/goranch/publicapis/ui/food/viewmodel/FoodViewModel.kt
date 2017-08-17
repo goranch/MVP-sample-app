@@ -58,8 +58,4 @@ class FoodViewModel private constructor(private val repository: IDataRepository)
             return FoodViewModel(repository) as T
         }
     }
-
-    companion object {
-        private val TAG = FoodViewModel::class.java.simpleName
-    }
 }

@@ -68,6 +68,15 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     private var recipeData: Recipe? = null
     private var viewModel: FoodViewModel? = null
 
+    companion object {
+
+        const val URL = "details_food_url"
+
+        fun newInstance(): DetailsFragment {
+            return DetailsFragment()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -211,14 +220,5 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
         showProgress()
         viewModel?.getNaturalLanguageNutritionInfo(ingredients)
         loadNutritionDetails(ArrayList<Food>())
-    }
-
-    companion object {
-
-        val URL = "details_food_url"
-
-        fun newInstance(): DetailsFragment {
-            return DetailsFragment()
-        }
     }
 }

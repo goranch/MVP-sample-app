@@ -29,8 +29,8 @@ class RecipeEntity(
         @ColumnInfo(name = INGREDIENTS_LIST)
         var ingredientsList: String, @ColumnInfo(name = FAVOURITE)
         var favourite: Int) {
-    companion object {
 
+    companion object {
         const val TABLE_NAME = "recipe"
 
         /**
