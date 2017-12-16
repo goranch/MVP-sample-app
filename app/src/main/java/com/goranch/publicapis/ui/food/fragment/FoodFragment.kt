@@ -64,15 +64,14 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val apiComponent = (activity.applicationContext as ComponentProvider<ApiComponent>).component
+        val apiComponent = (activity!!.applicationContext as ComponentProvider<ApiComponent>).component
         DaggerFoodComponent.builder()
                 .apiComponent(apiComponent)
                 .foodModule(FoodModule(this))
                 .build().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.fragment_food, container, false)
 
         ButterKnife.bind(this, v)
@@ -82,7 +81,7 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
 
     override fun onResume() {
         super.onResume()
-        activity.setTitle(R.string.food_search)
+        activity!!.setTitle(R.string.food_search)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -90,7 +89,7 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
 
         val factory = FoodViewModel.Factory(repository!!)
 
-        viewModel = ViewModelProviders.of(activity, factory).get(FoodViewModel::class.java)
+        viewModel = ViewModelProviders.of(this!!.activity!!, factory).get(FoodViewModel::class.java)
 
         adapter = RecipeRecyclerAdapter(this, recipeList)
 
@@ -124,7 +123,7 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
         adapter?.setRecipes(this.recipeList)
         adapter?.notifyDataSetChanged()
         hideProgress()
-        hideSoftKeyboard(activity)
+        hideSoftKeyboard(this!!.activity!!)
     }
 
     fun getRecipes(query: String) {
@@ -146,7 +145,7 @@ class FoodFragment : LifecycleFragment(), SearchRecipeView, TextView.OnEditorAct
     }
 
     override fun openDetailsFragment() {
-        Utils.openFragment(activity, DetailsFragment.newInstance(), true)
+        Utils.openFragment(this!!.activity!!, DetailsFragment.newInstance(), true)
     }
 
     override fun onItemClicked(mItem: Recipe) {

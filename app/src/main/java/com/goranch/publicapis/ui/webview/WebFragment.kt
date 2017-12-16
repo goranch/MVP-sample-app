@@ -30,15 +30,15 @@ class WebFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
-            if (arguments.containsKey(DetailsFragment.URL)) {
-                contentUrl = arguments.getString(DetailsFragment.URL)
+            if (arguments!!.containsKey(DetailsFragment.URL)) {
+                contentUrl = arguments!!.getString(DetailsFragment.URL)
             }
         }
     }
 
 
     @SuppressLint("SetJavaScriptEnabled")
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val v = inflater!!.inflate(R.layout.web_view_fragment, container, false)
 

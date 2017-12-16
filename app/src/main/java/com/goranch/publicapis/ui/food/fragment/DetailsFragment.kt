@@ -80,14 +80,14 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val apiComponent = (activity.applicationContext as ComponentProvider<ApiComponent>).component
+        val apiComponent = (activity?.applicationContext as ComponentProvider<ApiComponent>).component
         DaggerDetailsFoodComponent.builder()
                 .apiComponent(apiComponent)
                 .detailsFoodModule(DetailsFoodModule(this))
                 .build().inject(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.fragment_detail_food, container, false)
 
         ButterKnife.bind(this, v)
@@ -98,7 +98,7 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(activity).get(FoodViewModel::class.java)
+        viewModel = ViewModelProviders.of(this!!.activity!!).get(FoodViewModel::class.java)
 
         subscribeToLiveDataChanges()
     }
@@ -147,7 +147,7 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
     private fun loadNewData(recipe: Recipe) {
         hideProgress()
         recipeData = recipe
-        activity.title = recipeData?.title
+        activity!!.title = recipeData?.title
 
         recipeImage?.setImageURI(recipeData?.imageUrl)
         publishersName?.text = recipeData?.publisher
@@ -185,7 +185,7 @@ class DetailsFragment : LifecycleFragment(), DetailRecipeView {
 
 
     override fun openWebView(url: String) {
-        Utils.openFragment(activity, WebFragment.newInstance(url), true)
+        Utils.openFragment(this!!.activity!!, WebFragment.newInstance(url), true)
     }
 
 

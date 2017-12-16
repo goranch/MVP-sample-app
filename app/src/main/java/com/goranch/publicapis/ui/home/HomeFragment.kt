@@ -27,15 +27,14 @@ class HomeFragment : Fragment(), HomeView {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        Utils.openFragment(activity, fragment, true)
+        Utils.openFragment(this!!.activity!!, fragment, true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater!!.inflate(R.layout.fragment_home, container, false)
 
         ButterKnife.bind(this, v)
